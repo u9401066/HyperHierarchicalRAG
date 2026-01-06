@@ -3,9 +3,14 @@ RAG Engine - Complete integration of LightRAG + HGMem with visualization
 
 This is the main entry point that properly initializes:
 1. LLM backend (OpenAI, Ollama, etc.)
-2. LightRAG Knowledge Graph
-3. Hypergraph Memory
+2. LightRAG Knowledge Graph (直接使用，不重造輪子！)
+3. HGMem Memory Evolution (整合到查詢流程)
 4. Visualization
+
+關鍵原則：
+- LightRAG 已有的功能直接用 (KG, VDB, Query)
+- HGMem 的記憶演化整合到查詢流程中
+- Adapters 只是包裝層，讓 HGMem 組件能操作 LightRAG 存儲
 
 Usage:
     from hyperhierarchical_rag import RAGEngine
@@ -16,14 +21,17 @@ Usage:
     # Insert documents
     await engine.insert("Propofol is used for sedation in ICU...")
     
-    # Query with visualization
-    result = await engine.query("Compare propofol and remimazolam", visualize=True)
+    # Query with memory evolution
+    result = await engine.query("Compare propofol and remimazolam", evolve_memory=True)
 """
 
 import logging
 import os
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Literal, Optional, Set
+
+# Type alias for LightRAG query modes
+QueryMode = Literal['local', 'global', 'hybrid', 'naive', 'mix', 'bypass']
 
 from hyperhierarchical_rag.config import (
     HyperHierarchicalConfig, 
@@ -36,6 +44,19 @@ from hyperhierarchical_rag.Application.memory_manager import MemoryManager
 from hyperhierarchical_rag.visualization import HypergraphVisualizer, QueryPathVisualizer
 from hyperhierarchical_rag.visualization.query_path_viz import QueryTrace, QueryStep
 
+# Import Adapters
+from hyperhierarchical_rag.Infrastructure.adapters import (
+    LightRAGKGAdapter,
+    VectorStoreAdapter,
+)
+from hyperhierarchical_rag.Infrastructure.adapters.vector_store_adapter import TextChunksAdapter
+from hyperhierarchical_rag.Domain.services import (
+    EnhancedMemoryEvolver,
+    KGMemorySyncService,
+    MemoryPointwiseRetriever,
+    MemoryQueryParam,
+)
+
 logger = logging.getLogger(__name__)
 
 
@@ -46,8 +67,13 @@ class RAGEngine:
     Features:
     - Automatic LLM/KG initialization
     - Hybrid query (hierarchical + hypergraph)
+    - Memory evolution with automatic entity completion
     - Query path visualization
-    - Memory evolution tracking
+    
+    關鍵設計:
+    - LightRAG 處理: 文檔索引、KG 構建、基本查詢
+    - HGMem 處理: 記憶演化、缺失實體補全、上下文擴展
+    - Adapters: 讓 HGMem 組件能操作 LightRAG 存儲
     
     ╔═══════════════════════════════════════════════════════════════════════╗
     ║                        RAGEngine Architecture                          ║
@@ -55,17 +81,21 @@ class RAGEngine:
     ║                                                                        ║
     ║  ┌─────────────────────────────────────────────────────────────────┐  ║
     ║  │                         RAGEngine                                │  ║
-    ║  │  ┌───────────────┐  ┌───────────────┐  ┌───────────────────┐   │  ║
-    ║  │  │  LightRAG KG  │  │ QueryProcessor│  │   Visualizer      │   │  ║
-    ║  │  │ (hierarchical)│  │ (integration) │  │ (path tracking)   │   │  ║
-    ║  │  └───────────────┘  └───────────────┘  └───────────────────┘   │  ║
-    ║  │         │                   │                   │               │  ║
-    ║  │         └───────────────────┴───────────────────┘               │  ║
-    ║  │                             │                                    │  ║
-    ║  │                    ┌────────┴────────┐                          │  ║
-    ║  │                    │  MemoryManager  │                          │  ║
-    ║  │                    │  (hypergraph)   │                          │  ║
-    ║  │                    └─────────────────┘                          │  ║
+    ║  │                                                                  │  ║
+    ║  │  ┌─────────────────────────────────────────────────────────┐   │  ║
+    ║  │  │           LightRAG (直接使用，不重造！)                    │   │  ║
+    ║  │  │  • entities_vdb    • relationships_vdb   • chunks_vdb   │   │  ║
+    ║  │  │  • chunk_entity_relation_graph  • text_chunks           │   │  ║
+    ║  │  │  • aquery() / ainsert()                                 │   │  ║
+    ║  │  └──────────────────────┬──────────────────────────────────┘   │  ║
+    ║  │                         │ Adapters (包裝層)                     │  ║
+    ║  │  ┌──────────────────────▼──────────────────────────────────┐   │  ║
+    ║  │  │              HGMem Integration                           │   │  ║
+    ║  │  │  • EnhancedMemoryEvolver (記憶演化)                       │   │  ║
+    ║  │  │  • KGMemorySyncService (缺失實體補全)                     │   │  ║
+    ║  │  │  • MemoryPointwiseRetriever (記憶點檢索)                  │   │  ║
+    ║  │  └─────────────────────────────────────────────────────────┘   │  ║
+    ║  │                                                                  │  ║
     ║  └─────────────────────────────────────────────────────────────────┘  ║
     ║                                                                        ║
     ╚═══════════════════════════════════════════════════════════════════════╝
@@ -82,10 +112,24 @@ class RAGEngine:
         self._initialized = False
         
         # Core components (initialized lazily)
-        self._lightrag = None
+        self._lightrag: Any = None  # LightRAG instance
+        self._llm_func: Optional[Callable] = None
+        
+        # LightRAG Adapters (wrap LightRAG components for HGMem)
+        self._kg_adapter: Optional[LightRAGKGAdapter] = None
+        self._entities_vdb: Optional[VectorStoreAdapter] = None
+        self._relationships_vdb: Optional[VectorStoreAdapter] = None
+        self._chunks_vdb: Optional[VectorStoreAdapter] = None
+        self._text_chunks_adapter: Optional[TextChunksAdapter] = None
+        
+        # HGMem components
+        self._memory_evolver: Optional[EnhancedMemoryEvolver] = None
+        self._sync_service: Optional[KGMemorySyncService] = None
+        self._memory_retriever: Optional[MemoryPointwiseRetriever] = None
+        
+        # Application layer (backward compatibility)
         self._query_processor: Optional[QueryProcessor] = None
         self._memory_manager: Optional[MemoryManager] = None
-        self._llm_func: Optional[Callable] = None
         
         # Visualization
         self._graph_viz: Optional[HypergraphVisualizer] = None
@@ -106,7 +150,7 @@ class RAGEngine:
         """
         Initialize all components.
         
-        This is where LLM and KG are actually started!
+        This is where LLM, LightRAG, and HGMem components are actually started!
         
         Returns:
             Status dict with initialization results
@@ -114,7 +158,7 @@ class RAGEngine:
         if self._initialized:
             return {"status": "already_initialized"}
         
-        status = {"status": "initializing", "components": {}}
+        status: Dict[str, Any] = {"status": "initializing", "components": {}}
         
         # 1. Initialize LLM
         try:
@@ -124,26 +168,36 @@ class RAGEngine:
             logger.error(f"LLM initialization failed: {e}")
             status["components"]["llm"] = f"error: {e}"
         
-        # 2. Initialize LightRAG
+        # 2. Initialize LightRAG (核心！)
         try:
             self._lightrag = await self._init_lightrag()
             status["components"]["lightrag"] = "ok"
+            
+            # 3. Create Adapters (包裝 LightRAG 組件給 HGMem 用)
+            await self._init_adapters()
+            status["components"]["adapters"] = "ok"
+            
+            # 4. Create HGMem services
+            await self._init_hgmem_services()
+            status["components"]["hgmem"] = "ok"
+            
         except Exception as e:
-            logger.warning(f"LightRAG initialization failed: {e}")
+            logger.warning(f"LightRAG/HGMem initialization failed: {e}")
             status["components"]["lightrag"] = f"error: {e}"
         
-        # 3. Initialize Application layer
+        # 5. Initialize Application layer (backward compatibility)
         self._query_processor = QueryProcessor(llm_func=self._llm_func)
         self._memory_manager = MemoryManager()
         
         # Share state between processor and manager
-        self._query_processor._nodes = self._memory_manager._nodes
-        self._query_processor._edges = self._memory_manager._edges
+        if self._query_processor and self._memory_manager:
+            self._query_processor._nodes = self._memory_manager._nodes
+            self._query_processor._edges = self._memory_manager._edges
         
         status["components"]["query_processor"] = "ok"
         status["components"]["memory_manager"] = "ok"
         
-        # 4. Initialize Visualization
+        # 6. Initialize Visualization
         if self.config.enable_visualization:
             self._graph_viz = HypergraphVisualizer(
                 output_dir=self.config.storage.viz_dir
@@ -158,6 +212,67 @@ class RAGEngine:
         
         logger.info(f"RAGEngine initialized: {status}")
         return status
+    
+    async def _init_adapters(self) -> None:
+        """Initialize Adapters that wrap LightRAG components."""
+        if not self._lightrag:
+            raise RuntimeError("LightRAG must be initialized before adapters")
+        
+        # KG Adapter - wraps LightRAG's knowledge graph
+        self._kg_adapter = LightRAGKGAdapter(
+            self._lightrag.chunk_entity_relation_graph
+        )
+        
+        # Vector Store Adapters - wrap LightRAG's vector databases
+        self._entities_vdb = VectorStoreAdapter(
+            self._lightrag.entities_vdb,
+            namespace="entities"
+        )
+        self._relationships_vdb = VectorStoreAdapter(
+            self._lightrag.relationships_vdb,
+            namespace="relationships"
+        )
+        self._chunks_vdb = VectorStoreAdapter(
+            self._lightrag.chunks_vdb,
+            namespace="chunks"
+        )
+        
+        # Text Chunks Adapter - combines KV storage + vector search
+        self._text_chunks_adapter = TextChunksAdapter(
+            kv_storage=self._lightrag.text_chunks,
+            vector_storage=self._lightrag.chunks_vdb
+        )
+        
+        logger.info("Adapters initialized (wrapping LightRAG components)")
+    
+    async def _init_hgmem_services(self) -> None:
+        """Initialize HGMem services using adapters."""
+        if not self._llm_func:
+            logger.warning("LLM not available, HGMem services limited")
+            return
+        
+        # Memory Evolver - handles memory evolution
+        self._memory_evolver = EnhancedMemoryEvolver(
+            llm_func=self._llm_func
+        )
+        
+        # KG-Memory Sync Service - auto-completes missing entities
+        if self._kg_adapter and self._entities_vdb and self._relationships_vdb:
+            self._sync_service = KGMemorySyncService(
+                kg_adapter=self._kg_adapter,
+                entities_vdb=self._entities_vdb,
+                relationships_vdb=self._relationships_vdb,
+                llm_func=self._llm_func
+            )
+        
+        # Memory Pointwise Retriever
+        if self._kg_adapter and self._text_chunks_adapter:
+            self._memory_retriever = MemoryPointwiseRetriever(
+                kg_adapter=self._kg_adapter,
+                text_chunks_adapter=self._text_chunks_adapter
+            )
+        
+        logger.info("HGMem services initialized")
     
     async def _init_llm(self) -> Callable:
         """Initialize LLM function based on config."""
@@ -221,30 +336,24 @@ class RAGEngine:
         """
         Insert a document into the RAG system.
         
-        This will:
-        1. Index in LightRAG (for hierarchical retrieval)
-        2. Extract entities and create hypergraph nodes
-        3. Build hyperedges for n-ary relations
+        Uses LightRAG directly - no need to reinvent the wheel!
+        LightRAG handles: chunking, entity extraction, KG building, vector indexing.
         """
         self._ensure_initialized()
         
-        result = {"doc_id": doc_id, "lightrag": None, "hypergraph": None}
+        result: Dict[str, Any] = {"doc_id": doc_id, "lightrag": None}
         
-        # 1. Insert into LightRAG
+        # Insert into LightRAG (handles everything!)
         if self._lightrag:
             try:
                 await self._lightrag.ainsert(text)
                 result["lightrag"] = "indexed"
+                logger.info(f"Document indexed in LightRAG: {doc_id or 'anonymous'}")
             except Exception as e:
                 logger.error(f"LightRAG insert failed: {e}")
                 result["lightrag"] = f"error: {e}"
-        
-        # 2. Insert into Hypergraph (via MemoryManager)
-        hypergraph_result = await self._memory_manager.insert_document(
-            text=text,
-            doc_id=doc_id,
-        )
-        result["hypergraph"] = hypergraph_result
+        else:
+            result["lightrag"] = "not_available"
         
         return result
     
@@ -253,108 +362,186 @@ class RAGEngine:
     async def query(
         self,
         query: str,
-        mode: str = "hybrid",
+        mode: QueryMode = "hybrid",
         top_k: int = 10,
-        use_hypergraph: bool = True,
         evolve_memory: bool = True,
         visualize: bool = False,
     ) -> Dict[str, Any]:
         """
-        Execute a query with optional visualization.
+        Execute a query with optional memory evolution.
+        
+        流程:
+        1. LightRAG 查詢 (獲取 KG + 文本塊上下文)
+        2. (可選) 記憶演化 (HGMem)
+        3. (可選) 缺失實體補全 (HGMem)
+        4. (可選) 記憶點相關上下文檢索 (HGMem)
         
         Args:
             query: Query text
-            mode: Query mode (local, global, hybrid)
+            mode: Query mode (local, global, hybrid, naive, mix, bypass)
             top_k: Number of results
-            use_hypergraph: Enable hypergraph expansion
-            evolve_memory: Enable memory evolution
+            evolve_memory: Enable HGMem memory evolution
             visualize: Generate visualization of query path
         
         Returns:
-            Query results with optional visualization paths
+            Query results with optional memory context
         """
         self._ensure_initialized()
+        
+        result: Dict[str, Any] = {
+            "query": query,
+            "mode": mode,
+            "lightrag_response": None,
+            "memory_context": None,
+        }
         
         # Start trace for visualization
         trace = QueryTrace(query=query, mode=mode)
         
-        # Step 1: LightRAG query (if available)
-        lightrag_result = None
-        if self._lightrag and mode in ["local", "global", "hybrid"]:
+        # ========== Step 1: LightRAG Query (直接用！) ==========
+        lightrag_response = None
+        retrieved_context = ""
+        
+        if self._lightrag:
             try:
                 from lightrag import QueryParam
                 param = QueryParam(mode=mode, top_k=top_k)
-                lightrag_result = await self._lightrag.aquery(query, param=param)
+                lightrag_response = await self._lightrag.aquery(query, param=param)
+                retrieved_context = str(lightrag_response) if lightrag_response else ""
                 
                 trace.add_step(QueryStep(
                     step_number=1,
                     step_type="lightrag_query",
                     description=f"LightRAG {mode} query",
-                    keywords=[],  # Would need to extract from LightRAG
+                    keywords=[],
                     level=mode,
                 ))
+                
+                logger.info(f"LightRAG query completed: {len(retrieved_context)} chars")
             except Exception as e:
                 logger.warning(f"LightRAG query failed: {e}")
         
-        # Step 2: Hypergraph query (via QueryProcessor)
-        if mode == "hybrid":
-            hypergraph_result = await self._query_processor.query_hybrid(
-                query=query,
-                top_k=top_k,
-                use_hypergraph=use_hypergraph,
-                evolve_memory=evolve_memory,
-            )
-        elif mode == "local":
-            hypergraph_result = await self._query_processor.query_local(
-                query=query,
-                top_k=top_k,
-            )
-        else:
-            hypergraph_result = await self._query_processor.query_global(
-                query=query,
-                top_k=top_k,
-            )
+        result["lightrag_response"] = lightrag_response
         
-        # Add hypergraph steps to trace
-        trace.add_step(QueryStep(
-            step_number=2,
-            step_type="keyword_extraction",
-            description="Extract Local/Global keywords",
-            keywords=hypergraph_result.get("local_keywords", []) + hypergraph_result.get("global_keywords", []),
-            level=mode,
-        ))
+        # ========== Step 2: Memory Evolution (HGMem) ==========
+        memory_context = None
+        absent_entities: Dict[str, List] = {}
         
-        if use_hypergraph:
-            trace.add_step(QueryStep(
-                step_number=3,
-                step_type="hyperedge_traversal",
-                description=f"Expand via hyperedges (+{hypergraph_result.get('hypergraph_expanded', 0)} nodes)",
-                output_node_ids=[r.get("id", "") for r in hypergraph_result.get("results", [])[:5]],
-            ))
+        if evolve_memory and self._memory_evolver and retrieved_context:
+            try:
+                # 演化記憶 (使用正確的介面)
+                evolve_result = await self._memory_evolver.evolve_and_track(
+                    retrieved_info=retrieved_context,
+                    main_query=query,
+                    subqueries=[],  # 可以在後續加入子查詢支援
+                )
+                
+                # EvolveResult 是 dataclass，使用屬性存取
+                inserted_count = len(evolve_result.inserted_points)
+                updated_count = len(evolve_result.updated_points)
+                
+                trace.add_step(QueryStep(
+                    step_number=2,
+                    step_type="memory_evolution",
+                    description=f"Memory evolved: +{inserted_count} inserted, {updated_count} updated",
+                    keywords=[],
+                ))
+                
+                logger.info(f"Memory evolution: {inserted_count} inserted, {updated_count} updated")
+            except Exception as e:
+                logger.warning(f"Memory evolution failed: {e}")
         
-        trace.total_nodes_visited = hypergraph_result.get("total_candidates", 0)
-        trace.local_keywords = hypergraph_result.get("local_keywords", [])
-        trace.global_keywords = hypergraph_result.get("global_keywords", [])
+        # ========== Step 3: Collect Absent Entities (HGMem) ==========
+        if absent_entities and self._sync_service:
+            try:
+                collected, _ = await self._sync_service.collect_absent_entities_relationships(
+                    absent_entities_hyperedges_kv=absent_entities,
+                    context_info=retrieved_context
+                )
+                
+                trace.add_step(QueryStep(
+                    step_number=3,
+                    step_type="entity_completion",
+                    description=f"Completed {len(collected)} missing entities",
+                    output_node_ids=list(collected.keys())[:5],
+                ))
+                
+                logger.info(f"Entity completion: {len(collected)} entities")
+            except Exception as e:
+                logger.warning(f"Entity completion failed: {e}")
         
-        # Build result
-        result = {
-            "query": query,
-            "mode": mode,
-            "lightrag_response": lightrag_result,
-            "hypergraph_response": hypergraph_result,
-            "trace": trace.to_dict(),
-        }
+        # ========== Step 4: Get Memory Context (HGMem) ==========
+        if self._memory_evolver:
+            try:
+                memory_context = await self._memory_evolver.get_memory_context()
+                result["memory_context"] = memory_context
+            except Exception as e:
+                logger.warning(f"Get memory context failed: {e}")
+        
+        # ========== Step 5: Memory Pointwise Retrieval (Optional) ==========
+        if self._memory_retriever and self._memory_evolver:
+            try:
+                # 將 MemoryPoint 轉換為 list[list[str]] 格式
+                raw_memory_points = self._memory_evolver.memory_points
+                memory_points_list = [p.involved_objects for p in raw_memory_points]
+                
+                if memory_points_list:
+                    retrieval_result = await self._memory_retriever.get_memory_pointwise_related_info(
+                        memory_points=memory_points_list,
+                        query=query,
+                        query_param=MemoryQueryParam()
+                    )
+                    result["memory_related_info"] = retrieval_result
+                    
+                    trace.add_step(QueryStep(
+                        step_number=4,
+                        step_type="memory_retrieval",
+                        description=f"Retrieved memory-related chunks",
+                        keywords=[],
+                    ))
+            except Exception as e:
+                logger.warning(f"Memory retrieval failed: {e}")
+        
+        # ========== Finalize ==========
+        result["trace"] = trace.to_dict()
         
         # Generate visualization
-        if visualize and self._graph_viz:
+        if visualize and self._graph_viz and self._memory_manager:
             viz_paths = await self._generate_visualization(trace)
             result["visualization"] = viz_paths
         
         return result
     
+    async def query_simple(
+        self,
+        query: str,
+        mode: QueryMode = "hybrid",
+    ) -> str:
+        """
+        Simple query - just returns LightRAG's response.
+        
+        Use this for quick queries without memory evolution.
+        """
+        self._ensure_initialized()
+        
+        if not self._lightrag:
+            return "LightRAG not available"
+        
+        try:
+            from lightrag import QueryParam
+            param = QueryParam(mode=mode)
+            response = await self._lightrag.aquery(query, param=param)
+            return str(response) if response else "No response"
+        except Exception as e:
+            return f"Query failed: {e}"
+    
     async def _generate_visualization(self, trace: QueryTrace) -> Dict[str, str]:
         """Generate visualization files for query path."""
-        paths = {}
+        paths: Dict[str, str] = {}
+        
+        # Safety checks
+        if not self._memory_manager or not self._graph_viz or not self._path_viz:
+            return {"error": "Visualization components not initialized"}
         
         # Get current graph state
         nodes = list(self._memory_manager._nodes.values())
@@ -396,6 +583,9 @@ class RAGEngine:
         """Get current graph statistics."""
         self._ensure_initialized()
         
+        if not self._memory_manager:
+            return {"error": "Memory manager not initialized"}
+        
         nodes = list(self._memory_manager._nodes.values())
         edges = list(self._memory_manager._edges.values())
         
@@ -405,7 +595,7 @@ class RAGEngine:
         # Find cross-level edges (connecting LOCAL and GLOBAL)
         cross_level_edges = []
         for edge in edges:
-            levels = set()
+            levels: Set[NodeLevel] = set()
             for node_id in edge.node_ids:
                 if node_id in self._memory_manager._nodes:
                     levels.add(self._memory_manager._nodes[node_id].level)
@@ -436,6 +626,9 @@ class RAGEngine:
         
         if not self._graph_viz:
             raise RuntimeError("Visualization not enabled")
+        
+        if not self._memory_manager:
+            raise RuntimeError("Memory manager not initialized")
         
         nodes = list(self._memory_manager._nodes.values())
         edges = list(self._memory_manager._edges.values())

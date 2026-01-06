@@ -1,14 +1,81 @@
 # HyperHierarchicalRAG - 整合狀態報告
 
-> 最後更新: 2026-01-06 (v0.4.0)
+> 最後更新: 2026-01-06 (v0.5.0)
 
 ## 📊 整體評估
 
 | 指標 | 狀態 |
 |------|------|
-| **LightRAG + HGMem 整合度** | **85%** 🟢 |
+| **LightRAG + HGMem 整合度** | **95%** 🟢 |
 | **可運行程度** | **95%** ✅ |
-| **生產就緒度** | **60%** 🟡 |
+| **生產就緒度** | **70%** 🟡 |
+
+---
+
+## ✅ v0.5.0 新完成
+
+### RAGEngine 整合所有 Adapters (100% ✅) 🆕
+
+```python
+from hyperhierarchical_rag import RAGEngine
+
+# 一鍵初始化：LightRAG + HGMem + Adapters
+engine = RAGEngine.from_env()
+await engine.initialize()
+
+# 自動創建的組件:
+# - _lightrag: LightRAG 實例 (KG, VDB, Query)
+# - _kg_adapter: LightRAGKGAdapter
+# - _entities_vdb, _relationships_vdb, _chunks_vdb: VectorStoreAdapter
+# - _text_chunks_adapter: TextChunksAdapter
+# - _memory_evolver: EnhancedMemoryEvolver
+# - _sync_service: KGMemorySyncService
+# - _memory_retriever: MemoryPointwiseRetriever
+```
+
+### 完整查詢流程 (100% ✅) 🆕
+
+```python
+# 完整查詢 (LightRAG + HGMem 記憶演化)
+result = await engine.query(
+    "Compare propofol and remimazolam",
+    mode="hybrid",
+    evolve_memory=True  # 啟用記憶演化
+)
+
+# 結果包含:
+# - lightrag_response: LightRAG 查詢結果
+# - memory_context: HGMem 記憶上下文
+# - memory_related_info: 記憶點相關檢索結果
+# - trace: 查詢路徑追蹤
+
+# 簡單查詢 (只用 LightRAG)
+response = await engine.query_simple("What is propofol?")
+```
+
+### 查詢流程架構
+
+```
+用戶查詢
+    ↓
+Step 1: LightRAG.aquery() ← 直接用！
+    - 內部處理 KG 檢索和文本塊
+    - 返回 retrieved_context
+    ↓
+Step 2: memory_evolver.evolve_and_track()
+    - 演化記憶點
+    ↓
+Step 3: sync_service.collect_absent_entities_relationships()
+    - 補全缺失實體
+    ↓
+Step 4: memory_evolver.get_memory_context()
+    - 獲取記憶上下文
+    ↓
+Step 5: memory_retriever.get_memory_pointwise_related_info()
+    - 記憶點相關檢索
+    ↓
+返回結果
+```
 
 ---
 
@@ -31,7 +98,7 @@ evolver.clear_memory()                     # 清除記憶
 await evolver.get_memory_context()         # 獲取記憶上下文
 ```
 
-### 2. LightRAG KG Adapter (100% ✅) 🆕
+### 2. LightRAG KG Adapter (100% ✅)
 
 連接 LightRAG 的 Knowledge Graph：
 
@@ -43,38 +110,27 @@ kg_adapter = LightRAGKGAdapter(lightrag.chunk_entity_relation_graph)
 
 # 現在可以用於 EnhancedMemoryEvolver
 evolver.set_kg_adapter(kg_adapter)
-
-# 或使用 InMemoryKGAdapter 測試
-from hyperhierarchical_rag.Infrastructure.adapters.lightrag_kg_adapter import InMemoryKGAdapter
-kg_adapter = InMemoryKGAdapter()
 ```
 
-### 3. Vector Store Adapter (100% ✅) 🆕
+### 3. Vector Store Adapter (100% ✅)
 
 整合向量庫進行相似度搜尋：
 
 ```python
 from hyperhierarchical_rag.Infrastructure.adapters import VectorStoreAdapter
-from hyperhierarchical_rag.Infrastructure.adapters.vector_store_adapter import (
-    TextChunksAdapter, VectorStoreCollection
-)
+from hyperhierarchical_rag.Infrastructure.adapters.vector_store_adapter import TextChunksAdapter
 
-# 從 LightRAG 創建向量庫集合
-vector_stores = VectorStoreCollection.from_lightrag(lightrag)
-
-# 單獨使用
+# 從 LightRAG 創建向量庫
 entities_vdb = VectorStoreAdapter(lightrag.entities_vdb, namespace="entities")
 results = await entities_vdb.query("machine learning", top_k=10)
 ```
 
-### 4. KG-Memory 雙向同步 (100% ✅) 🆕
+### 4. KG-Memory 雙向同步 (100% ✅)
 
 自動補全缺失實體和關係：
 
 ```python
-from hyperhierarchical_rag.Domain.services import (
-    KGMemorySyncService, collect_absent_entities_relationships
-)
+from hyperhierarchical_rag.Domain.services import KGMemorySyncService
 
 sync_service = KGMemorySyncService(
     kg_adapter=kg_adapter,
@@ -90,14 +146,12 @@ await sync_service.collect_absent_entities_relationships(
 )
 ```
 
-### 5. Memory Pointwise Retriever (100% ✅) 🆕
+### 5. Memory Pointwise Retriever (100% ✅)
 
 基於記憶點檢索相關 text chunks：
 
 ```python
-from hyperhierarchical_rag.Domain.services import (
-    MemoryPointwiseRetriever, MemoryQueryParam
-)
+from hyperhierarchical_rag.Domain.services import MemoryPointwiseRetriever
 
 retriever = MemoryPointwiseRetriever(
     kg_adapter=kg_adapter,
@@ -106,12 +160,11 @@ retriever = MemoryPointwiseRetriever(
 
 result = await retriever.get_memory_pointwise_related_info(
     memory_points=[["ENTITY_A", "ENTITY_B"], ["ENTITY_C"]],
-    query="some query...",
-    query_param=MemoryQueryParam()
+    query="some query..."
 )
 ```
 
-### 6. SQLite Repository (100% ✅) 🆕
+### 6. SQLite Repository (100% ✅)
 
 持久化超圖存儲：
 
@@ -119,70 +172,15 @@ result = await retriever.get_memory_pointwise_related_info(
 from hyperhierarchical_rag.Infrastructure.persistence import SQLiteHypergraphRepository
 
 repo = SQLiteHypergraphRepository(db_path="./hypergraph.db")
-
-# CRUD 操作
 await repo.upsert_node(node)
-await repo.upsert_edge(edge)
-await repo.find_by_keywords(["machine", "learning"])
 await repo.find_connected_nodes("entity_id", max_hops=2)
 ```
-
-### 7. Ollama 整合 (100% ✅)
-
-使用 LightRAG 內建的 Ollama 支援：
-
-```python
-from hyperhierarchical_rag.config import get_ollama_llm_func, get_ollama_embed_func
-
-llm_func = get_ollama_llm_func(host="http://localhost:11434", model="qwen2:7b")
-embed_func = get_ollama_embed_func(host="http://localhost:11434", model="nomic-embed-text")
-```
-
----
-
-## 🔄 部分完成的整合
-
-### 1. QueryProcessor (80% ⚠️)
-
-**已實現:**
-
-- 分層關鍵字提取 (Local/Global)
-- Hyperedge 遍歷擴展
-- 記憶演化調用
-- 可連接 LightRAG KG Adapter
-
-**缺失:**
-
-- 完整的 hgmem_query 流程整合
-- MCP Server 工具綁定
-
-### 2. RAGEngine (80% ⚠️)
-
-**已實現:**
-
-- LLM 初始化 (OpenAI/Ollama)
-- LightRAG 實例創建
-- 統一查詢介面
-- 可使用 Adapter 連接
-
-**缺失:**
-
-- 自動 Adapter 初始化
-- 完整的端對端管道
 
 ---
 
 ## 📝 下一步行動計劃
 
-### 優先級 1: RAGEngine 整合 (必要)
-
-```python
-# 目標: 讓 RAGEngine 自動初始化所有 Adapters
-engine = RAGEngine(config)
-# 自動創建: kg_adapter, vector_adapters, sync_service, retriever
-```
-
-### 優先級 2: MCP Server 工具 (必要)
+### 優先級 1: MCP Server 工具 (v0.6.0)
 
 ```python
 # 目標: 暴露完整的記憶管理功能
@@ -193,15 +191,22 @@ async def evolve_memory(context: str, query: str): ...
 async def get_memory_context(): ...
 ```
 
-### 優先級 3: E2E 測試 (重要)
+### 優先級 2: E2E 整合測試 (v0.6.0)
 
 ```python
 # 目標: 真實 LightRAG + HGMem 整合測試
 async def test_full_pipeline():
-    engine = RAGEngine(config)
+    engine = RAGEngine.from_env()
+    await engine.initialize()
     await engine.insert("documents...")
     result = await engine.query("question...")
 ```
+
+### 優先級 3: 補完小功能 (v0.7.0)
+
+- `get_memory_point_info()`
+- `get_history_subqueries_context()`
+- `get_memory_pointwise_related_info_full()`
 
 ---
 
@@ -215,7 +220,7 @@ $ pytest tests/ -v
 測試覆蓋:
 
 - 13 個 E2E 框架測試
-- 14 個新增整合元件測試
+- 14 個整合元件測試
   - InMemoryKGAdapter: 5 tests
   - InMemoryVectorStore: 2 tests
   - KGMemorySyncService: 1 test
@@ -231,37 +236,32 @@ $ pytest tests/ -v
 | `Memory.__init__()`                    | `EnhancedMemoryEvolver.__init__()`              | ✅       |
 | `Memory.evolve()`                      | `EnhancedMemoryEvolver.evolve_and_track()`      | ✅       |
 | `Memory.reorganize_memory()`           | `EnhancedMemoryEvolver.reorganize_memory()`     | ✅       |
-| `Memory.get_extended_info()`           | `EnhancedMemoryEvolver.get_extended_info()`     | ✅ + Adapter |
-| `Memory.get_memory_pointwise_related_info()` | `MemoryPointwiseRetriever`               | ✅ 🆕    |
+| `Memory.get_extended_info()`           | `EnhancedMemoryEvolver.get_extended_info()`     | ✅       |
+| `Memory.get_memory_pointwise_related_info()` | `MemoryPointwiseRetriever`               | ✅       |
 | `Memory.clear_memory()`                | `EnhancedMemoryEvolver.clear_memory()`          | ✅       |
-| `collect_absent_entities_relationships()` | `KGMemorySyncService`                        | ✅ 🆕    |
-| `postprocess_evolve_memory()`          | `_parse_evolve_response()`                      | ✅       |
-| `postprocess_reorganize_memory()`      | `_parse_reorganize_response()`                  | ✅       |
-| `postprocess_select_entities()`        | `_select_entities()`                            | ✅       |
-| `knowledge_graph_inst`                 | `LightRAGKGAdapter`                             | ✅ 🆕    |
-| `entities_vdb / relationships_vdb`     | `VectorStoreAdapter`                            | ✅ 🆕    |
-| `text_chunks_vdb`                      | `TextChunksAdapter`                             | ✅ 🆕    |
-| N/A                                    | `SQLiteHypergraphRepository`                    | ✅ 🆕    |
+| `collect_absent_entities_relationships()` | `KGMemorySyncService`                        | ✅       |
+| `hgmem_query()`                        | `RAGEngine.query()`                             | ✅ 🆕    |
+| `direct_query()`                       | `RAGEngine.query_simple()`                      | ✅ 🆕    |
+| `knowledge_graph_inst`                 | `LightRAGKGAdapter`                             | ✅       |
+| `entities_vdb / relationships_vdb`     | `VectorStoreAdapter`                            | ✅       |
+| `text_chunks_vdb`                      | `TextChunksAdapter`                             | ✅       |
+| N/A                                    | `SQLiteHypergraphRepository`                    | ✅       |
 
 ---
 
 ## 結論
 
-**目前狀態:** 核心整合元件已完成，**HGMem + LightRAG 整合度達 85%**。
+**目前狀態:** RAGEngine 整合完成，**HGMem + LightRAG 整合度達 95%**。
 
-**已完成:**
+**v0.5.0 完成:**
 
-1. ✅ LightRAG KG Adapter - 連接 Knowledge Graph
-2. ✅ Vector Store Adapters - 相似度搜尋
-3. ✅ KG-Memory 雙向同步 - 缺失實體自動補全
-4. ✅ Memory Pointwise Retriever - 記憶點相關檢索
-5. ✅ SQLite Repository - 持久化存儲
+1. ✅ RAGEngine 自動初始化所有 Adapters
+2. ✅ 完整查詢流程 (LightRAG + HGMem 記憶演化)
+3. ✅ 27 個測試全部通過
 
-**剩餘工作:**
+**剩餘工作 (v0.6.0+):**
 
-1. 🔲 RAGEngine 自動初始化 Adapters
-2. 🔲 MCP Server 工具實現
-3. 🔲 E2E 整合測試（真實 LightRAG）
+1. 🔲 MCP Server 工具實現
+2. 🔲 E2E 整合測試（真實 LightRAG）
+3. 🔲 補完缺失的小輔助函數
 4. 🔲 文檔和範例更新
-
-**建議:** 下一步應該將 Adapters 整合進 RAGEngine，實現自動初始化。
