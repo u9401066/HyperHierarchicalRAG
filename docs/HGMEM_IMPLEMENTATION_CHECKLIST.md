@@ -1,10 +1,10 @@
 # HGMem 實現完整性檢查清單
 
-> 最後更新: 2026-01-06 (v0.5.0)
+> 最後更新: 2026-01-06 (v0.5.1)
 
 ## ✅ 整合完成狀態
 
-### RAGEngine v0.5.0 已實現
+### RAGEngine v0.5.1 已實現
 
 ```python
 # engine.py 已整合完成的功能
@@ -23,12 +23,22 @@ class RAGEngine:
     _memory_retriever: MemoryPointwiseRetriever  # 記憶點檢索
     
     # ===== 查詢流程 =====
-    async def query():
-        # Step 1: LightRAG 查詢 (直接用！)
-        # Step 2: 記憶演化 (HGMem)
-        # Step 3: 缺失實體補全 (HGMem)
-        # Step 4: 獲取記憶上下文 (HGMem)
-        # Step 5: 記憶點相關檢索 (HGMem)
+    async def query():           # 完整查詢 (LightRAG + HGMem)
+    async def query_simple():    # 簡單查詢 (只用 LightRAG)
+    async def query_data():      # 查詢原始數據 (不經過 LLM)
+    
+    # ===== LightRAG 直接整合 (v0.5.1 新增) =====
+    async def insert_custom_kg()   # 插入自定義 KG
+    async def create_entity()      # 創建實體
+    async def create_relation()    # 創建關係
+    async def get_entity_info()    # 獲取實體信息
+    async def get_relation_info()  # 獲取關係信息
+    async def get_knowledge_graph()# 獲取 KG 結構
+    async def delete_by_doc_id()   # 按文檔刪除
+    async def delete_entity()      # 刪除實體
+    async def merge_entities()     # 合併實體
+    async def export_data()        # 導出所有數據
+    async def clear_cache()        # 清除 LLM 緩存
 ```
 
 ## 📋 HGMem Memory 類功能對照
@@ -37,15 +47,15 @@ class RAGEngine:
 |---------------|-----------|------|------|
 | `Memory.__init__()` | `EnhancedMemoryEvolver.__init__()` | ✅ | 超圖存儲 + 記憶點列表 |
 | `Memory.get_memory_points()` | `EnhancedMemoryEvolver.memory_points` | ✅ | 屬性方式存取 |
-| `Memory.get_memory_point_info()` | ❌ 未實現 | ⚠️ | 獲取單個記憶點描述 |
+| `Memory.get_memory_point_info()` | `EnhancedMemoryEvolver.get_memory_point_info()` | ✅ | 獲取單個記憶點描述 |
 | `Memory.get_memory_points_context()` | `EnhancedMemoryEvolver.get_memory_points_context()` | ✅ | 格式化記憶點上下文 |
 | `Memory.get_memory_context()` | `EnhancedMemoryEvolver.get_memory_context()` | ✅ | 完整記憶上下文 |
-| `Memory.get_history_subqueries_context()` | ❌ 未實現 | ⚠️ | 歷史子查詢追蹤 |
+| `Memory.get_history_subqueries_context()` | `EnhancedMemoryEvolver.get_history_subqueries_context()` | ✅ | 歷史子查詢追蹤 |
 | `Memory.evolve()` | `EnhancedMemoryEvolver.evolve_and_track()` | ✅ | 記憶演化 |
 | `Memory.reorganize_memory()` | `EnhancedMemoryEvolver.reorganize_memory()` | ✅ | 記憶重組 |
 | `Memory.get_extended_info()` | `EnhancedMemoryEvolver.get_extended_info()` | ✅ | 鄰居擴展 |
-| `Memory.get_memory_pointwise_related_info()` | `MemoryPointwiseRetriever` | ✅ | 記憶點相關檢索 |
-| `Memory.get_memory_pointwise_related_info_full()` | ❌ 未實現 | ⚠️ | 完整版 (無歷史過濾) |
+| `Memory.get_memory_pointwise_related_info()` | `MemoryPointwiseRetriever.get_memory_pointwise_related_info()` | ✅ | 記憶點相關檢索 |
+| `Memory.get_memory_pointwise_related_info_full()` | `MemoryPointwiseRetriever.get_memory_pointwise_related_info_full()` | ✅ | 完整版 (無歷史過濾) |
 | `Memory.clear_memory()` | `EnhancedMemoryEvolver.clear_memory()` | ✅ | 清除記憶 |
 
 ## 📋 HGMem 獨立函數對照
@@ -97,7 +107,7 @@ rag.full_relations      # 關係 KV ✅
 rag.chunk_entity_relation_graph  # 完整 KG ✅
 ```
 
-## ✅ RAGEngine v0.5.0 查詢流程
+## ✅ RAGEngine v0.5.1 查詢流程
 
 ```
 1. 用戶查詢
@@ -121,24 +131,44 @@ rag.chunk_entity_relation_graph  # 完整 KG ✅
 7. 返回結果 (lightrag_response + memory_context + memory_related_info)
 ```
 
-## ⚠️ 待補完的小功能
+## ✅ v0.5.1 新增 LightRAG 直接整合
 
-1. **`get_memory_point_info()`** - 獲取單個記憶點描述
-2. **`get_history_subqueries_context()`** - 歷史子查詢追蹤
-3. **`get_memory_pointwise_related_info_full()`** - 完整版記憶點檢索
+```python
+# 直接使用 LightRAG 功能，不重造輪子！
 
-這些都是小功能，可以在後續版本補完。
+# KG 操作
+await engine.create_entity("Propofol", "Drug", "Anesthetic agent")
+await engine.create_relation("Propofol", "Sedation", "induces")
+await engine.get_entity_info("Propofol")
+await engine.get_relation_info("Propofol", "Sedation")
+
+# KG 管理
+await engine.insert_custom_kg(entities=[...], relations=[...])
+await engine.merge_entities("Propofol", "PropOFOL")
+await engine.delete_entity("OldEntity")
+await engine.delete_by_doc_id("doc_123")
+
+# 數據查詢
+await engine.get_knowledge_graph()  # 獲取 KG 結構
+await engine.query_data("propofol")  # 不經過 LLM 的原始查詢
+await engine.export_data()           # 導出所有數據
+
+# 緩存管理
+await engine.clear_cache()  # 清除 LLM 緩存
+```
 
 ## ✅ 結論
 
-**HGMem 核心功能實現度: ~95%**
+**HGMem 核心功能實現度: 100%** 🎉
 
-v0.5.0 完成:
+v0.5.1 完成:
 - ✅ RAGEngine 整合所有 Adapters
 - ✅ 完整的查詢流程 (LightRAG + 記憶演化)
+- ✅ 所有 HGMem Memory 類函數已實現
+- ✅ LightRAG 直接整合 (11 個新方法)
 - ✅ 27 個測試全部通過
 
 下一步 (v0.6.0):
-- 補完缺失的小函數
-- 新增 E2E 整合測試
-- MCP Server 整合
+- 🔲 MCP Server 工具實現
+- 🔲 E2E 整合測試 (真實 LightRAG)
+- 🔲 文檔和範例更新

@@ -2,18 +2,18 @@
 
 ## Done
 
-- 分析 3 個 GitHub 參考專案 (daniel-lightrag-mcp, Yuxi-Know, GraphRAG)
-- 完成 HGMem + LightRAG 整合狀態評估 (~55%)
-- 完整重寫 ROADMAP.md 包含 4 個階段
-- 建立 docs/INTEGRATION_STATUS.md 整合狀態報告
+- v0.4.0: Integration Adapters 完成 (LightRAGKGAdapter, VectorStoreAdapter, KGMemorySyncService, MemoryPointwiseRetriever, SQLiteRepository)
+- v0.5.0: RAGEngine 整合所有 Adapters + 完整查詢流程 (LightRAG + HGMem)
+- HGMEM_IMPLEMENTATION_CHECKLIST.md 文檔
+- INTEGRATION_STATUS.md 更新到 v0.5.0
 
 ## Doing
 
-- 評估下一步開發優先級
+
 
 ## Next
 
-- 實現 LightRAGKGAdapter (v0.4.0 核心)
-- 實現 HypergraphRepository 持久化
-- 補完 collect_absent_entities_relationships()
-- 補完 get_memory_pointwise_related_info()
+- v0.6.0: MCP Server 工具實現
+- v0.6.0: E2E 整合測試 (真實 LightRAG)
+- v0.7.0: 補完小輔助函數 (get_memory_point_info 等)
+- v0.8.0: 多用戶支援 (PostgreSQL, Redis)

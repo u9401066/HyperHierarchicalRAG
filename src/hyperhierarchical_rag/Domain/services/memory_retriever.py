@@ -496,6 +496,187 @@ class MemoryPointwiseRetriever:
         )
         
         return [t["data"] for t in truncated]
+    
+    async def get_memory_pointwise_related_info_full(
+        self,
+        memory_points: List[List[str]],
+        query: str,
+        query_param: MemoryQueryParam = None,
+        memory_hypergraph: Any = None,
+        verbose: bool = True
+    ) -> Tuple[str, List[Dict], List[str]] | str:
+        """
+        Full version without history filtering (from HGMem).
+        
+        Unlike get_memory_pointwise_related_info(), this version:
+        - Does NOT filter by history_retrieved_chunks_ids
+        - Retrieves ALL relevant chunks from KG
+        
+        Args:
+            memory_points: 記憶點列表
+            query: 查詢文本
+            query_param: 查詢參數
+            memory_hypergraph: 記憶超圖 (用於獲取記憶點描述)
+            verbose: 是否返回詳細信息
+            
+        Returns:
+            如果 verbose=True: (context_str, pointwise_chunks, final_chunk_ids)
+            如果 verbose=False: context_str
+        """
+        if query_param is None:
+            query_param = MemoryQueryParam()
+        
+        # 1. 收集記憶點相關的實體數據
+        related_entities_data, related_entities_dict = await self._collect_related_entities(
+            memory_points, query_param
+        )
+        
+        # 2. 對每個記憶點檢索 chunks (不過濾歷史)
+        pointwise_chunks, final_chunk_ids = await self._retrieve_chunks_per_memory_point_full(
+            memory_points=memory_points,
+            query=query,
+            query_param=query_param,
+            related_entities_dict=related_entities_dict,
+            memory_hypergraph=memory_hypergraph
+        )
+        
+        # 3. 如果超過限制，使用所有歷史查詢重新排序
+        if len(final_chunk_ids) > query_param.max_text_chunks:
+            final_chunk_ids = await self._rerank_and_truncate(
+                final_chunk_ids, query, query_param.max_text_chunks
+            )
+        
+        # 4. 獲取最終的 chunk 內容
+        all_text_chunks = await self._fetch_and_format_chunks(
+            final_chunk_ids, query_param.max_token_for_final_text_chunks
+        )
+        
+        # 5. 構建上下文
+        entities_context = build_entities_context(related_entities_data)
+        text_chunks_context = build_text_chunks_context(all_text_chunks)
+        
+        memory_related_info = f"""-----Entities-----
+```csv
+{entities_context}
+```
+
+-----Sources-----
+```csv
+{text_chunks_context}
+```
+"""
+        
+        if verbose:
+            return memory_related_info, pointwise_chunks, list(final_chunk_ids)
+        return memory_related_info
+    
+    async def _retrieve_chunks_per_memory_point_full(
+        self,
+        memory_points: List[List[str]],
+        query: str,
+        query_param: MemoryQueryParam,
+        related_entities_dict: Dict[str, Dict],
+        memory_hypergraph: Any
+    ) -> Tuple[List[Dict], Set[str]]:
+        """
+        Full version: retrieve chunks without history filtering.
+        """
+        pointwise_chunks = []
+        final_chunk_ids = set()
+        
+        for mp in memory_points:
+            if not mp:
+                continue
+            
+            # 獲取記憶點描述
+            mp_info = await self._get_memory_point_info(mp, memory_hypergraph)
+            
+            # Inner chunks: 記憶點實體直接關聯的 chunks (不過濾)
+            inner_chunk_ids = await self._get_inner_chunks_full(mp, related_entities_dict)
+            selected_inner = await self._select_chunks_by_similarity(
+                inner_chunk_ids, 
+                mp_info or query,
+                query_param.max_inner_chunks_per_memory_point
+            )
+            final_chunk_ids.update(selected_inner)
+            
+            # Outer chunks: 鄰居節點關聯的 chunks (不過濾)
+            outer_chunk_ids = await self._get_outer_chunks_full(
+                mp, related_entities_dict, selected_inner
+            )
+            selected_outer = await self._select_chunks_by_similarity(
+                outer_chunk_ids,
+                query,  # 用 query 而非 mp_info
+                query_param.max_outer_chunks_per_memory_point
+            )
+            final_chunk_ids.update(selected_outer)
+            
+            pointwise_chunks.append({
+                "inner_chunks": list(selected_inner),
+                "outer_chunks": list(selected_outer)
+            })
+        
+        return pointwise_chunks, final_chunk_ids
+    
+    async def _get_inner_chunks_full(
+        self,
+        mp: List[str],
+        related_entities_dict: Dict[str, Dict]
+    ) -> Set[str]:
+        """Get inner chunks WITHOUT history filtering."""
+        chunk_ids = set()
+        
+        for entity_name in mp:
+            node_data = related_entities_dict.get(entity_name)
+            if not node_data or not node_data.get("source_id"):
+                continue
+            
+            source_ids = set(split_string_by_multi_markers(
+                str(node_data["source_id"]), [self.graph_field_sep]
+            ))
+            chunk_ids.update(source_ids)
+        
+        # 驗證 chunks 存在
+        valid_chunks = set()
+        for cid in chunk_ids:
+            if await self.text_chunks_adapter.get_by_id(cid):
+                valid_chunks.add(cid)
+        
+        return valid_chunks
+    
+    async def _get_outer_chunks_full(
+        self,
+        mp: List[str],
+        related_entities_dict: Dict[str, Dict],
+        exclude_ids: Set[str]
+    ) -> Set[str]:
+        """Get outer chunks WITHOUT history filtering."""
+        chunk_ids = set()
+        
+        for entity_name in mp:
+            neighbors = await self.kg_adapter.get_neighbor_nodes(entity_name)
+            
+            for neighbor in neighbors:
+                if neighbor in related_entities_dict:
+                    continue
+                
+                neighbor_data = await self.kg_adapter.get_node(neighbor)
+                if neighbor_data and neighbor_data.get("source_id"):
+                    source_ids = set(split_string_by_multi_markers(
+                        str(neighbor_data["source_id"]), [self.graph_field_sep]
+                    ))
+                    chunk_ids.update(source_ids)
+        
+        # 排除 inner chunks
+        chunk_ids -= exclude_ids
+        
+        # 驗證 chunks 存在
+        valid_chunks = set()
+        for cid in chunk_ids:
+            if await self.text_chunks_adapter.get_by_id(cid):
+                valid_chunks.add(cid)
+        
+        return valid_chunks
 
 
 # ============ 便捷函數 ============

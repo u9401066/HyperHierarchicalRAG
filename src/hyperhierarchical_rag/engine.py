@@ -620,6 +620,281 @@ class RAGEngine:
             },
         }
     
+    # ==================== LightRAG Direct Integration ====================
+    # 這些方法直接使用 LightRAG 功能，不重造輪子！
+    
+    async def insert_custom_kg(
+        self,
+        entities: List[Dict[str, Any]],
+        relations: List[Dict[str, Any]],
+    ) -> Dict[str, Any]:
+        """
+        Insert custom knowledge graph data (直接用 LightRAG).
+        
+        Args:
+            entities: List of entity dicts with keys: entity_name, entity_type, description, source_id
+            relations: List of relation dicts with keys: src_id, tgt_id, description, keywords, source_id
+            
+        Returns:
+            Insert result
+        """
+        self._ensure_initialized()
+        
+        if not self._lightrag:
+            return {"error": "LightRAG not available"}
+        
+        try:
+            await self._lightrag.ainsert_custom_kg(
+                custom_kg={
+                    "entities": entities,
+                    "relationships": relations,
+                }
+            )
+            return {
+                "status": "success",
+                "entities_count": len(entities),
+                "relations_count": len(relations),
+            }
+        except Exception as e:
+            return {"error": str(e)}
+    
+    async def create_entity(
+        self,
+        entity_name: str,
+        entity_type: str = "",
+        description: str = "",
+        source_id: str = "",
+    ) -> Dict[str, Any]:
+        """
+        Create a single entity in the KG (直接用 LightRAG).
+        
+        Args:
+            entity_name: Name of the entity
+            entity_type: Type/category
+            description: Entity description
+            source_id: Source document ID
+        """
+        self._ensure_initialized()
+        
+        if not self._lightrag:
+            return {"error": "LightRAG not available"}
+        
+        try:
+            await self._lightrag.acreate_entity(
+                entity_name=entity_name,
+                entity_type=entity_type,
+                description=description,
+                source_id=source_id,
+            )
+            return {"status": "created", "entity_name": entity_name}
+        except Exception as e:
+            return {"error": str(e)}
+    
+    async def create_relation(
+        self,
+        src_entity: str,
+        tgt_entity: str,
+        description: str = "",
+        keywords: str = "",
+        source_id: str = "",
+    ) -> Dict[str, Any]:
+        """
+        Create a relation between entities (直接用 LightRAG).
+        
+        Args:
+            src_entity: Source entity name
+            tgt_entity: Target entity name
+            description: Relation description
+            keywords: Relation keywords
+            source_id: Source document ID
+        """
+        self._ensure_initialized()
+        
+        if not self._lightrag:
+            return {"error": "LightRAG not available"}
+        
+        try:
+            await self._lightrag.acreate_relation(
+                src_entity_name=src_entity,
+                tgt_entity_name=tgt_entity,
+                description=description,
+                keywords=keywords,
+                source_id=source_id,
+            )
+            return {"status": "created", "relation": f"{src_entity} -> {tgt_entity}"}
+        except Exception as e:
+            return {"error": str(e)}
+    
+    async def get_entity_info(self, entity_name: str) -> Optional[Dict[str, Any]]:
+        """
+        Get information about an entity (直接用 LightRAG).
+        """
+        self._ensure_initialized()
+        
+        if not self._lightrag:
+            return None
+        
+        try:
+            return await self._lightrag.get_entity_info(entity_name)
+        except Exception:
+            return None
+    
+    async def get_relation_info(
+        self, 
+        src_entity: str, 
+        tgt_entity: str
+    ) -> Optional[Dict[str, Any]]:
+        """
+        Get information about a relation (直接用 LightRAG).
+        """
+        self._ensure_initialized()
+        
+        if not self._lightrag:
+            return None
+        
+        try:
+            return await self._lightrag.get_relation_info(src_entity, tgt_entity)
+        except Exception:
+            return None
+    
+    async def get_knowledge_graph(
+        self,
+        node_label: Optional[str] = None,
+        max_depth: int = 3,
+    ) -> Dict[str, Any]:
+        """
+        Get the knowledge graph structure (直接用 LightRAG).
+        
+        Args:
+            node_label: Filter by node label (entity type)
+            max_depth: Maximum traversal depth
+            
+        Returns:
+            Dict with nodes and edges
+        """
+        self._ensure_initialized()
+        
+        if not self._lightrag:
+            return {"error": "LightRAG not available"}
+        
+        try:
+            return await self._lightrag.get_knowledge_graph(
+                node_label=node_label,
+                max_depth=max_depth,
+            )
+        except Exception as e:
+            return {"error": str(e)}
+    
+    async def delete_by_doc_id(self, doc_id: str) -> Dict[str, Any]:
+        """
+        Delete all data associated with a document (直接用 LightRAG).
+        """
+        self._ensure_initialized()
+        
+        if not self._lightrag:
+            return {"error": "LightRAG not available"}
+        
+        try:
+            await self._lightrag.adelete_by_doc_id(doc_id)
+            return {"status": "deleted", "doc_id": doc_id}
+        except Exception as e:
+            return {"error": str(e)}
+    
+    async def delete_entity(self, entity_name: str) -> Dict[str, Any]:
+        """
+        Delete an entity and its relations (直接用 LightRAG).
+        """
+        self._ensure_initialized()
+        
+        if not self._lightrag:
+            return {"error": "LightRAG not available"}
+        
+        try:
+            await self._lightrag.adelete_by_entity(entity_name)
+            return {"status": "deleted", "entity_name": entity_name}
+        except Exception as e:
+            return {"error": str(e)}
+    
+    async def merge_entities(
+        self,
+        source_entity: str,
+        target_entity: str,
+    ) -> Dict[str, Any]:
+        """
+        Merge two entities (直接用 LightRAG).
+        
+        Args:
+            source_entity: Entity to merge from (will be deleted)
+            target_entity: Entity to merge into
+        """
+        self._ensure_initialized()
+        
+        if not self._lightrag:
+            return {"error": "LightRAG not available"}
+        
+        try:
+            await self._lightrag.amerge_entities(source_entity, target_entity)
+            return {"status": "merged", "from": source_entity, "to": target_entity}
+        except Exception as e:
+            return {"error": str(e)}
+    
+    async def export_data(self) -> Dict[str, Any]:
+        """
+        Export all data from LightRAG (直接用 LightRAG).
+        
+        Returns:
+            Dict with entities, relationships, and chunks
+        """
+        self._ensure_initialized()
+        
+        if not self._lightrag:
+            return {"error": "LightRAG not available"}
+        
+        try:
+            return await self._lightrag.aexport_data()
+        except Exception as e:
+            return {"error": str(e)}
+    
+    async def query_data(
+        self,
+        query: str,
+        mode: QueryMode = "hybrid",
+        top_k: int = 10,
+    ) -> Dict[str, Any]:
+        """
+        Query and return raw data instead of LLM response (直接用 LightRAG).
+        
+        Useful for getting entities, relationships, and chunks without LLM.
+        """
+        self._ensure_initialized()
+        
+        if not self._lightrag:
+            return {"error": "LightRAG not available"}
+        
+        try:
+            from lightrag import QueryParam
+            param = QueryParam(mode=mode, top_k=top_k)
+            return await self._lightrag.aquery_data(query, param=param)
+        except Exception as e:
+            return {"error": str(e)}
+    
+    async def clear_cache(self) -> Dict[str, Any]:
+        """
+        Clear LightRAG's LLM cache (直接用 LightRAG).
+        """
+        self._ensure_initialized()
+        
+        if not self._lightrag:
+            return {"error": "LightRAG not available"}
+        
+        try:
+            await self._lightrag.aclear_cache()
+            return {"status": "cache_cleared"}
+        except Exception as e:
+            return {"error": str(e)}
+    
+    # ==================== Visualization ====================
+    
     async def visualize_graph(self, filename: str = "graph.html") -> Path:
         """Generate visualization of current graph state."""
         self._ensure_initialized()

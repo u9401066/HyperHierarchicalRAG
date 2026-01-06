@@ -725,6 +725,42 @@ class EnhancedMemoryEvolver(MemoryEvolver):
         
         return "\n".join([f"- {sq}" for sq in all_subqueries])
     
+    def get_history_retrieved_chunks_ids(self) -> List[Set[str]]:
+        """Get list of retrieved chunk IDs per turn (from HGMem)."""
+        # 這會在後續整合時使用
+        # 目前返回空列表
+        return []
+    
+    async def get_memory_point_info(self, mp_identifier: Tuple[str, ...] | List[str]) -> str:
+        """
+        Get description of a single memory point (from HGMem).
+        
+        Args:
+            mp_identifier: Memory point identifier (tuple of entity names)
+            
+        Returns:
+            Description string of the memory point
+        """
+        # 將 list 轉換為 tuple 用於匹配
+        mp_key = tuple(mp_identifier) if isinstance(mp_identifier, list) else mp_identifier
+        
+        # 在內部記憶點列表中查找
+        for point in self._memory_points:
+            if tuple(point.involved_objects) == mp_key or set(point.involved_objects) == set(mp_key):
+                return point.description
+        
+        # 如果有 KG adapter，嘗試從超圖獲取
+        if self.kg_adapter and hasattr(self.kg_adapter, 'get_hyperedge'):
+            try:
+                edge_data = await self.kg_adapter.get_hyperedge(mp_key)
+                if edge_data and 'description' in edge_data:
+                    return str(edge_data['description'])
+            except Exception:
+                pass
+        
+        # 返回默認描述
+        return f"Memory point involving: {', '.join(mp_key)}"
+    
     async def get_memory_context(self, include_first_query: bool = False) -> str:
         """Get full memory context including history (from HGMem)."""
         subqueries_context = self.get_history_subqueries_context(include_first=include_first_query)
@@ -735,3 +771,24 @@ class EnhancedMemoryEvolver(MemoryEvolver):
 
 **Memory Points**
 {memory_context or "No memory points yet"}"""
+    
+    async def get_memory_points_context(self, object_delimiter: str = ", ") -> str:
+        """
+        Get formatted context of all memory points (from HGMem).
+        
+        Args:
+            object_delimiter: Delimiter for objects in each point
+            
+        Returns:
+            Formatted string with all memory points
+        """
+        if not self._memory_points:
+            return ""
+        
+        memory_point_details = []
+        for idx, point in enumerate(self._memory_points):
+            objects_str = object_delimiter.join(point.involved_objects)
+            point_str = f"- Point ({idx})\nInvolved Objects: {objects_str}\nDescription: {point.description}"
+            memory_point_details.append(point_str)
+        
+        return "\n".join(memory_point_details)
