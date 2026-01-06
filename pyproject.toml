@@ -1,0 +1,89 @@
+[project]
+name = "hyperhierarchical-rag"
+version = "0.1.0"
+description = "A novel RAG system combining Hypergraph Memory with Hierarchical Retrieval, exposed as MCP tools"
+authors = [
+    {name = "u9401066", email = "u9401066@gap.kmu.edu.tw"}
+]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    # === 核心 RAG 依賴 (from external/) ===
+    # 安裝方式: 
+    #   uv pip install -e ./external/LightRAG
+    #   (HGMem 核心邏輯已整合到 Domain 層)
+    
+    # === MCP Server 依賴 ===
+    "mcp>=1.0.0",
+    "fastmcp>=0.1.0",
+    
+    # === Vector Database ===
+    "numpy>=1.24.0,<2.0.0",
+    # faiss-cpu: LightRAG 內建 VDB，不需要額外安裝
+    
+    # === Graph Processing ===
+    "networkx>=3.0",
+    
+    # === NLP & Embeddings ===
+    "openai>=1.0.0",
+    # sentence-transformers: LightRAG 有 ollama_embed()，不需額外安裝
+    
+    # === Utilities ===
+    "pydantic>=2.0.0",
+    "python-dotenv>=1.0.0",
+    "tiktoken",
+    "tenacity",
+    "aiohttp",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "pytest-asyncio>=0.21.0",
+    "black>=23.0.0",
+    "ruff>=0.1.0",
+    "mypy>=1.0.0",
+]
+
+# MCP Server 入口點
+[project.scripts]
+hyperhierarchical-rag = "hyperhierarchical_rag.mcp_server:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/hyperhierarchical_rag"]
+
+[tool.uv]
+# HGMem 沒有 PyPI，採用 git 依賴
+# 選項 1: Git dependency (如果需要完整 repo)
+# dev-dependencies = [
+#     "hgmem @ git+https://github.com/original/hgmem.git"
+# ]
+
+# 選項 2: 核心邏輯直接整合進 Domain 層 (推薦)
+# 將 HGMem 的 Memory.evolve() 邏輯提取到 src/Domain/HypergraphMemory/
+
+[tool.black]
+line-length = 100
+target-version = ['py310']
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+select = ["E", "F", "I", "N", "W"]
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
