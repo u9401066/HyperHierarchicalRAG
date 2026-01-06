@@ -123,6 +123,27 @@ class SQLiteHypergraphRepository(IHypergraphRepository):
             cursor.execute("CREATE INDEX IF NOT EXISTS idx_nodes_level ON nodes(level)")
             cursor.execute("CREATE INDEX IF NOT EXISTS idx_nodes_name ON nodes(name)")
             cursor.execute("CREATE INDEX IF NOT EXISTS idx_keyword_index_keyword ON keyword_index(keyword)")
+            
+            # Memory Points 表 (HGMem 持久化)
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS memory_points (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    involved_objects TEXT NOT NULL,  -- JSON array of object names
+                    description TEXT NOT NULL,
+                    source_query TEXT,  -- The query that created this memory point
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                )
+            """)
+            
+            # Subquery History 表
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS subquery_history (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    session_id TEXT,  -- Optional session grouping
+                    subqueries TEXT NOT NULL,  -- JSON array
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                )
+            """)
     
     # ==================== Node Operations ====================
     
@@ -435,4 +456,116 @@ class SQLiteHypergraphRepository(IHypergraphRepository):
             cursor.execute("DELETE FROM node_edges")
             cursor.execute("DELETE FROM edges")
             cursor.execute("DELETE FROM nodes")
+            cursor.execute("DELETE FROM memory_points")
+            cursor.execute("DELETE FROM subquery_history")
         logger.info("All data cleared")
+
+    # ==================== Memory Points Operations ====================
+    
+    async def save_memory_point(
+        self, 
+        involved_objects: List[str], 
+        description: str,
+        source_query: Optional[str] = None
+    ) -> int:
+        """
+        Save a memory point to persistent storage.
+        
+        Returns:
+            The ID of the saved memory point
+        """
+        with self._get_conn() as conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+                INSERT INTO memory_points (involved_objects, description, source_query)
+                VALUES (?, ?, ?)
+            """, (json.dumps(involved_objects), description, source_query))
+            return cursor.lastrowid or 0
+    
+    async def load_all_memory_points(self) -> List[Dict[str, Any]]:
+        """
+        Load all memory points from storage.
+        
+        Returns:
+            List of memory point dictionaries with keys:
+            - id, involved_objects, description, source_query, created_at
+        """
+        with self._get_conn() as conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+                SELECT id, involved_objects, description, source_query, created_at 
+                FROM memory_points 
+                ORDER BY created_at ASC
+            """)
+            
+            results = []
+            for row in cursor.fetchall():
+                results.append({
+                    "id": row["id"],
+                    "involved_objects": json.loads(row["involved_objects"]),
+                    "description": row["description"],
+                    "source_query": row["source_query"],
+                    "created_at": row["created_at"],
+                })
+            return results
+    
+    async def delete_memory_point(self, point_id: int) -> bool:
+        """Delete a memory point by ID."""
+        with self._get_conn() as conn:
+            cursor = conn.cursor()
+            cursor.execute("DELETE FROM memory_points WHERE id = ?", (point_id,))
+            return bool(cursor.rowcount > 0)
+    
+    async def clear_memory_points(self) -> int:
+        """Clear all memory points. Returns count deleted."""
+        with self._get_conn() as conn:
+            cursor = conn.cursor()
+            cursor.execute("DELETE FROM memory_points")
+            return int(cursor.rowcount)
+    
+    async def get_memory_points_count(self) -> int:
+        """Get total count of memory points."""
+        with self._get_conn() as conn:
+            cursor = conn.cursor()
+            cursor.execute("SELECT COUNT(*) FROM memory_points")
+            return int(cursor.fetchone()[0])
+    
+    # ==================== Subquery History Operations ====================
+    
+    async def save_subquery_history(
+        self, 
+        subqueries: List[str],
+        session_id: Optional[str] = None
+    ) -> int:
+        """Save subquery history."""
+        with self._get_conn() as conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+                INSERT INTO subquery_history (session_id, subqueries)
+                VALUES (?, ?)
+            """, (session_id, json.dumps(subqueries)))
+            return cursor.lastrowid or 0
+    
+    async def load_subquery_history(
+        self, 
+        session_id: Optional[str] = None,
+        limit: int = 100
+    ) -> List[List[str]]:
+        """Load subquery history."""
+        with self._get_conn() as conn:
+            cursor = conn.cursor()
+            if session_id:
+                cursor.execute("""
+                    SELECT subqueries FROM subquery_history 
+                    WHERE session_id = ?
+                    ORDER BY created_at ASC
+                    LIMIT ?
+                """, (session_id, limit))
+            else:
+                cursor.execute("""
+                    SELECT subqueries FROM subquery_history 
+                    ORDER BY created_at ASC
+                    LIMIT ?
+                """, (limit,))
+            
+            return [json.loads(row["subqueries"]) for row in cursor.fetchall()]

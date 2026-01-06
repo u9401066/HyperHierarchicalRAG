@@ -9,31 +9,27 @@ readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
     # === 核心 RAG 依賴 (from external/) ===
-    # 安裝方式: 
+    # 安裝方式:
     #   uv pip install -e ./external/LightRAG
     #   (HGMem 核心邏輯已整合到 Domain 層)
-    
     # === MCP Server 依賴 ===
     "mcp>=1.0.0",
     "fastmcp>=0.1.0",
-    
     # === Vector Database ===
     "numpy>=1.24.0,<2.0.0",
     # faiss-cpu: LightRAG 內建 VDB，不需要額外安裝
-    
     # === Graph Processing ===
     "networkx>=3.0",
-    
     # === NLP & Embeddings ===
     "openai>=1.0.0",
     # sentence-transformers: LightRAG 有 ollama_embed()，不需額外安裝
-    
     # === Utilities ===
     "pydantic>=2.0.0",
     "python-dotenv>=1.0.0",
     "tiktoken",
     "tenacity",
     "aiohttp",
+    "ollama>=0.6.1",
 ]
 
 [project.optional-dependencies]

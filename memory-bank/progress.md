@@ -2,17 +2,21 @@
 
 ## Done
 
-- v0.4.0: Integration Adapters 完成
-- v0.5.0: RAGEngine 整合所有 Adapters
-- v0.5.1: HGMem 100% 完成 + LightRAG 直接整合 (11 個新方法)
+- 實現 Hypergraph Chain Expansion (長 RAG 鏈多跳推理)
+- Memory Points 持久化到 SQLite
+- MCP Server v0.6.0 (22 Tools) 完成
+- 修復 MCP LightRAG availability 問題
+- 修復 'hashing_kv' Ollama LLM 錯誤
+- 修復 get_memory_context coroutine 序列化錯誤
+- README.md / CHANGELOG.md / ROADMAP.md 更新
+- Apache 2.0 LICENSE 新增
 
 ## Doing
 
-
+- Git commit 和 GitHub 發布
 
 ## Next
 
-- v0.6.0: MCP Server 工具實現
-- v0.6.0: E2E 整合測試 (真實 LightRAG)
-- v0.7.0: 文檔和範例更新
-- v0.8.0: 多用戶支援 (PostgreSQL, Redis)
+- 實現 DRIFT Search
+- 記憶重組 UI
+- 多人模式支援

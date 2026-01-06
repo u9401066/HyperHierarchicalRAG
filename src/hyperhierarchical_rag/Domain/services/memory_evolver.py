@@ -421,6 +421,7 @@ class EnhancedMemoryEvolver(MemoryEvolver):
         self,
         llm_func: Optional[Callable] = None,
         knowledge_graph_adapter: Optional[Any] = None,  # LightRAG adapter
+        persistence_repo: Optional[Any] = None,  # SQLiteHypergraphRepository
         **kwargs
     ) -> None:
         """
@@ -429,12 +430,65 @@ class EnhancedMemoryEvolver(MemoryEvolver):
         Args:
             llm_func: Async LLM function
             knowledge_graph_adapter: Optional adapter to LightRAG's KG
+            persistence_repo: Optional repository for memory persistence
         """
         super().__init__(llm_func=llm_func, **kwargs)
         self.kg_adapter = knowledge_graph_adapter
+        self._persistence_repo = persistence_repo
         self._history_subqueries: List[List[str]] = []
         self._memory_points: List[MemoryPoint] = []
         logger.info("EnhancedMemoryEvolver initialized with full HGMem capabilities")
+    
+    def set_persistence_repo(self, repo: Any) -> None:
+        """Set the persistence repository."""
+        self._persistence_repo = repo
+    
+    async def load_from_persistence(self) -> int:
+        """
+        Load memory points from persistent storage.
+        
+        Returns:
+            Number of memory points loaded
+        """
+        if not self._persistence_repo:
+            return 0
+        
+        try:
+            points_data = await self._persistence_repo.load_all_memory_points()
+            self._memory_points = []
+            
+            for data in points_data:
+                point = MemoryPoint(
+                    involved_objects=list(data["involved_objects"]),
+                    description=data["description"],
+                )
+                self._memory_points.append(point)
+            
+            # Also load subquery history
+            history = await self._persistence_repo.load_subquery_history()
+            self._history_subqueries = history
+            
+            logger.info(f"Loaded {len(self._memory_points)} memory points from persistence")
+            return len(self._memory_points)
+        except Exception as e:
+            logger.warning(f"Failed to load memory from persistence: {e}")
+            return 0
+    
+    async def save_to_persistence(self, point: MemoryPoint, source_query: Optional[str] = None) -> bool:
+        """Save a single memory point to persistent storage."""
+        if not self._persistence_repo:
+            return False
+        
+        try:
+            await self._persistence_repo.save_memory_point(
+                involved_objects=list(point.involved_objects),
+                description=point.description,
+                source_query=source_query,
+            )
+            return True
+        except Exception as e:
+            logger.warning(f"Failed to save memory point: {e}")
+            return False
     
     def set_kg_adapter(self, adapter: Any) -> None:
         """Set the knowledge graph adapter for extended operations."""
@@ -460,6 +514,7 @@ class EnhancedMemoryEvolver(MemoryEvolver):
         retrieved_info: str,
         main_query: str,
         subqueries: List[str],
+        persist: bool = True,  # Auto-persist by default
     ) -> EvolveResult:
         """
         Evolve memory and track history (enhanced version).
@@ -467,7 +522,8 @@ class EnhancedMemoryEvolver(MemoryEvolver):
         Unlike base evolve(), this:
         1. Tracks subquery history
         2. Updates internal memory points list
-        3. Optionally syncs with external KG
+        3. Optionally persists to storage
+        4. Optionally syncs with external KG
         """
         # Track history
         self._history_subqueries.append(subqueries)
@@ -480,13 +536,20 @@ class EnhancedMemoryEvolver(MemoryEvolver):
             existing_memory_points=self._memory_points,
         )
         
-        # Update internal state
+        # Update internal state and persist
         for point in result.inserted_points:
             self._memory_points.append(point)
+            # Persist each new memory point
+            if persist and self._persistence_repo:
+                await self.save_to_persistence(point, source_query=main_query)
         
         for idx, updated_point in result.updated_points:
             if 0 <= idx < len(self._memory_points):
                 self._memory_points[idx] = updated_point
+        
+        # Save subquery history
+        if persist and self._persistence_repo:
+            await self._persistence_repo.save_subquery_history(subqueries)
         
         # Optionally sync with external KG
         if self.kg_adapter is not None:

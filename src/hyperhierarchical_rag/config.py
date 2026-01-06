@@ -120,6 +120,10 @@ class LLMConfig:
     # Ollama settings
     ollama_host: str = field(default_factory=lambda: os.getenv("OLLAMA_HOST", "http://localhost:11434"))
     
+    # Embedding settings (for Ollama provider)
+    embedding_model: str = field(default_factory=lambda: os.getenv("EMBEDDING_MODEL", "nomic-embed-text"))
+    embedding_dim: int = field(default_factory=lambda: int(os.getenv("EMBEDDING_DIM", "768")))
+    
     def validate(self) -> bool:
         """Check if configuration is valid."""
         if self.provider == "openai" and not self.api_key:
@@ -133,6 +137,8 @@ class LLMConfig:
             "api_base": self.api_base,
             "temperature": self.temperature,
             "has_api_key": bool(self.api_key),
+            "embedding_model": self.embedding_model,
+            "embedding_dim": self.embedding_dim,
         }
 
 

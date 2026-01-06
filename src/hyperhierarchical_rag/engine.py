@@ -126,6 +126,7 @@ class RAGEngine:
         self._memory_evolver: Optional[EnhancedMemoryEvolver] = None
         self._sync_service: Optional[KGMemorySyncService] = None
         self._memory_retriever: Optional[MemoryPointwiseRetriever] = None
+        self._hypergraph_repo: Any = None  # SQLiteHypergraphRepository for persistence
         
         # Application layer (backward compatibility)
         self._query_processor: Optional[QueryProcessor] = None
@@ -251,10 +252,22 @@ class RAGEngine:
             logger.warning("LLM not available, HGMem services limited")
             return
         
-        # Memory Evolver - handles memory evolution
+        # Initialize persistence repository for memory points
+        from hyperhierarchical_rag.Infrastructure.persistence import SQLiteHypergraphRepository
+        
+        hypergraph_db_path = self.config.storage.get_hypergraph_db_path()
+        self._hypergraph_repo = SQLiteHypergraphRepository(str(hypergraph_db_path))
+        
+        # Memory Evolver - handles memory evolution with persistence
         self._memory_evolver = EnhancedMemoryEvolver(
-            llm_func=self._llm_func
+            llm_func=self._llm_func,
+            persistence_repo=self._hypergraph_repo,
         )
+        
+        # Load existing memory points from persistence
+        loaded_count = await self._memory_evolver.load_from_persistence()
+        if loaded_count > 0:
+            logger.info(f"Loaded {loaded_count} existing memory points from persistence")
         
         # KG-Memory Sync Service - auto-completes missing entities
         if self._kg_adapter and self._entities_vdb and self._relationships_vdb:
@@ -296,15 +309,21 @@ class RAGEngine:
             return llm_func
         
         elif llm_config.provider == "ollama":
-            from lightrag.llm.ollama import ollama_model_complete
+            # Use internal _ollama_model_if_cache which accepts model directly
+            # ollama_model_complete expects hashing_kv in kwargs which we don't have
+            from lightrag.llm.ollama import _ollama_model_if_cache
             
-            async def llm_func(prompt: str, **kwargs) -> str:
-                return await ollama_model_complete(
+            async def llm_func(prompt: str, system_prompt: str = None, **kwargs) -> str:
+                # Remove hashing_kv if passed since we're not using LightRAG's cache
+                kwargs.pop("hashing_kv", None)
+                result = await _ollama_model_if_cache(
                     model=llm_config.model,
                     prompt=prompt,
+                    system_prompt=system_prompt,
                     host=llm_config.ollama_host,
                     **kwargs
                 )
+                return result
             
             logger.info(f"LLM initialized: Ollama {llm_config.model}")
             return llm_func
@@ -313,19 +332,57 @@ class RAGEngine:
             raise ValueError(f"Unknown LLM provider: {llm_config.provider}")
     
     async def _init_lightrag(self):
-        """Initialize LightRAG instance."""
+        """Initialize LightRAG instance based on LLM provider config."""
+        from functools import partial
         from lightrag import LightRAG
-        from lightrag.llm.openai import openai_complete_if_cache, openai_embed
+        from lightrag.utils import EmbeddingFunc
         
         # Ensure directory exists
         working_dir = str(self.config.storage.lightrag_dir)
         os.makedirs(working_dir, exist_ok=True)
         
-        rag = LightRAG(
-            working_dir=working_dir,
-            llm_model_func=openai_complete_if_cache,
-            embedding_func=openai_embed,
-        )
+        llm_config = self.config.llm
+        
+        if llm_config.provider == "openai":
+            from lightrag.llm.openai import openai_complete_if_cache, openai_embed
+            
+            rag = LightRAG(
+                working_dir=working_dir,
+                llm_model_func=openai_complete_if_cache,
+                embedding_func=openai_embed,
+            )
+        elif llm_config.provider == "ollama":
+            from lightrag.llm.ollama import ollama_model_complete, ollama_embed
+            
+            # Get embedding model from config
+            embed_model = llm_config.embedding_model
+            embed_dim = llm_config.embedding_dim
+            
+            rag = LightRAG(
+                working_dir=working_dir,
+                llm_model_func=ollama_model_complete,
+                llm_model_name=llm_config.model,
+                llm_model_kwargs={
+                    "host": llm_config.ollama_host,
+                    "options": {"num_ctx": 8192},
+                },
+                # Use EmbeddingFunc with partial to pass host parameter
+                # Reference: lightrag/examples/lightrag_ollama_demo.py
+                embedding_func=EmbeddingFunc(
+                    embedding_dim=embed_dim,
+                    max_token_size=8192,
+                    func=partial(
+                        ollama_embed.func,  # Access unwrapped function
+                        embed_model=embed_model,
+                        host=llm_config.ollama_host,
+                    ),
+                ),
+            )
+        else:
+            raise ValueError(f"Unknown LLM provider for LightRAG: {llm_config.provider}")
+        
+        # Initialize storages (required for insert operations)
+        await rag.initialize_storages()
         
         logger.info(f"LightRAG initialized: {working_dir}")
         return rag
@@ -478,7 +535,33 @@ class RAGEngine:
             except Exception as e:
                 logger.warning(f"Get memory context failed: {e}")
         
-        # ========== Step 5: Memory Pointwise Retrieval (Optional) ==========
+        # ========== Step 5: Hypergraph Chain Expansion (KEY HGMEM FEATURE!) ==========
+        # This is the LONG RAG CHAIN - multi-hop traversal via hyperedges
+        expanded_context = ""
+        if self._memory_evolver and self._hypergraph_repo:
+            try:
+                expanded_result = await self._expand_via_hypergraph(
+                    query=query,
+                    retrieved_context=retrieved_context,
+                    max_hops=2,
+                )
+                expanded_context = expanded_result.get("expanded_context", "")
+                
+                if expanded_context:
+                    result["hypergraph_expanded"] = expanded_result
+                    
+                    trace.add_step(QueryStep(
+                        step_number=5,
+                        step_type="hypergraph_expansion",
+                        description=f"Hypergraph chain: +{expanded_result.get('new_entities', 0)} entities via {expanded_result.get('hops', 0)}-hop traversal",
+                        keywords=expanded_result.get("discovered_entities", [])[:5],
+                    ))
+                    
+                    logger.info(f"Hypergraph expansion: {expanded_result.get('new_entities', 0)} new entities discovered")
+            except Exception as e:
+                logger.warning(f"Hypergraph expansion failed: {e}")
+        
+        # ========== Step 6: Memory Pointwise Retrieval (Optional) ==========
         if self._memory_retriever and self._memory_evolver:
             try:
                 # 將 MemoryPoint 轉換為 list[list[str]] 格式
@@ -540,12 +623,11 @@ class RAGEngine:
         paths: Dict[str, str] = {}
         
         # Safety checks
-        if not self._memory_manager or not self._graph_viz or not self._path_viz:
+        if not self._graph_viz or not self._path_viz:
             return {"error": "Visualization components not initialized"}
         
-        # Get current graph state
-        nodes = list(self._memory_manager._nodes.values())
-        edges = list(self._memory_manager._edges.values())
+        # 優先使用 LightRAG KG 數據，而非空的 MemoryManager
+        nodes, edges = await self._get_visualization_data()
         
         if not nodes:
             return {"error": "No nodes in graph yet"}
@@ -577,47 +659,313 @@ class RAGEngine:
         
         return paths
     
+    async def _get_visualization_data(self) -> tuple[List[HyperNode], List[HyperEdge]]:
+        """
+        Get nodes and edges for visualization.
+        
+        優先從 LightRAG KG 提取數據，轉換為 HyperNode/HyperEdge 格式。
+        """
+        nodes: List[HyperNode] = []
+        edges: List[HyperEdge] = []
+        
+        # 嘗試從 LightRAG KG 提取
+        if self._lightrag:
+            try:
+                graph_storage = self._lightrag.chunk_entity_relation_graph
+                if hasattr(graph_storage, '_graph'):
+                    nx_graph = graph_storage._graph
+                    
+                    # 轉換 NetworkX nodes 為 HyperNodes
+                    for node_id in nx_graph.nodes():
+                        node_data = nx_graph.nodes[node_id]
+                        hyper_node = HyperNode(
+                            name=str(node_id),
+                            description=node_data.get('description', ''),
+                            level=NodeLevel.LOCAL,  # 預設為 LOCAL
+                            keywords=[node_data.get('entity_type', 'entity')],
+                            source_id=node_data.get('source_id', ''),
+                        )
+                        nodes.append(hyper_node)
+                    
+                    # 轉換 NetworkX edges 為 HyperEdges
+                    for src, tgt, edge_data in nx_graph.edges(data=True):
+                        hyper_edge = HyperEdge(
+                            node_ids={str(src), str(tgt)},
+                            relation=edge_data.get('keywords', 'relates_to'),
+                            weight=edge_data.get('weight', 1.0),
+                            context=edge_data.get('description', ''),
+                        )
+                        edges.append(hyper_edge)
+                    
+                    logger.info(f"Extracted {len(nodes)} nodes, {len(edges)} edges from LightRAG KG")
+            except Exception as e:
+                logger.warning(f"Failed to extract from LightRAG KG: {e}")
+        
+        # 如果 LightRAG 沒數據，回退到 MemoryManager
+        if not nodes and self._memory_manager:
+            nodes = list(self._memory_manager._nodes.values())
+            edges = list(self._memory_manager._edges.values())
+        
+        return nodes, edges
+    
+    async def _expand_via_hypergraph(
+        self,
+        query: str,
+        retrieved_context: str,
+        max_hops: int = 2,
+    ) -> Dict[str, Any]:
+        """
+        Expand context via hypergraph traversal (LONG RAG CHAIN - Core HGMem Feature!).
+        
+        ╔═══════════════════════════════════════════════════════════════════════╗
+        ║ HYPERGRAPH CHAIN EXPANSION - Multi-hop Reasoning                      ║
+        ╠═══════════════════════════════════════════════════════════════════════╣
+        ║                                                                        ║
+        ║ LightRAG binary edges:   A ─── B ─── C                                 ║
+        ║                         (can only traverse 1 edge at a time)          ║
+        ║                                                                        ║
+        ║ HGMem hyperedges:   {A, B, C, D} all in one hyperedge                  ║
+        ║                         (discovers D even from query about A!)        ║
+        ║                                                                        ║
+        ║ Example:                                                               ║
+        ║   Query: "propofol sedation"                                           ║
+        ║   LightRAG finds: Propofol → used_for → Sedation                      ║
+        ║   Memory Point: {Propofol, Remimazolam, ICU, Delirium}                ║
+        ║   Hypergraph discovers: Remimazolam, Delirium (not in direct path!)  ║
+        ║                                                                        ║
+        ╚═══════════════════════════════════════════════════════════════════════╝
+        
+        Args:
+            query: Original query text
+            retrieved_context: Context from LightRAG
+            max_hops: Maximum traversal depth
+            
+        Returns:
+            Dict with expanded_context, discovered_entities, hops used
+        """
+        result = {
+            "expanded_context": "",
+            "discovered_entities": [],
+            "seed_entities": [],
+            "new_entities": 0,
+            "hops": 0,
+            "memory_points_used": 0,
+        }
+        
+        if not self._memory_evolver or not self._hypergraph_repo:
+            return result
+        
+        # Step 1: Extract seed entities from query and retrieved context
+        seed_entities = await self._extract_seed_entities(query, retrieved_context)
+        result["seed_entities"] = seed_entities[:10]
+        
+        if not seed_entities:
+            logger.debug("No seed entities found for hypergraph expansion")
+            return result
+        
+        # Step 2: Find memory points containing these seed entities
+        related_memory_points = []
+        for mp in self._memory_evolver.memory_points:
+            mp_entities = set(obj.upper() for obj in mp.involved_objects)
+            seed_set = set(e.upper() for e in seed_entities)
+            
+            # If memory point shares any entity with seeds
+            if mp_entities & seed_set:
+                related_memory_points.append(mp)
+        
+        result["memory_points_used"] = len(related_memory_points)
+        
+        if not related_memory_points:
+            logger.debug("No related memory points found")
+            return result
+        
+        # Step 3: Multi-hop expansion via hyperedges (BFS)
+        discovered = set()
+        seed_set = set(e.upper() for e in seed_entities)
+        frontier = seed_set.copy()
+        visited = seed_set.copy()
+        
+        for hop in range(max_hops):
+            if not frontier:
+                break
+            
+            next_frontier = set()
+            
+            for current_entity in frontier:
+                # Check all memory points for connections
+                for mp in related_memory_points:
+                    mp_entities = set(obj.upper() for obj in mp.involved_objects)
+                    
+                    if current_entity in mp_entities:
+                        # Discover all OTHER entities in this hyperedge
+                        for entity in mp_entities:
+                            if entity not in visited:
+                                discovered.add(entity)
+                                visited.add(entity)
+                                next_frontier.add(entity)
+            
+            frontier = next_frontier
+            result["hops"] = hop + 1
+            
+            if not next_frontier:
+                break
+        
+        # Step 4: Build expanded context from discovered entities
+        discovered_list = list(discovered)
+        result["discovered_entities"] = discovered_list
+        result["new_entities"] = len(discovered_list)
+        
+        if discovered_list:
+            # Build rich context from memory points containing discovered entities
+            context_lines = []
+            context_lines.append(f"=== Hypergraph Chain Expansion ({result['hops']}-hop) ===")
+            context_lines.append(f"Discovered {len(discovered_list)} additional entities via memory hyperedges:")
+            context_lines.append("")
+            
+            for mp in related_memory_points:
+                mp_entities = set(obj.upper() for obj in mp.involved_objects)
+                if mp_entities & discovered:
+                    context_lines.append(f"• Memory Point: {{{', '.join(mp.involved_objects)}}}")
+                    context_lines.append(f"  Description: {mp.description[:200]}")
+                    context_lines.append("")
+            
+            result["expanded_context"] = "\n".join(context_lines)
+        
+        return result
+    
+    async def _extract_seed_entities(
+        self,
+        query: str,
+        context: str,
+    ) -> List[str]:
+        """Extract entity names from query and context for hypergraph expansion."""
+        entities = set()
+        
+        # Method 1: Get entities from LightRAG KG that appear in query/context
+        if self._lightrag:
+            try:
+                graph_storage = self._lightrag.chunk_entity_relation_graph
+                if hasattr(graph_storage, '_graph'):
+                    nx_graph = graph_storage._graph
+                    text_lower = (query + " " + context).lower()
+                    
+                    for node_id in nx_graph.nodes():
+                        node_name = str(node_id).lower()
+                        if node_name in text_lower:
+                            entities.add(str(node_id))
+            except Exception as e:
+                logger.debug(f"Entity extraction from KG failed: {e}")
+        
+        # Method 2: Get entities mentioned in memory points
+        if self._memory_evolver:
+            for mp in self._memory_evolver.memory_points:
+                text_lower = (query + " " + context).lower()
+                for obj in mp.involved_objects:
+                    if obj.lower() in text_lower:
+                        entities.add(obj)
+        
+        # Method 3: Simple keyword extraction (fallback)
+        if not entities:
+            import re
+            # Extract capitalized words (likely proper nouns/entities)
+            proper_nouns = re.findall(r'\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*\b', query + " " + context)
+            entities.update(proper_nouns[:10])
+        
+        return list(entities)[:20]  # Limit to top 20 seeds
+    
     # ==================== Graph Operations ====================
     
     def get_graph_stats(self) -> Dict[str, Any]:
-        """Get current graph statistics."""
+        """Get current graph statistics from LightRAG KG."""
         self._ensure_initialized()
         
-        if not self._memory_manager:
-            return {"error": "Memory manager not initialized"}
+        # 從 LightRAG KG 獲取統計
+        lightrag_stats = {"nodes": 0, "edges": 0}
+        if self._lightrag:
+            try:
+                graph_storage = self._lightrag.chunk_entity_relation_graph
+                if hasattr(graph_storage, '_graph'):
+                    nx_graph = graph_storage._graph
+                    lightrag_stats["nodes"] = nx_graph.number_of_nodes()
+                    lightrag_stats["edges"] = nx_graph.number_of_edges()
+            except Exception as e:
+                logger.warning(f"Failed to get LightRAG stats: {e}")
         
-        nodes = list(self._memory_manager._nodes.values())
-        edges = list(self._memory_manager._edges.values())
+        # 從 MemoryManager 獲取 HGMem 統計
+        hgmem_stats = {"nodes": 0, "edges": 0}
+        if self._memory_manager:
+            hgmem_stats["nodes"] = len(self._memory_manager._nodes)
+            hgmem_stats["edges"] = len(self._memory_manager._edges)
         
-        local_nodes = [n for n in nodes if n.level == NodeLevel.LOCAL]
-        global_nodes = [n for n in nodes if n.level == NodeLevel.GLOBAL]
-        
-        # Find cross-level edges (connecting LOCAL and GLOBAL)
-        cross_level_edges = []
-        for edge in edges:
-            levels: Set[NodeLevel] = set()
-            for node_id in edge.node_ids:
-                if node_id in self._memory_manager._nodes:
-                    levels.add(self._memory_manager._nodes[node_id].level)
-            if len(levels) > 1:
-                cross_level_edges.append(edge)
+        # Memory Evolution 統計
+        memory_stats = {"memory_points": 0}
+        if self._memory_evolver:
+            memory_stats["memory_points"] = len(self._memory_evolver.memory_points)
         
         return {
-            "nodes": {
-                "total": len(nodes),
-                "local": len(local_nodes),
-                "global": len(global_nodes),
-            },
-            "edges": {
-                "total": len(edges),
-                "binary": sum(1 for e in edges if e.is_binary),
-                "n_ary": sum(1 for e in edges if not e.is_binary),
-                "cross_level": len(cross_level_edges),
-            },
-            "memory_evolution": {
-                "total_evolve_count": sum(e.evolve_count for e in edges),
-                "evolved_edges": sum(1 for e in edges if e.evolve_count > 0),
-            },
+            "lightrag_kg": lightrag_stats,
+            "hgmem_hypergraph": hgmem_stats,
+            "memory_evolution": memory_stats,
+            "total_entities": lightrag_stats["nodes"] + hgmem_stats["nodes"],
+            "total_relations": lightrag_stats["edges"] + hgmem_stats["edges"],
+        }
+    
+    async def generate_visualization(
+        self,
+        filename: str = "knowledge_graph.html",
+        title: str = "HyperHierarchical Knowledge Graph",
+    ) -> Dict[str, str]:
+        """
+        Generate visualization of the current knowledge graph.
+        
+        直接從 LightRAG KG 生成可視化，不需要執行查詢。
+        
+        Args:
+            filename: Output HTML filename
+            title: Graph title
+            
+        Returns:
+            Dict with paths to generated files
+        """
+        self._ensure_initialized()
+        
+        if not self._graph_viz:
+            return {"error": "Visualization not enabled"}
+        
+        nodes, edges = await self._get_visualization_data()
+        
+        if not nodes:
+            return {"error": "No data in knowledge graph"}
+        
+        # Generate HTML visualization
+        graph_path = self._graph_viz.to_html(
+            nodes=nodes,
+            edges=edges,
+            title=title,
+            filename=filename,
+        )
+        
+        # Also generate JSON export
+        json_data = {
+            "nodes": [n.to_dict() for n in nodes],
+            "edges": [e.to_dict() for e in edges],
+            "stats": {
+                "total_nodes": len(nodes),
+                "total_edges": len(edges),
+            }
+        }
+        json_path = self.config.storage.viz_dir / filename.replace('.html', '.json')
+        with open(json_path, 'w', encoding='utf-8') as f:
+            import json
+            json.dump(json_data, f, ensure_ascii=False, indent=2)
+        
+        logger.info(f"Generated visualization: {graph_path}")
+        
+        return {
+            "html": str(graph_path),
+            "json": str(json_path),
+            "nodes_count": str(len(nodes)),
+            "edges_count": str(len(edges)),
         }
     
     # ==================== LightRAG Direct Integration ====================

@@ -272,7 +272,7 @@ async def get_memory_context(
             return format_response({"context": "", "count": 0})
         
         context = await engine._memory_evolver.get_memory_context()
-        points_context = engine._memory_evolver.get_memory_points_context(delimiter)
+        points_context = await engine._memory_evolver.get_memory_points_context(delimiter)
         
         return format_response({
             "context": context,
