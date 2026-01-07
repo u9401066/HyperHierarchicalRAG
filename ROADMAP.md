@@ -115,6 +115,10 @@
 
 ### v0.7.0 - 進階功能 (目標: 2026-01)
 
+- [ ] **雙路儲存整合 (Dual-Path Storage)** 🎉
+  - [ ] **SQLiteUnifiedRepository** - 實作一站式 SQLite 儲存 (KG + Chunks + Memory)
+  - [ ] **Milvus/PGAdapter** - 企業級向量後端整合
+  - [ ] **熱切換機制** - 透過 `STORAGE_TYPE` 環境變數動態切換後端
 - [ ] **進階查詢**
   - [ ] `hgmem_query()` - HGMem 原始查詢模式
   - [ ] DRIFT Search (迭代式探索)
@@ -129,6 +133,35 @@
   - [ ] 完整 API 文檔
   - [ ] 使用範例
   - [ ] 部署指南
+
+### GraphRAG Integration & Improvements (短期優先項目)
+
+為了結合 GraphRAG 的結構化子圖能力與本專案的 HGMem 超圖記憶，加入下列短期改進：
+
+- [ ] 子圖抽取（Subgraph Extraction） - 在 `QueryProcessor`/`engine` 查詢流程中，對 LightRAG KG 使用 community-detection 或 k-hop 子圖抽取，將結構性子圖結果與 hypergraph 擴展合併。（優先）
+- [ ] Path / Community-based Reranker - 根據子圖路徑長度、邊權重、社群得分與 LLM 相似度做加權 rerank（參數化：alpha/beta/gamma）。能有效減少噪聲並提升候選品質。（優先）
+- [ ] Provenance 與 Path Recording - 在 `SQLiteHypergraphRepository` 為 hyperedges/MemoryPoints 增加 `provenance` 欄位，保存來源 chunk IDs 與探索路徑，並在回應中返回 path provenance 以提升可解釋性。（中）
+- [ ] Hyperedge 權重演化 - 以頻率統計、LLM 評分與使用者回饋更新超邊權重，長期強化高質量鏈路。（中）
+
+### 🚀 實用性與可解釋性增強 (Practicality & Explainability)
+
+- [ ] **推理路徑視覺化 (`query_explain`)**
+  - [ ] 開發 `query_explain` Tool，返回結果的同時提供 Mermaid 圖表，呈現 Seed Entities -> Memory Points -> Expanded Entities 的跳轉鏈路。
+- [ ] **知識閉環 (Closed-loop Knowledge Injection)**
+  - [ ] 實作「記憶固化」機制：當超邊被高頻使用且 LLM 評分高時，自動調用 `insert_custom_kg` 將其寫回 LightRAG 主圖。
+- [ ] **自動化記憶剪枝 (Memory Pruning)**
+  - [ ] 根據時間衰減 (Time-decay) 與衝突偵測，自動清理過時或矛盾的 Memory Points。
+- [ ] **醫學/科研專用 Reasoner**
+  - [ ] 整合現有的 PubMed MCP，為預設演化提供專門針對研究論文（劑量、PICO 元素）的 Prompt 範本。
+
+實作步驟建議：
+1. 先在 `QueryProcessor._expand_via_hyperedges()` 或 `engine._expand_via_hypergraph()` 前加入子圖抽取，將子圖節點併入候選集合。
+2. 為合併後的候選實作簡單 reranker：score = alpha * embedding_sim + beta * community_score - gamma * hop_penalty。
+3. 在 `SQLiteHypergraphRepository.upsert_edge()` 中新增 `provenance` 字段並保存來源 chunk id。
+4. 逐步加入超邊權重更新規則與反饋迴路。
+
+短期效益：提高擴展實體的精準度與回應可解釋性；中長期則能通過權重演化提升系統召回/精準率。
+
 
 ### v0.8.0 - 多人模式支援 (目標: 2026-Q1)
 

@@ -1,0 +1,1395 @@
+{
+  "nodes": [
+    {
+      "id": "8f56649c-bb7c-4a4a-a843-63c8fbc0474c",
+      "name": "AR-RAG",
+      "description": "AR-RAG is a novel paradigm for enhancing image generation by autoregressively incorporating knearest neighbor retrievals at the patch level.",
+      "level": "local",
+      "keywords": [
+        "concept"
+      ],
+      "embedding": null,
+      "source_id": "chunk-7e465c313730e93412238c5e48c4949a"
+    },
+    {
+      "id": "96645291-f10b-4628-9f1e-822ea45d0378",
+      "name": "Jingyuan Qi",
+      "description": "Jingyuan Qi is an author of AR-RAG, contributing to its development and research.",
+      "level": "local",
+      "keywords": [
+        "person"
+      ],
+      "embedding": null,
+      "source_id": "chunk-7e465c313730e93412238c5e48c4949a"
+    },
+    {
+      "id": "c2a67c6c-fe7b-4506-97cc-0d2a549c9eb0",
+      "name": "Zhiyang Xu",
+      "description": "Zhiyang Xu is a co-author of AR-RAG, collaborating with other researchers on the project.",
+      "level": "local",
+      "keywords": [
+        "person"
+      ],
+      "embedding": null,
+      "source_id": "chunk-7e465c313730e93412238c5e48c4949a"
+    },
+    {
+      "id": "13fb0491-c141-4556-9e1c-7ffbaa123433",
+      "name": "Qifan Wang",
+      "description": "Qifan Wang is an author of AR-RAG, contributing to its research and development.",
+      "level": "local",
+      "keywords": [
+        "person"
+      ],
+      "embedding": null,
+      "source_id": "chunk-7e465c313730e93412238c5e48c4949a"
+    },
+    {
+      "id": "7ab07908-cd2b-4afb-a09c-004c75a159cb",
+      "name": "Lifu Huang",
+      "description": "Lifu Huang is a co-author of AR-RAG, participating in the project's research and publication.",
+      "level": "local",
+      "keywords": [
+        "person"
+      ],
+      "embedding": null,
+      "source_id": "chunk-7e465c313730e93412238c5e48c4949a"
+    },
+    {
+      "id": "b8056080-a50f-4cfa-8d29-3d1ed64061e1",
+      "name": "Midjourney-30K",
+      "description": "Midjourney-30K is a benchmark used to evaluate AR-RAG on image generation tasks.",
+      "level": "local",
+      "keywords": [
+        "dataset"
+      ],
+      "embedding": null,
+      "source_id": "chunk-7e465c313730e93412238c5e48c4949a"
+    },
+    {
+      "id": "d976557f-3971-46bf-bf51-a29c0718c5ed",
+      "name": "GenEval",
+      "description": "GenEval is a widely adopted benchmark for evaluating the performance of image generation models, including AR-RAG.",
+      "level": "local",
+      "keywords": [
+        "benchmark"
+      ],
+      "embedding": null,
+      "source_id": "chunk-7e465c313730e93412238c5e48c4949a"
+    },
+    {
+      "id": "59598286-0ce7-49a1-8309-cab5242721ef",
+      "name": "DPG-Bench",
+      "description": "DPG-Bench is another dataset used to evaluate the effectiveness of AR-RAG on image generation tasks.",
+      "level": "local",
+      "keywords": [
+        "dataset"
+      ],
+      "embedding": null,
+      "source_id": "chunk-7e465c313730e93412238c5e48c4949a"
+    },
+    {
+      "id": "399b4c19-ce5c-42c6-b4a0-8f655667326b",
+      "name": "Autoregressive Retrieval Augmentation",
+      "description": "AR-RAG is a novel paradigm for enhancing image generation by autoregressively incorporating knearest neighbor retrievals at the patch level.",
+      "level": "local",
+      "keywords": [
+        "concept"
+      ],
+      "embedding": null,
+      "source_id": "chunk-7e465c313730e93412238c5e48c4949a"
+    },
+    {
+      "id": "765abd1e-ecae-4555-8959-ed44fa79b668",
+      "name": "Nurshat Fateh Ali",
+      "description": "Nurshat Fateh Ali is one of the authors of the research paper titled Automated Literature Review Using NLP Techniques and LLM-Based Retrieval-Augmented Generation.",
+      "level": "local",
+      "keywords": [
+        "person"
+      ],
+      "embedding": null,
+      "source_id": "chunk-4ce3e0842ccf55f97b27f1a977faaa67"
+    },
+    {
+      "id": "2a2990ee-98b1-4837-9efd-3e53a4202f4c",
+      "name": "Md. Mahdi Mohtasim",
+      "description": "Md. Mahdi Mohtasim is an author of the mentioned research paper.",
+      "level": "local",
+      "keywords": [
+        "person"
+      ],
+      "embedding": null,
+      "source_id": "chunk-4ce3e0842ccf55f97b27f1a977faaa67"
+    },
+    {
+      "id": "84d56d2d-1932-4e61-9a31-c4084dd0b2f0",
+      "name": "Shakil Mosharrof",
+      "description": "Shakil Mosharrof is a contributor to the Automated Literature Review Using NLP Techniques and LLM-Based Retrieval-Augmented Generation.",
+      "level": "local",
+      "keywords": [
+        "person"
+      ],
+      "embedding": null,
+      "source_id": "chunk-4ce3e0842ccf55f97b27f1a977faaa67"
+    },
+    {
+      "id": "ea48c6c1-fddb-4cb5-8fe2-0be715a24b09",
+      "name": "T. Gopi Krishna",
+      "description": "T. Gopi Krishna co-authored the research paper on automated literature review using NLP techniques and retrieval-augmented generation.",
+      "level": "local",
+      "keywords": [
+        "person"
+      ],
+      "embedding": null,
+      "source_id": "chunk-4ce3e0842ccf55f97b27f1a977faaa67"
+    },
+    {
+      "id": "65e72abd-954c-4cec-883c-3d4829bd8a13",
+      "name": "Automated Literature Review Using NLP Techniques and LLM-Based Retrieval-Augmented Generation",
+      "description": "The research paper explores how to automate the process of generating literature reviews using NLP techniques and a large language model.",
+      "level": "local",
+      "keywords": [
+        "category"
+      ],
+      "embedding": null,
+      "source_id": "chunk-4ce3e0842ccf55f97b27f1a977faaa67"
+    },
+    {
+      "id": "242ac3ea-bbb2-407a-a36f-b9bc773afb6b",
+      "name": "Natural Language Processing (NLP) Strategies",
+      "description": "Natural Language Processing strategies are utilized in this research work for automatic generation of literature reviews.",
+      "level": "local",
+      "keywords": [
+        "concept"
+      ],
+      "embedding": null,
+      "source_id": "chunk-4ce3e0842ccf55f97b27f1a977faaa67"
+    },
+    {
+      "id": "2a063563-b16a-40c4-9857-757da6696cba",
+      "name": "Retrieval-Augmented Generation (RAG)",
+      "description": "Retrieval-Augmented Generation is an approach used to automate the process of generating literature reviews with a large language model.<SEP>RAG enables Large Language Models to generate grounded responses by leveraging external knowledge databases without altering model parameters.<SEP>Retrieval-Augmented Generation is a method used to make up for problems with using separate models.",
+      "level": "local",
+      "keywords": [
+        "concept"
+      ],
+      "embedding": null,
+      "source_id": "chunk-4ce3e0842ccf55f97b27f1a977faaa67<SEP>chunk-8b61b46112793ea564faf7bd71cfe6bb<SEP>chunk-c6514729c0089a7326462210b15d6b62"
+    },
+    {
+      "id": "5f6cd780-928d-49c6-a9d9-8422ecd20b0d",
+      "name": "Large Language Model GPT-3.5-turbo",
+      "description": "GPT-3.5-turbo is a type of large language model utilized in this research for automatic generation of literature reviews.",
+      "level": "local",
+      "keywords": [
+        "technology"
+      ],
+      "embedding": null,
+      "source_id": "chunk-4ce3e0842ccf55f97b27f1a977faaa67"
+    },
+    {
+      "id": "73c7040c-ccb6-4e3e-9495-7b8bb5044e53",
+      "name": "Simple T5",
+      "description": "The transformer-based model Simple T5 is used as one of the NLP strategies to generate literature reviews.",
+      "level": "local",
+      "keywords": [
+        "method"
+      ],
+      "embedding": null,
+      "source_id": "chunk-4ce3e0842ccf55f97b27f1a977faaa67"
+    },
+    {
+      "id": "d5f966db-4b34-472a-9d53-9d236ea98ac4",
+      "name": "spaCy",
+      "description": "spaCy is a natural language processing strategy used for automatic generation of literature reviews based on frequency.",
+      "level": "local",
+      "keywords": [
+        "method"
+      ],
+      "embedding": null,
+      "source_id": "chunk-4ce3e0842ccf55f97b27f1a977faaa67"
+    },
+    {
+      "id": "8c54af97-391d-4ba8-a42e-53abb36f65dc",
+      "name": "SciTLDR dataset",
+      "description": "The SciTLDR dataset is used as the basis for this research work on automated literature review generation.",
+      "level": "local",
+      "keywords": [
+        "data"
+      ],
+      "embedding": null,
+      "source_id": "chunk-4ce3e0842ccf55f97b27f1a977faaa67"
+    },
+    {
+      "id": "f25cea91-82e2-4686-b8b7-b7ef904c8e53",
+      "name": "ROUGE scores",
+      "description": "The Simple T5 transformer model obtained a lower ROUGE score compared to other evaluated NLP strategies in this research.",
+      "level": "local",
+      "keywords": [
+        "UNKNOWN"
+      ],
+      "embedding": null,
+      "source_id": "chunk-4ce3e0842ccf55f97b27f1a977faaa67"
+    },
+    {
+      "id": "e2b816f5-aaff-4004-815f-5bec24cb4980",
+      "name": "DAiD",
+      "description": "DAiD is a training-free plug-and-use decoding strategy that directly merges the distribution of model-predicted patches with the distribution of retrieved patches in AR-RAG.",
+      "level": "local",
+      "keywords": [
+        "UNKNOWN"
+      ],
+      "embedding": null,
+      "source_id": "chunk-7e465c313730e93412238c5e48c4949a"
+    },
+    {
+      "id": "6b2fcdeb-de62-4639-96d0-db96ad2983c1",
+      "name": "ROUGE-1 score evaluation",
+      "description": "The Simple T5 model was evaluated based on its ROUGE-1 score performance.",
+      "level": "local",
+      "keywords": [
+        "UNKNOWN"
+      ],
+      "embedding": null,
+      "source_id": "chunk-4ce3e0842ccf55f97b27f1a977faaa67"
+    },
+    {
+      "id": "07c45216-331b-473e-88f6-73f30a5af2b0",
+      "name": "FAiD",
+      "description": "FAiD is a parameter-efficient fine-tuning method that progressively smooths the features of retrieved patches via multi-scale convolution operations and leverages them to augment the image generation process in AR-RAG.",
+      "level": "local",
+      "keywords": [
+        "UNKNOWN"
+      ],
+      "embedding": null,
+      "source_id": "chunk-7e465c313730e93412238c5e48c4949a"
+    },
+    {
+      "id": "e2f37dc1-07db-43c9-9c1a-be0feaa0db0a",
+      "name": "Image Generation",
+      "description": "AR-RAG is designed for enhancing image generation tasks by incorporating autoregressive retrievals at the patch level.",
+      "level": "local",
+      "keywords": [
+        "UNKNOWN"
+      ],
+      "embedding": null,
+      "source_id": "chunk-7e465c313730e93412238c5e48c4949a"
+    },
+    {
+      "id": "081b499f-cf43-4342-ac07-c7ecddfbe665",
+      "name": "EVOR",
+      "description": "EVOR is a novel pipeline for retrieval-augmented code generation (RACG) that employs the synchronous evolution of both queries and diverse knowledge bases.",
+      "level": "local",
+      "keywords": [
+        "concept"
+      ],
+      "embedding": null,
+      "source_id": "chunk-b8b7e56cc9748f6ddbb3c635e03029c7"
+    },
+    {
+      "id": "ebbb79a5-b1ff-434d-a626-41a4324aded6",
+      "name": "Hongjin Su",
+      "description": "Hongjin Su is an author who contributed to the development of EVOR.",
+      "level": "local",
+      "keywords": [
+        "person"
+      ],
+      "embedding": null,
+      "source_id": "chunk-b8b7e56cc9748f6ddbb3c635e03029c7"
+    },
+    {
+      "id": "e0396453-e7e1-4b7e-893f-7b6c52c4236d",
+      "name": "Shuyang Jiang",
+      "description": "Shuyang Jiang is an author who contributed to the development of EVOR.",
+      "level": "local",
+      "keywords": [
+        "person"
+      ],
+      "embedding": null,
+      "source_id": "chunk-b8b7e56cc9748f6ddbb3c635e03029c7"
+    },
+    {
+      "id": "f4a7875c-2c65-45b3-a3b2-3b2374056054",
+      "name": "Yuhang Lai",
+      "description": "Yuhang Lai is an author who contributed to the development of EVOR.",
+      "level": "local",
+      "keywords": [
+        "person"
+      ],
+      "embedding": null,
+      "source_id": "chunk-b8b7e56cc9748f6ddbb3c635e03029c7"
+    },
+    {
+      "id": "55f31844-d542-46de-bd2f-558955e0e3a6",
+      "name": "Haoyuan Wu",
+      "description": "Haoyuan Wu is an author who contributed to the development of EVOR.",
+      "level": "local",
+      "keywords": [
+        "person"
+      ],
+      "embedding": null,
+      "source_id": "chunk-b8b7e56cc9748f6ddbb3c635e03029c7"
+    },
+    {
+      "id": "c9cbf24e-e252-4ed5-a63d-5a33cf559c74",
+      "name": "Boao Shi",
+      "description": "Boao Shi is an author who contributed to the development of EVOR.",
+      "level": "local",
+      "keywords": [
+        "person"
+      ],
+      "embedding": null,
+      "source_id": "chunk-b8b7e56cc9748f6ddbb3c635e03029c7"
+    },
+    {
+      "id": "909f3d26-bb50-4bf9-877c-3f8fe822cfa7",
+      "name": "Che Liu",
+      "description": "Che Liu is an author who contributed to the development of EVOR.",
+      "level": "local",
+      "keywords": [
+        "person"
+      ],
+      "embedding": null,
+      "source_id": "chunk-b8b7e56cc9748f6ddbb3c635e03029c7"
+    },
+    {
+      "id": "e30bd8ad-0707-4c07-86c7-aac82d5ea5f2",
+      "name": "Qian Liu",
+      "description": "Qian Liu is an author who contributed to the development of EVOR.",
+      "level": "local",
+      "keywords": [
+        "person"
+      ],
+      "embedding": null,
+      "source_id": "chunk-b8b7e56cc9748f6ddbb3c635e03029c7"
+    },
+    {
+      "id": "b219fe9c-bd3e-445b-9895-337c742175e3",
+      "name": "Tao Yu",
+      "description": "Tao Yu is an author who contributed to the development of EVOR.",
+      "level": "local",
+      "keywords": [
+        "person"
+      ],
+      "embedding": null,
+      "source_id": "chunk-b8b7e56cc9748f6ddbb3c635e03029c7"
+    },
+    {
+      "id": "a9dc70ca-d4bc-42f6-bff3-4a8d9f6c9d44",
+      "name": "ARKS-CodeGen",
+      "description": "ARKS-CodeGen is a platform where the model, code, and data of EVOR are available.",
+      "level": "local",
+      "keywords": [
+        "organization"
+      ],
+      "embedding": null,
+      "source_id": "chunk-b8b7e56cc9748f6ddbb3c635e03029c7"
+    },
+    {
+      "id": "9ba3aa44-fc33-4595-a3a4-37503662c112",
+      "name": "Ali Naseh",
+      "description": "Ali Naseh is an author of the paper \"Riddle Me This! Stealthy Membership Inference for Retrieval-Augmented Generation\".",
+      "level": "local",
+      "keywords": [
+        "person"
+      ],
+      "embedding": null,
+      "source_id": "chunk-8b61b46112793ea564faf7bd71cfe6bb"
+    },
+    {
+      "id": "f78c64b6-499e-417e-b0a7-5288fb2b93bc",
+      "name": "Yuefeng Peng",
+      "description": "Yuefeng Peng is an author of the paper \"Riddle Me This! Stealthy Membership Inference for Retrieval-Augmented Generation\".",
+      "level": "local",
+      "keywords": [
+        "person"
+      ],
+      "embedding": null,
+      "source_id": "chunk-8b61b46112793ea564faf7bd71cfe6bb"
+    },
+    {
+      "id": "c9e3faab-8ad7-4ecb-8d12-a672236c1502",
+      "name": "Anshuman Suri",
+      "description": "Anshuman Suri is an author of the paper \"Riddle Me This! Stealthy Membership Inference for Retrieval-Augmented Generation\".",
+      "level": "local",
+      "keywords": [
+        "person"
+      ],
+      "embedding": null,
+      "source_id": "chunk-8b61b46112793ea564faf7bd71cfe6bb"
+    },
+    {
+      "id": "615ddb80-db52-4375-ba77-b4f9875c7e6d",
+      "name": "Harsh Chaudhari",
+      "description": "Harsh Chaudhari is an author of the paper \"Riddle Me This! Stealthy Membership Inference for Retrieval-Augmented Generation\".",
+      "level": "local",
+      "keywords": [
+        "person"
+      ],
+      "embedding": null,
+      "source_id": "chunk-8b61b46112793ea564faf7bd71cfe6bb"
+    },
+    {
+      "id": "80a8efe4-8020-45b0-971b-02ef5a31c29c",
+      "name": "Alina Oprea",
+      "description": "Alina Oprea is an author of the paper \"Riddle Me This! Stealthy Membership Inference for Retrieval-Augmented Generation\".",
+      "level": "local",
+      "keywords": [
+        "person"
+      ],
+      "embedding": null,
+      "source_id": "chunk-8b61b46112793ea564faf7bd71cfe6bb"
+    },
+    {
+      "id": "bb05ed73-d328-4639-bc44-fc19c47c925f",
+      "name": "Amir Houmansadr",
+      "description": "Amir Houmansadr is an author of the paper \"Riddle Me This! Stealthy Membership Inference for Retrieval-Augmented Generation\".",
+      "level": "local",
+      "keywords": [
+        "person"
+      ],
+      "embedding": null,
+      "source_id": "chunk-8b61b46112793ea564faf7bd71cfe6bb"
+    },
+    {
+      "id": "c63b698a-a21d-459e-925a-885624375752",
+      "name": "Interrogation Attack (IA)",
+      "description": "The Interrogation Attack is a membership inference technique targeting documents in the RAG datastore.",
+      "level": "local",
+      "keywords": [
+        "method"
+      ],
+      "embedding": null,
+      "source_id": "chunk-8b61b46112793ea564faf7bd71cfe6bb"
+    },
+    {
+      "id": "ee9fa853-fcec-42d2-83f2-15bce1bd16c1",
+      "name": "Large Language Model (LLM)",
+      "description": "LLMs are models that can generate text based on input and context, enhanced with retrieval-Augmented Generation.",
+      "level": "local",
+      "keywords": [
+        "concept"
+      ],
+      "embedding": null,
+      "source_id": "chunk-8b61b46112793ea564faf7bd71cfe6bb"
+    },
+    {
+      "id": "5ebe06f8-2b34-4372-9310-2b35f363b921",
+      "name": "Datastore",
+      "description": "The datastore is a database used in RAG systems to store retrieved documents for model generation.",
+      "level": "local",
+      "keywords": [
+        "database"
+      ],
+      "embedding": null,
+      "source_id": "chunk-8b61b46112793ea564faf7bd71cfe6bb"
+    },
+    {
+      "id": "3d3fc962-c1af-43d1-96a6-10cf9e0583af",
+      "name": "2025-02-01",
+      "description": "The date 2025-02-01 is the publication date of the paper \"Riddle Me This! Stealthy Membership Inference for Retrieval-Augmented Generation\".",
+      "level": "local",
+      "keywords": [
+        "date"
+      ],
+      "embedding": null,
+      "source_id": "chunk-8b61b46112793ea564faf7bd71cfe6bb"
+    },
+    {
+      "id": "e8ddb092-da53-417a-b29e-eeeac822f284",
+      "name": "Riddle Me This!",
+      "description": "\"Riddle Me This!\" is the title of the paper.",
+      "level": "local",
+      "keywords": [
+        "title"
+      ],
+      "embedding": null,
+      "source_id": "chunk-8b61b46112793ea564faf7bd71cfe6bb"
+    },
+    {
+      "id": "6f789446-c244-4166-8ff9-d8b59e660caa",
+      "name": "Reflexion",
+      "description": "The Reflexion method has a different performance compared to EVOR in code generation tasks.",
+      "level": "local",
+      "keywords": [
+        "UNKNOWN"
+      ],
+      "embedding": null,
+      "source_id": "chunk-b8b7e56cc9748f6ddbb3c635e03029c7"
+    },
+    {
+      "id": "51d20f62-f10f-4a99-bec3-14406000db53",
+      "name": "DocPrompting",
+      "description": "The DocPrompting method has a different performance compared to EVOR in code generation tasks.",
+      "level": "local",
+      "keywords": [
+        "UNKNOWN"
+      ],
+      "embedding": null,
+      "source_id": "chunk-b8b7e56cc9748f6ddbb3c635e03029c7"
+    },
+    {
+      "id": "c4b2aa40-a27c-457b-9d1c-394512f74d78",
+      "name": "EVOR-BENCH",
+      "description": "The EVOR-BENCH dataset is used for evaluating the performance of EVOR.",
+      "level": "local",
+      "keywords": [
+        "UNKNOWN"
+      ],
+      "embedding": null,
+      "source_id": "chunk-b8b7e56cc9748f6ddbb3c635e03029c7"
+    },
+    {
+      "id": "1d2ed8f4-16bc-4f7f-8c6f-ab72fcc431e8",
+      "name": "Zahra Khalila",
+      "description": "Zahra Khalila is a researcher involved in the study of Retrieval-Augmented Generation in Quranic Studies.",
+      "level": "local",
+      "keywords": [
+        "person"
+      ],
+      "embedding": null,
+      "source_id": "chunk-c6514729c0089a7326462210b15d6b62"
+    },
+    {
+      "id": "30ed314e-3056-4744-a4f8-34951c21152f",
+      "name": "Arbi Haza Nasution",
+      "description": "Arbi Haza Nasution is a researcher involved in the study of Retrieval-Augmented Generation in Quranic Studies.",
+      "level": "local",
+      "keywords": [
+        "person"
+      ],
+      "embedding": null,
+      "source_id": "chunk-c6514729c0089a7326462210b15d6b62"
+    },
+    {
+      "id": "8430be15-7849-429b-93cb-224e20d5ca94",
+      "name": "Winda Monika",
+      "description": "Winda Monika is a researcher involved in the study of Retrieval-Augmented Generation in Quranic Studies.",
+      "level": "local",
+      "keywords": [
+        "person"
+      ],
+      "embedding": null,
+      "source_id": "chunk-c6514729c0089a7326462210b15d6b62"
+    },
+    {
+      "id": "9c3c4bad-3dce-4e7b-8f60-60d8691a041a",
+      "name": "Aytug Onan",
+      "description": "Aytug Onan is a researcher involved in the study of Retrieval-Augmented Generation in Quranic Studies.",
+      "level": "local",
+      "keywords": [
+        "person"
+      ],
+      "embedding": null,
+      "source_id": "chunk-c6514729c0089a7326462210b15d6b62"
+    },
+    {
+      "id": "b034420b-7256-46ce-92b2-5deedc0acb3f",
+      "name": "Yohei Murakami",
+      "description": "Yohei Murakami is a researcher involved in the study of Retrieval-Augmented Generation in Quranic Studies.",
+      "level": "local",
+      "keywords": [
+        "person"
+      ],
+      "embedding": null,
+      "source_id": "chunk-c6514729c0089a7326462210b15d6b62"
+    },
+    {
+      "id": "47ac6225-e369-4a63-846a-689583cac4af",
+      "name": "Yasir Bin Ismail Radi",
+      "description": "Yasir Bin Ismail Radi is a researcher involved in the study of Retrieval-Augmented Generation in Quranic Studies.",
+      "level": "local",
+      "keywords": [
+        "person"
+      ],
+      "embedding": null,
+      "source_id": "chunk-c6514729c0089a7326462210b15d6b62"
+    },
+    {
+      "id": "a774964f-ccb5-46a1-8c3d-5107b5a78dbc",
+      "name": "Noor Mohammad Osmani",
+      "description": "Noor Mohammad Osmani is a researcher involved in the study of Retrieval-Augmented Generation in Quranic Studies.",
+      "level": "local",
+      "keywords": [
+        "person"
+      ],
+      "embedding": null,
+      "source_id": "chunk-c6514729c0089a7326462210b15d6b62"
+    },
+    {
+      "id": "d2c221a5-f658-4a70-abf7-b997585aec71",
+      "name": "Llama3:70b",
+      "description": "Llama3:70b is one of the large language models investigated in the study.",
+      "level": "local",
+      "keywords": [
+        "equipment"
+      ],
+      "embedding": null,
+      "source_id": "chunk-c6514729c0089a7326462210b15d6b62"
+    },
+    {
+      "id": "3755c93c-78b6-4d4b-9bc3-51c80f11bf6b",
+      "name": "Gemma2:27b",
+      "description": "Gemma2:27b is another large language model studied.",
+      "level": "local",
+      "keywords": [
+        "equipment"
+      ],
+      "embedding": null,
+      "source_id": "chunk-c6514729c0089a7326462210b15d6b62"
+    },
+    {
+      "id": "2096208e-c426-4e21-a642-3269c933d268",
+      "name": "QwQ:32b",
+      "description": "QwQ:32b is a third large language model investigated in the study.",
+      "level": "local",
+      "keywords": [
+        "equipment"
+      ],
+      "embedding": null,
+      "source_id": "chunk-c6514729c0089a7326462210b15d6b62"
+    },
+    {
+      "id": "bd673564-6a2c-43d3-8182-7036f9c5de05",
+      "name": "Llama3:8b",
+      "description": "Llama3:8b is one of the medium-sized language models studied.",
+      "level": "local",
+      "keywords": [
+        "equipment"
+      ],
+      "embedding": null,
+      "source_id": "chunk-c6514729c0089a7326462210b15d6b62"
+    },
+    {
+      "id": "8222341c-7863-4924-bfd6-2e33cb01be67",
+      "name": "Gemma2:9b",
+      "description": "Gemma2:9b is a second medium-sized language model examined in the study.",
+      "level": "local",
+      "keywords": [
+        "equipment"
+      ],
+      "embedding": null,
+      "source_id": "chunk-c6514729c0089a7326462210b15d6b62"
+    },
+    {
+      "id": "3270123b-57f3-456c-992f-776e3afe51f5",
+      "name": "Llama3.2:3b",
+      "description": "Llama3.2:3b is considered a small but well-optimized language model that does very well on faithfulness and relevance metrics.",
+      "level": "local",
+      "keywords": [
+        "equipment"
+      ],
+      "embedding": null,
+      "source_id": "chunk-c6514729c0089a7326462210b15d6b62"
+    },
+    {
+      "id": "3ca5c444-c95c-47f9-a261-73da55096386",
+      "name": "Phi3:3.8b",
+      "description": "Phi3:3.8b is another small language model studied in the paper.",
+      "level": "local",
+      "keywords": [
+        "equipment"
+      ],
+      "embedding": null,
+      "source_id": "chunk-c6514729c0089a7326462210b15d6b62"
+    },
+    {
+      "id": "501a0d20-dafe-485a-ad07-ad6063d989a7",
+      "name": "2025-03-20",
+      "description": "The date of publication for the study.",
+      "level": "local",
+      "keywords": [
+        "date"
+      ],
+      "embedding": null,
+      "source_id": "chunk-c6514729c0089a7326462210b15d6b62"
+    },
+    {
+      "id": "beb7204e-6986-41a0-b2a4-63bbdf203f37",
+      "name": "Quranic Surahs Dataset",
+      "description": "Llama3.2:3b gathered relevant knowledge from the Quranic Surahs dataset before responding to queries.<SEP>The Quranic Surahs dataset was used to gather relevant knowledge by Llama3.2:3b before responding to queries.",
+      "level": "local",
+      "keywords": [
+        "UNKNOWN"
+      ],
+      "embedding": null,
+      "source_id": "chunk-c6514729c0089a7326462210b15d6b62"
+    },
+    {
+      "id": "c206b8b3-083a-4edc-a4ac-5a2bb0e1d797",
+      "name": "Faithfulness and Relevance Metrics",
+      "description": "Llama3.2:3b does very well on faithfulness (4.619) and relevance (4.857), according to human evaluators.",
+      "level": "local",
+      "keywords": [
+        "UNKNOWN"
+      ],
+      "embedding": null,
+      "source_id": "chunk-c6514729c0089a7326462210b15d6b62"
+    },
+    {
+      "id": "732cd973-bc78-4a8b-92fa-d0d5219c75af",
+      "name": "Large Models",
+      "description": "Llama3.2:3b outperforms smaller models in capturing query semantics and producing accurate, contextually grounded responses.",
+      "level": "local",
+      "keywords": [
+        "UNKNOWN"
+      ],
+      "embedding": null,
+      "source_id": "chunk-c6514729c0089a7326462210b15d6b62"
+    }
+  ],
+  "edges": [
+    {
+      "id": "d17eb313-e4af-4ce7-b587-39747e021528",
+      "node_ids": [
+        "AR-RAG",
+        "Jingyuan Qi"
+      ],
+      "relation": "contribution,research collaboration",
+      "weight": 1.0,
+      "context": "Jingyuan Qi contributed to the development and research of AR-RAG.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "67cde64b-645f-4d1c-bfa6-88061bc785e9",
+      "node_ids": [
+        "AR-RAG",
+        "Zhiyang Xu"
+      ],
+      "relation": "contribution,research collaboration",
+      "weight": 1.0,
+      "context": "Zhiyang Xu collaborated with other researchers on AR-RAG.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "2eadfdda-7629-4a11-9da5-a619ecaf1374",
+      "node_ids": [
+        "AR-RAG",
+        "Qifan Wang"
+      ],
+      "relation": "contribution,research collaboration",
+      "weight": 1.0,
+      "context": "Qifan Wang contributed to the research and development of AR-RAG.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "ec86aa8f-24ef-4f87-8df0-56f14b8517df",
+      "node_ids": [
+        "AR-RAG",
+        "Lifu Huang"
+      ],
+      "relation": "contribution,research collaboration",
+      "weight": 1.0,
+      "context": "Lifu Huang participated in the project's research and publication.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "637a0fee-2502-44dc-becf-2ad2ea6f1e4b",
+      "node_ids": [
+        "AR-RAG",
+        "Midjourney-30K"
+      ],
+      "relation": "benchmark,performance evaluation",
+      "weight": 1.0,
+      "context": "AR-RAG was evaluated on Midjourney-30K for its performance on image generation tasks.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "e06e3027-e143-43d1-bc6e-0bd431d2a9b6",
+      "node_ids": [
+        "AR-RAG",
+        "GenEval"
+      ],
+      "relation": "benchmark,performance evaluation",
+      "weight": 1.0,
+      "context": "AR-RAG's performance was also assessed using the GenEval benchmark.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "b636afa2-6428-40e2-b2a7-97eff405b154",
+      "node_ids": [
+        "AR-RAG",
+        "DPG-Bench"
+      ],
+      "relation": "dataset,performance evaluation",
+      "weight": 1.0,
+      "context": "The effectiveness of AR-RAG was further evaluated on DPG-Bench for image generation tasks.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "c065414c-00c1-4edb-882f-962121b8b8af",
+      "node_ids": [
+        "AR-RAG",
+        "DAiD"
+      ],
+      "relation": "method,research framework",
+      "weight": 1.0,
+      "context": "DAiD is a training-free plug-and-use decoding strategy that directly merges the distribution of model-predicted patches with the distribution of retrieved patches in AR-RAG.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "b6545db6-1c64-4897-bb05-fb90d5110a23",
+      "node_ids": [
+        "AR-RAG",
+        "FAiD"
+      ],
+      "relation": "method,research framework",
+      "weight": 1.0,
+      "context": "FAiD is a parameter-efficient fine-tuning method that progressively smooths the features of retrieved patches via multi-scale convolution operations and leverages them to augment the image generation process in AR-RAG.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "65f0366c-9ef6-46a2-92fe-e5601a70fc63",
+      "node_ids": [
+        "AR-RAG",
+        "Image Generation"
+      ],
+      "relation": "application,task",
+      "weight": 1.0,
+      "context": "AR-RAG is designed for enhancing image generation tasks by incorporating autoregressive retrievals at the patch level.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "b140d0fb-5ee6-4dd4-adfc-26af594a772b",
+      "node_ids": [
+        "Automated Literature Review Using NLP Techniques and LLM-Based Retrieval-Augmented Generation",
+        "Nurshat Fateh Ali"
+      ],
+      "relation": "authorship,research publication",
+      "weight": 1.0,
+      "context": "Nurshat Fateh Ali is one of the authors of this research paper on automated literature review.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "7f043e2e-7caf-4e41-8857-81448bd1edf0",
+      "node_ids": [
+        "Md. Mahdi Mohtasim",
+        "Nurshat Fateh Ali"
+      ],
+      "relation": "authorship,collaboration",
+      "weight": 1.0,
+      "context": "Nurshat Fateh Ali and Md. Mahdi Mohtasim collaborated as co-authors in this research paper.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "6368a217-f79e-4e44-b83b-1e031cff078f",
+      "node_ids": [
+        "Md. Mahdi Mohtasim",
+        "Automated Literature Review Using NLP Techniques and LLM-Based Retrieval-Augmented Generation"
+      ],
+      "relation": "authorship,research publication",
+      "weight": 1.0,
+      "context": "Md. Mahdi Mohtasim is a co-author of the mentioned research paper.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "327ddeaa-8367-42c5-b1a0-e4d8278d5be9",
+      "node_ids": [
+        "Shakil Mosharrof",
+        "Automated Literature Review Using NLP Techniques and LLM-Based Retrieval-Augmented Generation"
+      ],
+      "relation": "co-authorship,research publication",
+      "weight": 1.0,
+      "context": "Shakil Mosharrof contributed to this research on automated literature review using NLP techniques.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "389a862f-139e-4618-ba88-b4defdddbc80",
+      "node_ids": [
+        "T. Gopi Krishna",
+        "Automated Literature Review Using NLP Techniques and LLM-Based Retrieval-Augmented Generation"
+      ],
+      "relation": "co-authorship,research publication",
+      "weight": 1.0,
+      "context": "T. Gopi Krishna co-authored the mentioned research paper on automation of literature reviews using a large language model.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "5d5ff28c-46c1-41e3-9ee4-a3783a138a62",
+      "node_ids": [
+        "Simple T5",
+        "Retrieval-Augmented Generation (RAG)"
+      ],
+      "relation": "method comparison,performance evaluation",
+      "weight": 1.0,
+      "context": "The Simple T5 method is compared to the Retrieval-Augmented Generation (RAG) approach for generating literature reviews in this research work.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "0378ae5d-5112-4ece-bb44-b639af15b329",
+      "node_ids": [
+        "Large Language Model GPT-3.5-turbo",
+        "Retrieval-Augmented Generation (RAG)"
+      ],
+      "relation": "RAG implementation,performance comparison",
+      "weight": 1.0,
+      "context": "The Retrieval-Augmented Generation with a large language model is evaluated and compared to other NLP strategies in this research.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "290252e2-5eb7-4554-8232-421cd72a82b1",
+      "node_ids": [
+        "Interrogation Attack (IA)",
+        "Retrieval-Augmented Generation (RAG)"
+      ],
+      "relation": "inference technique,method application",
+      "weight": 1.0,
+      "context": "The Interrogation Attack targets documents in the RAG datastore.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "3db46ef7-54ab-44ca-a201-241c2f21a288",
+      "node_ids": [
+        "Large Language Model (LLM)",
+        "Retrieval-Augmented Generation (RAG)"
+      ],
+      "relation": "concept application,model enhancement",
+      "weight": 1.0,
+      "context": "RAG enables Large Language Models to generate grounded responses by leveraging external knowledge databases without altering model parameters.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "e35fddc7-4616-4923-b987-4d077514b140",
+      "node_ids": [
+        "Ali Naseh",
+        "Retrieval-Augmented Generation (RAG)"
+      ],
+      "relation": "generation of grounded responses,method application",
+      "weight": 1.0,
+      "context": "The paper by Ali Naseh et al. uses Retrieval-Augmented Generation to generate grounded responses without altering model parameters.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "19ad62fc-98a4-455e-ab44-bc0e5c87f7f7",
+      "node_ids": [
+        "Zahra Khalila",
+        "Retrieval-Augmented Generation (RAG)"
+      ],
+      "relation": "RAG application,researcher methodology",
+      "weight": 1.0,
+      "context": "Zahra Khalila is a researcher who investigated the use of Retrieval-Augmented Generation.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "c130d711-cf90-4f45-b817-00bf32a1f2ae",
+      "node_ids": [
+        "Arbi Haza Nasution",
+        "Retrieval-Augmented Generation (RAG)"
+      ],
+      "relation": "RAG application,researcher methodology",
+      "weight": 1.0,
+      "context": "Arbi Haza Nasution is also involved in using RAG for Quranic Studies.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "2c32a479-bad7-42a0-83eb-7582b3effac4",
+      "node_ids": [
+        "Quranic Surahs Dataset",
+        "Retrieval-Augmented Generation (RAG)"
+      ],
+      "relation": "dataset,methodology application",
+      "weight": 1.0,
+      "context": "The study utilizes Retrieval-Augmented Generation to make up for the problems of using separate models and to gather relevant knowledge from the Quranic Surahs dataset.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "74d63600-a2bc-4c83-a265-f430d1c595a3",
+      "node_ids": [
+        "Large Language Model GPT-3.5-turbo",
+        "ROUGE scores"
+      ],
+      "relation": "achievement evaluation,performance measurement",
+      "weight": 1.0,
+      "context": "GPT-3.5-turbo achieved the highest ROUGE-1 score of 0.364 among the evaluated systems in this research work.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "fb42b550-fb91-4468-9661-f263e7e5df03",
+      "node_ids": [
+        "Simple T5",
+        "spaCy"
+      ],
+      "relation": "NLP strategy evaluation,performance comparison",
+      "weight": 1.0,
+      "context": "SpaCy and the transformer-based model Simple T5 are evaluated as part of this research to compare their performance in automatic generation of literature reviews.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "54dafddd-5bff-4a01-a5a4-2018f0e66e74",
+      "node_ids": [
+        "Simple T5",
+        "ROUGE scores"
+      ],
+      "relation": "evaluation,performance comparison",
+      "weight": 1.0,
+      "context": "The Simple T5 transformer model obtained a lower ROUGE score compared to other evaluated NLP strategies in this research.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "9a17363b-4b9e-4e61-973c-9b556b62b195",
+      "node_ids": [
+        "Simple T5",
+        "ROUGE-1 score evaluation"
+      ],
+      "relation": "method evaluation,performance comparison",
+      "weight": 1.0,
+      "context": "The Simple T5 model was evaluated based on its ROUGE-1 score performance.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "51f670dc-586c-4192-84c1-93131e220800",
+      "node_ids": [
+        "spaCy",
+        "ROUGE scores"
+      ],
+      "relation": "evaluation results,performance assessment",
+      "weight": 1.0,
+      "context": "SpaCy achieved the lowest ROUGE-1 score among the systems compared and evaluated in this research work.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "0f0d16d4-0992-4a46-a194-3d9fb549810b",
+      "node_ids": [
+        "Hongjin Su",
+        "EVOR"
+      ],
+      "relation": "authorship,contribution",
+      "weight": 1.0,
+      "context": "Hongjin Su was one of the authors who developed EVOR.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "0402d6d0-b88f-4322-bf0d-19c02308c38a",
+      "node_ids": [
+        "Shuyang Jiang",
+        "EVOR"
+      ],
+      "relation": "authorship,contribution",
+      "weight": 1.0,
+      "context": "Shuyang Jiang was one of the authors who developed EVOR.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "dd0cf4a6-5f32-4ddc-9e2b-42051997f1d8",
+      "node_ids": [
+        "Yuhang Lai",
+        "EVOR"
+      ],
+      "relation": "authorship,contribution",
+      "weight": 1.0,
+      "context": "Yuhang Lai was one of the authors who developed EVOR.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "a6770f26-220e-4905-ae47-932846f5445e",
+      "node_ids": [
+        "Haoyuan Wu",
+        "EVOR"
+      ],
+      "relation": "authorship,contribution",
+      "weight": 1.0,
+      "context": "Haoyuan Wu was one of the authors who developed EVOR.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "ecd36474-941d-4f13-8d26-049c9249ada1",
+      "node_ids": [
+        "Boao Shi",
+        "EVOR"
+      ],
+      "relation": "authorship,contribution",
+      "weight": 1.0,
+      "context": "Boao Shi was one of the authors who developed EVOR.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "3295fab6-0e85-4e54-b162-8bbe4573e1b1",
+      "node_ids": [
+        "Che Liu",
+        "EVOR"
+      ],
+      "relation": "authorship,contribution",
+      "weight": 1.0,
+      "context": "Che Liu was one of the authors who developed EVOR.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "d00f62cd-e021-4c1f-9fe6-3d9665e83252",
+      "node_ids": [
+        "Qian Liu",
+        "EVOR"
+      ],
+      "relation": "authorship,contribution",
+      "weight": 1.0,
+      "context": "Qian Liu was one of the authors who developed EVOR.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "6edd7b48-8e61-4a20-8b86-e8cd3548fb2b",
+      "node_ids": [
+        "Tao Yu",
+        "EVOR"
+      ],
+      "relation": "authorship,contribution",
+      "weight": 1.0,
+      "context": "Tao Yu was one of the authors who developed EVOR.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "fddd5ea5-98f7-4f24-b494-2e670cb2cb1d",
+      "node_ids": [
+        "Reflexion",
+        "EVOR"
+      ],
+      "relation": "method comparison,performance difference",
+      "weight": 1.0,
+      "context": "The Reflexion method has a different performance compared to EVOR in code generation tasks.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "5f041eaa-9ef2-47f9-a56c-5b0a0bd8bd27",
+      "node_ids": [
+        "DocPrompting",
+        "EVOR"
+      ],
+      "relation": "method comparison,performance difference",
+      "weight": 1.0,
+      "context": "The DocPrompting method has a different performance compared to EVOR in code generation tasks.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "3b8da646-f086-4fd8-95b4-a967a1d1a4ab",
+      "node_ids": [
+        "EVOR-BENCH",
+        "EVOR"
+      ],
+      "relation": "dataset association,performance evaluation",
+      "weight": 1.0,
+      "context": "The EVOR-BENCH dataset is used for evaluating the performance of EVOR.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "496ddd75-12f2-42c5-9a9c-937398358655",
+      "node_ids": [
+        "ARKS-CodeGen",
+        "EVOR"
+      ],
+      "relation": "platform,resource availability",
+      "weight": 1.0,
+      "context": "The model, code, and data of EVOR are available on the ARKS-CodeGen platform.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "39df5b6f-fd96-446f-be89-72f348476109",
+      "node_ids": [
+        "Ali Naseh",
+        "Yuefeng Peng"
+      ],
+      "relation": "co-authorship,collaboration",
+      "weight": 1.0,
+      "context": "Ali Naseh and Yuefeng Peng are co-authors of the paper \"Riddle Me This! Stealthy Membership Inference for Retrieval-Augmented Generation\".",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "7328a8f7-9516-42a0-bacf-332103a96251",
+      "node_ids": [
+        "Ali Naseh",
+        "Anshuman Suri"
+      ],
+      "relation": "co-authorship,collaboration",
+      "weight": 1.0,
+      "context": "Ali Naseh and Anshuman Suri are co-authors of the paper \"Riddle Me This! Stealthy Membership Inference for Retrieval-Augmented Generation\".",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "e4be1a14-8eec-4b85-89c0-277cf88481f0",
+      "node_ids": [
+        "Harsh Chaudhari",
+        "Ali Naseh"
+      ],
+      "relation": "co-authorship,collaboration",
+      "weight": 1.0,
+      "context": "Ali Naseh and Harsh Chaudhari are co-authors of the paper \"Riddle Me This! Stealthy Membership Inference for Retrieval-Augmented Generation\".",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "7fd16d6e-b0d5-4283-bd26-4a0f50ac88e5",
+      "node_ids": [
+        "Riddle Me This!",
+        "Ali Naseh"
+      ],
+      "relation": "publication,title authorship",
+      "weight": 1.0,
+      "context": "\"Riddle Me This!\" is a paper authored by Ali Naseh et al.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "a629c307-b958-4abc-b954-a6820da8e299",
+      "node_ids": [
+        "Anshuman Suri",
+        "Yuefeng Peng"
+      ],
+      "relation": "co-authorship,collaboration",
+      "weight": 1.0,
+      "context": "Yuefeng Peng and Anshuman Suri are co-authors of the paper \"Riddle Me This! Stealthy Membership Inference for Retrieval-Augmented Generation\".",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "b5915aec-a7bf-40ef-9caa-457312f1f47a",
+      "node_ids": [
+        "Harsh Chaudhari",
+        "Yuefeng Peng"
+      ],
+      "relation": "co-authorship,collaboration",
+      "weight": 1.0,
+      "context": "Yuefeng Peng and Harsh Chaudhari are co-authors of the paper \"Riddle Me This! Stealthy Membership Inference for Retrieval-Augmented Generation\".",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "572b97d2-2672-4446-8523-52980669f07f",
+      "node_ids": [
+        "Harsh Chaudhari",
+        "Anshuman Suri"
+      ],
+      "relation": "co-authorship,collaboration",
+      "weight": 1.0,
+      "context": "Anshuman Suri and Harsh Chaudhari are co-authors of the paper \"Riddle Me This! Stealthy Membership Inference for Retrieval-Augmented Generation\".",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "951d567a-a570-4953-abd4-caa99dc74570",
+      "node_ids": [
+        "Amir Houmansadr",
+        "Alina Oprea"
+      ],
+      "relation": "co-authorship,collaboration",
+      "weight": 1.0,
+      "context": "Alina Oprea and Amir Houmansadr are co-authors of the paper \"Riddle Me This! Stealthy Membership Inference for Retrieval-Augmented Generation\".",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "51262449-3b95-41df-af68-9ec602de19c5",
+      "node_ids": [
+        "Interrogation Attack (IA)",
+        "Datastore"
+      ],
+      "relation": "database access,inference technique",
+      "weight": 1.0,
+      "context": "The Interrogation Attack targets documents in the RAG datastore, accessing it for inference.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "678f11d7-8fb1-42a6-bb74-4dcf77c6a097",
+      "node_ids": [
+        "Quranic Surahs Dataset",
+        "Llama3:70b"
+      ],
+      "relation": "knowledge gathering,model training data",
+      "weight": 1.0,
+      "context": "Large models like Llama3:70b gathered relevant knowledge from the Quranic Surahs dataset before responding.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "a2db17f9-3b50-49c5-b33f-3174789ccb21",
+      "node_ids": [
+        "Quranic Surahs Dataset",
+        "Gemma2:27b"
+      ],
+      "relation": "knowledge gathering,model training data",
+      "weight": 1.0,
+      "context": "Gemma2:27b also gathered relevant knowledge from the Quranic Surahs dataset for better responses.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "7f21ae1a-f891-4231-b4e8-9b387efa776c",
+      "node_ids": [
+        "Quranic Surahs Dataset",
+        "Llama3.2:3b"
+      ],
+      "relation": "knowledge gathering,model training data",
+      "weight": 2.0,
+      "context": "Llama3.2:3b gathered relevant knowledge from the Quranic Surahs dataset before responding to queries.<SEP>The Quranic Surahs dataset was used to gather relevant knowledge by Llama3.2:3b before responding to queries.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "34eed3e0-f1c3-4fcb-b0a3-5aafb42b0516",
+      "node_ids": [
+        "Faithfulness and Relevance Metrics",
+        "Llama3.2:3b"
+      ],
+      "relation": "metrics,model performance evaluation",
+      "weight": 1.0,
+      "context": "Llama3.2:3b does very well on faithfulness (4.619) and relevance (4.857), according to human evaluators.",
+      "evolve_count": 0,
+      "source_id": null
+    },
+    {
+      "id": "d1e607d7-b039-4133-8415-874cb3949ddc",
+      "node_ids": [
+        "Large Models",
+        "Llama3.2:3b"
+      ],
+      "relation": "model comparison,performance",
+      "weight": 1.0,
+      "context": "Llama3.2:3b outperforms smaller models in capturing query semantics and producing accurate, contextually grounded responses.",
+      "evolve_count": 0,
+      "source_id": null
+    }
+  ],
+  "stats": {
+    "total_nodes": 67,
+    "total_edges": 54
+  }
+}

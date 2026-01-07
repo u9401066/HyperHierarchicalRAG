@@ -1,0 +1,60 @@
+{
+  "query": "How does knowledge graph improve retrieval in RAG systems?",
+  "mode": "hybrid",
+  "steps": [
+    {
+      "step": 1,
+      "type": "lightrag_query",
+      "description": "LightRAG hybrid query",
+      "input_nodes": [],
+      "output_nodes": [],
+      "edges": [],
+      "keywords": [],
+      "level": "hybrid"
+    },
+    {
+      "step": 2,
+      "type": "memory_evolution",
+      "description": "Memory evolved: +3 inserted, 6 updated",
+      "input_nodes": [],
+      "output_nodes": [],
+      "edges": [],
+      "keywords": [],
+      "level": null
+    },
+    {
+      "step": 5,
+      "type": "hypergraph_expansion",
+      "description": "Hypergraph chain: +7 entities via 2-hop traversal",
+      "input_nodes": [],
+      "output_nodes": [],
+      "edges": [],
+      "keywords": [
+        "IMPROVED RETRIEVAL",
+        "ENTITY RECOGNITION",
+        "GRAPHRAG",
+        "ENHANCED RESPONSE QUALITY",
+        "EVOR"
+      ],
+      "level": null
+    },
+    {
+      "step": 4,
+      "type": "memory_retrieval",
+      "description": "Retrieved memory-related chunks",
+      "input_nodes": [],
+      "output_nodes": [],
+      "edges": [],
+      "keywords": [],
+      "level": null
+    }
+  ],
+  "summary": {
+    "total_steps": 4,
+    "nodes_visited": 0,
+    "edges_traversed": 0,
+    "local_keywords": [],
+    "global_keywords": [],
+    "duration_ms": null
+  }
+}

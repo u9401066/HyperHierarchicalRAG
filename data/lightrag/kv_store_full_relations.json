@@ -1,0 +1,278 @@
+{
+  "doc-4ce3e0842ccf55f97b27f1a977faaa67": {
+    "relation_pairs": [
+      [
+        "ROUGE scores",
+        "spaCy"
+      ],
+      [
+        "Automated Literature Review Using NLP Techniques and LLM-Based Retrieval-Augmented Generation",
+        "T. Gopi Krishna"
+      ],
+      [
+        "Large Language Model GPT-3.5-turbo",
+        "Retrieval-Augmented Generation (RAG)"
+      ],
+      [
+        "ROUGE scores",
+        "Simple T5"
+      ],
+      [
+        "Automated Literature Review Using NLP Techniques and LLM-Based Retrieval-Augmented Generation",
+        "Nurshat Fateh Ali"
+      ],
+      [
+        "Md. Mahdi Mohtasim",
+        "Nurshat Fateh Ali"
+      ],
+      [
+        "Automated Literature Review Using NLP Techniques and LLM-Based Retrieval-Augmented Generation",
+        "Shakil Mosharrof"
+      ],
+      [
+        "Automated Literature Review Using NLP Techniques and LLM-Based Retrieval-Augmented Generation",
+        "Md. Mahdi Mohtasim"
+      ],
+      [
+        "ROUGE-1 score evaluation",
+        "Simple T5"
+      ],
+      [
+        "Simple T5",
+        "spaCy"
+      ],
+      [
+        "Retrieval-Augmented Generation (RAG)",
+        "Simple T5"
+      ],
+      [
+        "Large Language Model GPT-3.5-turbo",
+        "ROUGE scores"
+      ]
+    ],
+    "count": 12,
+    "create_time": 1767712967,
+    "update_time": 1767712967,
+    "_id": "doc-4ce3e0842ccf55f97b27f1a977faaa67"
+  },
+  "doc-7e465c313730e93412238c5e48c4949a": {
+    "relation_pairs": [
+      [
+        "AR-RAG",
+        "DPG-Bench"
+      ],
+      [
+        "AR-RAG",
+        "Qifan Wang"
+      ],
+      [
+        "AR-RAG",
+        "Lifu Huang"
+      ],
+      [
+        "AR-RAG",
+        "Image Generation"
+      ],
+      [
+        "AR-RAG",
+        "DAiD"
+      ],
+      [
+        "AR-RAG",
+        "Midjourney-30K"
+      ],
+      [
+        "AR-RAG",
+        "GenEval"
+      ],
+      [
+        "AR-RAG",
+        "FAiD"
+      ],
+      [
+        "AR-RAG",
+        "Jingyuan Qi"
+      ],
+      [
+        "AR-RAG",
+        "Zhiyang Xu"
+      ]
+    ],
+    "count": 10,
+    "create_time": 1767712968,
+    "update_time": 1767712968,
+    "_id": "doc-7e465c313730e93412238c5e48c4949a"
+  },
+  "doc-8b61b46112793ea564faf7bd71cfe6bb": {
+    "relation_pairs": [
+      [
+        "Alina Oprea",
+        "Amir Houmansadr"
+      ],
+      [
+        "Harsh Chaudhari",
+        "Yuefeng Peng"
+      ],
+      [
+        "Ali Naseh",
+        "Anshuman Suri"
+      ],
+      [
+        "Ali Naseh",
+        "Harsh Chaudhari"
+      ],
+      [
+        "Anshuman Suri",
+        "Harsh Chaudhari"
+      ],
+      [
+        "Ali Naseh",
+        "Yuefeng Peng"
+      ],
+      [
+        "Interrogation Attack (IA)",
+        "Retrieval-Augmented Generation (RAG)"
+      ],
+      [
+        "Ali Naseh",
+        "Riddle Me This!"
+      ],
+      [
+        "Anshuman Suri",
+        "Yuefeng Peng"
+      ],
+      [
+        "Ali Naseh",
+        "Retrieval-Augmented Generation (RAG)"
+      ],
+      [
+        "Datastore",
+        "Interrogation Attack (IA)"
+      ],
+      [
+        "Large Language Model (LLM)",
+        "Retrieval-Augmented Generation (RAG)"
+      ]
+    ],
+    "count": 12,
+    "create_time": 1767712989,
+    "update_time": 1767712989,
+    "_id": "doc-8b61b46112793ea564faf7bd71cfe6bb"
+  },
+  "doc-b8b7e56cc9748f6ddbb3c635e03029c7": {
+    "relation_pairs": [
+      [
+        "EVOR",
+        "Reflexion"
+      ],
+      [
+        "EVOR",
+        "Yuhang Lai"
+      ],
+      [
+        "Boao Shi",
+        "EVOR"
+      ],
+      [
+        "EVOR",
+        "Haoyuan Wu"
+      ],
+      [
+        "Che Liu",
+        "EVOR"
+      ],
+      [
+        "EVOR",
+        "Shuyang Jiang"
+      ],
+      [
+        "DocPrompting",
+        "EVOR"
+      ],
+      [
+        "ARKS-CodeGen",
+        "EVOR"
+      ],
+      [
+        "EVOR",
+        "EVOR-BENCH"
+      ],
+      [
+        "EVOR",
+        "Hongjin Su"
+      ],
+      [
+        "EVOR",
+        "Tao Yu"
+      ],
+      [
+        "EVOR",
+        "Qian Liu"
+      ]
+    ],
+    "count": 12,
+    "create_time": 1767712990,
+    "update_time": 1767712990,
+    "_id": "doc-b8b7e56cc9748f6ddbb3c635e03029c7"
+  },
+  "doc-c6514729c0089a7326462210b15d6b62": {
+    "relation_pairs": [
+      [
+        "Llama3.2:3b",
+        "Quranic Surahs Dataset"
+      ],
+      [
+        "Faithfulness and Relevance Metrics",
+        "Llama3.2:3b"
+      ],
+      [
+        "Retrieval-Augmented Generation (RAG)",
+        "Zahra Khalila"
+      ],
+      [
+        "Quranic Surahs Dataset",
+        "Retrieval-Augmented Generation (RAG)"
+      ],
+      [
+        "Large Models",
+        "Llama3.2:3b"
+      ],
+      [
+        "Llama3:70b",
+        "Quranic Surahs Dataset"
+      ],
+      [
+        "Arbi Haza Nasution",
+        "Retrieval-Augmented Generation (RAG)"
+      ],
+      [
+        "Gemma2:27b",
+        "Quranic Surahs Dataset"
+      ]
+    ],
+    "count": 8,
+    "create_time": 1767713004,
+    "update_time": 1767713004,
+    "_id": "doc-c6514729c0089a7326462210b15d6b62"
+  },
+  "doc-1eb3f14c91d32e9673d9a0d928dccad0": {
+    "relation_pairs": [
+      [
+        "Community Detection Algorithms",
+        "Knowledge Graph"
+      ],
+      [
+        "GraphRAG",
+        "Knowledge Graph"
+      ],
+      [
+        "GraphRAG",
+        "Microsoft Research"
+      ]
+    ],
+    "count": 3,
+    "create_time": 1767713576,
+    "update_time": 1767713576,
+    "_id": "doc-1eb3f14c91d32e9673d9a0d928dccad0"
+  }
+}

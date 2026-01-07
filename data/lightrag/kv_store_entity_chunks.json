@@ -1,0 +1,651 @@
+{
+  "AR-RAG": {
+    "chunk_ids": [
+      "chunk-7e465c313730e93412238c5e48c4949a"
+    ],
+    "count": 1,
+    "create_time": 1767712963,
+    "update_time": 1767712963,
+    "_id": "AR-RAG"
+  },
+  "Jingyuan Qi": {
+    "chunk_ids": [
+      "chunk-7e465c313730e93412238c5e48c4949a"
+    ],
+    "count": 1,
+    "create_time": 1767712963,
+    "update_time": 1767712963,
+    "_id": "Jingyuan Qi"
+  },
+  "Zhiyang Xu": {
+    "chunk_ids": [
+      "chunk-7e465c313730e93412238c5e48c4949a"
+    ],
+    "count": 1,
+    "create_time": 1767712963,
+    "update_time": 1767712963,
+    "_id": "Zhiyang Xu"
+  },
+  "Qifan Wang": {
+    "chunk_ids": [
+      "chunk-7e465c313730e93412238c5e48c4949a"
+    ],
+    "count": 1,
+    "create_time": 1767712963,
+    "update_time": 1767712963,
+    "_id": "Qifan Wang"
+  },
+  "Lifu Huang": {
+    "chunk_ids": [
+      "chunk-7e465c313730e93412238c5e48c4949a"
+    ],
+    "count": 1,
+    "create_time": 1767712963,
+    "update_time": 1767712963,
+    "_id": "Lifu Huang"
+  },
+  "Midjourney-30K": {
+    "chunk_ids": [
+      "chunk-7e465c313730e93412238c5e48c4949a"
+    ],
+    "count": 1,
+    "create_time": 1767712963,
+    "update_time": 1767712963,
+    "_id": "Midjourney-30K"
+  },
+  "GenEval": {
+    "chunk_ids": [
+      "chunk-7e465c313730e93412238c5e48c4949a"
+    ],
+    "count": 1,
+    "create_time": 1767712963,
+    "update_time": 1767712963,
+    "_id": "GenEval"
+  },
+  "DPG-Bench": {
+    "chunk_ids": [
+      "chunk-7e465c313730e93412238c5e48c4949a"
+    ],
+    "count": 1,
+    "create_time": 1767712963,
+    "update_time": 1767712963,
+    "_id": "DPG-Bench"
+  },
+  "Autoregressive Retrieval Augmentation": {
+    "chunk_ids": [
+      "chunk-7e465c313730e93412238c5e48c4949a"
+    ],
+    "count": 1,
+    "create_time": 1767712964,
+    "update_time": 1767712964,
+    "_id": "Autoregressive Retrieval Augmentation"
+  },
+  "Nurshat Fateh Ali": {
+    "chunk_ids": [
+      "chunk-4ce3e0842ccf55f97b27f1a977faaa67"
+    ],
+    "count": 1,
+    "create_time": 1767712964,
+    "update_time": 1767712964,
+    "_id": "Nurshat Fateh Ali"
+  },
+  "Md. Mahdi Mohtasim": {
+    "chunk_ids": [
+      "chunk-4ce3e0842ccf55f97b27f1a977faaa67"
+    ],
+    "count": 1,
+    "create_time": 1767712964,
+    "update_time": 1767712964,
+    "_id": "Md. Mahdi Mohtasim"
+  },
+  "Shakil Mosharrof": {
+    "chunk_ids": [
+      "chunk-4ce3e0842ccf55f97b27f1a977faaa67"
+    ],
+    "count": 1,
+    "create_time": 1767712964,
+    "update_time": 1767712964,
+    "_id": "Shakil Mosharrof"
+  },
+  "T. Gopi Krishna": {
+    "chunk_ids": [
+      "chunk-4ce3e0842ccf55f97b27f1a977faaa67"
+    ],
+    "count": 1,
+    "create_time": 1767712964,
+    "update_time": 1767712964,
+    "_id": "T. Gopi Krishna"
+  },
+  "Automated Literature Review Using NLP Techniques and LLM-Based Retrieval-Augmented Generation": {
+    "chunk_ids": [
+      "chunk-4ce3e0842ccf55f97b27f1a977faaa67"
+    ],
+    "count": 1,
+    "create_time": 1767712964,
+    "update_time": 1767712964,
+    "_id": "Automated Literature Review Using NLP Techniques and LLM-Based Retrieval-Augmented Generation"
+  },
+  "Natural Language Processing (NLP) Strategies": {
+    "chunk_ids": [
+      "chunk-4ce3e0842ccf55f97b27f1a977faaa67"
+    ],
+    "count": 1,
+    "create_time": 1767712964,
+    "update_time": 1767712964,
+    "_id": "Natural Language Processing (NLP) Strategies"
+  },
+  "Retrieval-Augmented Generation (RAG)": {
+    "chunk_ids": [
+      "chunk-4ce3e0842ccf55f97b27f1a977faaa67",
+      "chunk-8b61b46112793ea564faf7bd71cfe6bb",
+      "chunk-c6514729c0089a7326462210b15d6b62"
+    ],
+    "count": 3,
+    "update_time": 1767713001,
+    "_id": "Retrieval-Augmented Generation (RAG)"
+  },
+  "Large Language Model GPT-3.5-turbo": {
+    "chunk_ids": [
+      "chunk-4ce3e0842ccf55f97b27f1a977faaa67"
+    ],
+    "count": 1,
+    "create_time": 1767712964,
+    "update_time": 1767712964,
+    "_id": "Large Language Model GPT-3.5-turbo"
+  },
+  "Simple T5": {
+    "chunk_ids": [
+      "chunk-4ce3e0842ccf55f97b27f1a977faaa67"
+    ],
+    "count": 1,
+    "create_time": 1767712965,
+    "update_time": 1767712965,
+    "_id": "Simple T5"
+  },
+  "spaCy": {
+    "chunk_ids": [
+      "chunk-4ce3e0842ccf55f97b27f1a977faaa67"
+    ],
+    "count": 1,
+    "create_time": 1767712965,
+    "update_time": 1767712965,
+    "_id": "spaCy"
+  },
+  "SciTLDR dataset": {
+    "chunk_ids": [
+      "chunk-4ce3e0842ccf55f97b27f1a977faaa67"
+    ],
+    "count": 1,
+    "create_time": 1767712965,
+    "update_time": 1767712965,
+    "_id": "SciTLDR dataset"
+  },
+  "ROUGE scores": {
+    "chunk_ids": [
+      "chunk-4ce3e0842ccf55f97b27f1a977faaa67"
+    ],
+    "count": 1,
+    "create_time": 1767712966,
+    "update_time": 1767712966,
+    "_id": "ROUGE scores"
+  },
+  "DAiD": {
+    "chunk_ids": [
+      "chunk-7e465c313730e93412238c5e48c4949a"
+    ],
+    "count": 1,
+    "create_time": 1767712966,
+    "update_time": 1767712966,
+    "_id": "DAiD"
+  },
+  "ROUGE-1 score evaluation": {
+    "chunk_ids": [
+      "chunk-4ce3e0842ccf55f97b27f1a977faaa67"
+    ],
+    "count": 1,
+    "create_time": 1767712966,
+    "update_time": 1767712966,
+    "_id": "ROUGE-1 score evaluation"
+  },
+  "FAiD": {
+    "chunk_ids": [
+      "chunk-7e465c313730e93412238c5e48c4949a"
+    ],
+    "count": 1,
+    "create_time": 1767712967,
+    "update_time": 1767712967,
+    "_id": "FAiD"
+  },
+  "Image Generation": {
+    "chunk_ids": [
+      "chunk-7e465c313730e93412238c5e48c4949a"
+    ],
+    "count": 1,
+    "create_time": 1767712967,
+    "update_time": 1767712967,
+    "_id": "Image Generation"
+  },
+  "EVOR": {
+    "chunk_ids": [
+      "chunk-b8b7e56cc9748f6ddbb3c635e03029c7"
+    ],
+    "count": 1,
+    "create_time": 1767712984,
+    "update_time": 1767712984,
+    "_id": "EVOR"
+  },
+  "Hongjin Su": {
+    "chunk_ids": [
+      "chunk-b8b7e56cc9748f6ddbb3c635e03029c7"
+    ],
+    "count": 1,
+    "create_time": 1767712984,
+    "update_time": 1767712984,
+    "_id": "Hongjin Su"
+  },
+  "Shuyang Jiang": {
+    "chunk_ids": [
+      "chunk-b8b7e56cc9748f6ddbb3c635e03029c7"
+    ],
+    "count": 1,
+    "create_time": 1767712984,
+    "update_time": 1767712984,
+    "_id": "Shuyang Jiang"
+  },
+  "Yuhang Lai": {
+    "chunk_ids": [
+      "chunk-b8b7e56cc9748f6ddbb3c635e03029c7"
+    ],
+    "count": 1,
+    "create_time": 1767712984,
+    "update_time": 1767712984,
+    "_id": "Yuhang Lai"
+  },
+  "Haoyuan Wu": {
+    "chunk_ids": [
+      "chunk-b8b7e56cc9748f6ddbb3c635e03029c7"
+    ],
+    "count": 1,
+    "create_time": 1767712984,
+    "update_time": 1767712984,
+    "_id": "Haoyuan Wu"
+  },
+  "Boao Shi": {
+    "chunk_ids": [
+      "chunk-b8b7e56cc9748f6ddbb3c635e03029c7"
+    ],
+    "count": 1,
+    "create_time": 1767712984,
+    "update_time": 1767712984,
+    "_id": "Boao Shi"
+  },
+  "Che Liu": {
+    "chunk_ids": [
+      "chunk-b8b7e56cc9748f6ddbb3c635e03029c7"
+    ],
+    "count": 1,
+    "create_time": 1767712984,
+    "update_time": 1767712984,
+    "_id": "Che Liu"
+  },
+  "Qian Liu": {
+    "chunk_ids": [
+      "chunk-b8b7e56cc9748f6ddbb3c635e03029c7"
+    ],
+    "count": 1,
+    "create_time": 1767712984,
+    "update_time": 1767712984,
+    "_id": "Qian Liu"
+  },
+  "Tao Yu": {
+    "chunk_ids": [
+      "chunk-b8b7e56cc9748f6ddbb3c635e03029c7"
+    ],
+    "count": 1,
+    "create_time": 1767712984,
+    "update_time": 1767712984,
+    "_id": "Tao Yu"
+  },
+  "ARKS-CodeGen": {
+    "chunk_ids": [
+      "chunk-b8b7e56cc9748f6ddbb3c635e03029c7"
+    ],
+    "count": 1,
+    "create_time": 1767712984,
+    "update_time": 1767712984,
+    "_id": "ARKS-CodeGen"
+  },
+  "Ali Naseh": {
+    "chunk_ids": [
+      "chunk-8b61b46112793ea564faf7bd71cfe6bb"
+    ],
+    "count": 1,
+    "create_time": 1767712986,
+    "update_time": 1767712986,
+    "_id": "Ali Naseh"
+  },
+  "Yuefeng Peng": {
+    "chunk_ids": [
+      "chunk-8b61b46112793ea564faf7bd71cfe6bb"
+    ],
+    "count": 1,
+    "create_time": 1767712986,
+    "update_time": 1767712986,
+    "_id": "Yuefeng Peng"
+  },
+  "Anshuman Suri": {
+    "chunk_ids": [
+      "chunk-8b61b46112793ea564faf7bd71cfe6bb"
+    ],
+    "count": 1,
+    "create_time": 1767712986,
+    "update_time": 1767712986,
+    "_id": "Anshuman Suri"
+  },
+  "Harsh Chaudhari": {
+    "chunk_ids": [
+      "chunk-8b61b46112793ea564faf7bd71cfe6bb"
+    ],
+    "count": 1,
+    "create_time": 1767712986,
+    "update_time": 1767712986,
+    "_id": "Harsh Chaudhari"
+  },
+  "Alina Oprea": {
+    "chunk_ids": [
+      "chunk-8b61b46112793ea564faf7bd71cfe6bb"
+    ],
+    "count": 1,
+    "create_time": 1767712986,
+    "update_time": 1767712986,
+    "_id": "Alina Oprea"
+  },
+  "Amir Houmansadr": {
+    "chunk_ids": [
+      "chunk-8b61b46112793ea564faf7bd71cfe6bb"
+    ],
+    "count": 1,
+    "create_time": 1767712986,
+    "update_time": 1767712986,
+    "_id": "Amir Houmansadr"
+  },
+  "Interrogation Attack (IA)": {
+    "chunk_ids": [
+      "chunk-8b61b46112793ea564faf7bd71cfe6bb"
+    ],
+    "count": 1,
+    "create_time": 1767712986,
+    "update_time": 1767712986,
+    "_id": "Interrogation Attack (IA)"
+  },
+  "Large Language Model (LLM)": {
+    "chunk_ids": [
+      "chunk-8b61b46112793ea564faf7bd71cfe6bb"
+    ],
+    "count": 1,
+    "create_time": 1767712987,
+    "update_time": 1767712987,
+    "_id": "Large Language Model (LLM)"
+  },
+  "Datastore": {
+    "chunk_ids": [
+      "chunk-8b61b46112793ea564faf7bd71cfe6bb"
+    ],
+    "count": 1,
+    "create_time": 1767712987,
+    "update_time": 1767712987,
+    "_id": "Datastore"
+  },
+  "2025-02-01": {
+    "chunk_ids": [
+      "chunk-8b61b46112793ea564faf7bd71cfe6bb"
+    ],
+    "count": 1,
+    "create_time": 1767712987,
+    "update_time": 1767712987,
+    "_id": "2025-02-01"
+  },
+  "Riddle Me This!": {
+    "chunk_ids": [
+      "chunk-8b61b46112793ea564faf7bd71cfe6bb"
+    ],
+    "count": 1,
+    "create_time": 1767712987,
+    "update_time": 1767712987,
+    "_id": "Riddle Me This!"
+  },
+  "Reflexion": {
+    "chunk_ids": [
+      "chunk-b8b7e56cc9748f6ddbb3c635e03029c7"
+    ],
+    "count": 1,
+    "create_time": 1767712987,
+    "update_time": 1767712987,
+    "_id": "Reflexion"
+  },
+  "DocPrompting": {
+    "chunk_ids": [
+      "chunk-b8b7e56cc9748f6ddbb3c635e03029c7"
+    ],
+    "count": 1,
+    "create_time": 1767712988,
+    "update_time": 1767712988,
+    "_id": "DocPrompting"
+  },
+  "EVOR-BENCH": {
+    "chunk_ids": [
+      "chunk-b8b7e56cc9748f6ddbb3c635e03029c7"
+    ],
+    "count": 1,
+    "create_time": 1767712989,
+    "update_time": 1767712989,
+    "_id": "EVOR-BENCH"
+  },
+  "Zahra Khalila": {
+    "chunk_ids": [
+      "chunk-c6514729c0089a7326462210b15d6b62"
+    ],
+    "count": 1,
+    "create_time": 1767713001,
+    "update_time": 1767713001,
+    "_id": "Zahra Khalila"
+  },
+  "Arbi Haza Nasution": {
+    "chunk_ids": [
+      "chunk-c6514729c0089a7326462210b15d6b62"
+    ],
+    "count": 1,
+    "create_time": 1767713001,
+    "update_time": 1767713001,
+    "_id": "Arbi Haza Nasution"
+  },
+  "Winda Monika": {
+    "chunk_ids": [
+      "chunk-c6514729c0089a7326462210b15d6b62"
+    ],
+    "count": 1,
+    "create_time": 1767713001,
+    "update_time": 1767713001,
+    "_id": "Winda Monika"
+  },
+  "Aytug Onan": {
+    "chunk_ids": [
+      "chunk-c6514729c0089a7326462210b15d6b62"
+    ],
+    "count": 1,
+    "create_time": 1767713001,
+    "update_time": 1767713001,
+    "_id": "Aytug Onan"
+  },
+  "Yohei Murakami": {
+    "chunk_ids": [
+      "chunk-c6514729c0089a7326462210b15d6b62"
+    ],
+    "count": 1,
+    "create_time": 1767713001,
+    "update_time": 1767713001,
+    "_id": "Yohei Murakami"
+  },
+  "Yasir Bin Ismail Radi": {
+    "chunk_ids": [
+      "chunk-c6514729c0089a7326462210b15d6b62"
+    ],
+    "count": 1,
+    "create_time": 1767713001,
+    "update_time": 1767713001,
+    "_id": "Yasir Bin Ismail Radi"
+  },
+  "Noor Mohammad Osmani": {
+    "chunk_ids": [
+      "chunk-c6514729c0089a7326462210b15d6b62"
+    ],
+    "count": 1,
+    "create_time": 1767713001,
+    "update_time": 1767713001,
+    "_id": "Noor Mohammad Osmani"
+  },
+  "Llama3:70b": {
+    "chunk_ids": [
+      "chunk-c6514729c0089a7326462210b15d6b62"
+    ],
+    "count": 1,
+    "create_time": 1767713002,
+    "update_time": 1767713002,
+    "_id": "Llama3:70b"
+  },
+  "Gemma2:27b": {
+    "chunk_ids": [
+      "chunk-c6514729c0089a7326462210b15d6b62"
+    ],
+    "count": 1,
+    "create_time": 1767713002,
+    "update_time": 1767713002,
+    "_id": "Gemma2:27b"
+  },
+  "QwQ:32b": {
+    "chunk_ids": [
+      "chunk-c6514729c0089a7326462210b15d6b62"
+    ],
+    "count": 1,
+    "create_time": 1767713002,
+    "update_time": 1767713002,
+    "_id": "QwQ:32b"
+  },
+  "Llama3:8b": {
+    "chunk_ids": [
+      "chunk-c6514729c0089a7326462210b15d6b62"
+    ],
+    "count": 1,
+    "create_time": 1767713002,
+    "update_time": 1767713002,
+    "_id": "Llama3:8b"
+  },
+  "Gemma2:9b": {
+    "chunk_ids": [
+      "chunk-c6514729c0089a7326462210b15d6b62"
+    ],
+    "count": 1,
+    "create_time": 1767713002,
+    "update_time": 1767713002,
+    "_id": "Gemma2:9b"
+  },
+  "Llama3.2:3b": {
+    "chunk_ids": [
+      "chunk-c6514729c0089a7326462210b15d6b62"
+    ],
+    "count": 1,
+    "create_time": 1767713002,
+    "update_time": 1767713002,
+    "_id": "Llama3.2:3b"
+  },
+  "Phi3:3.8b": {
+    "chunk_ids": [
+      "chunk-c6514729c0089a7326462210b15d6b62"
+    ],
+    "count": 1,
+    "create_time": 1767713002,
+    "update_time": 1767713002,
+    "_id": "Phi3:3.8b"
+  },
+  "2025-03-20": {
+    "chunk_ids": [
+      "chunk-c6514729c0089a7326462210b15d6b62"
+    ],
+    "count": 1,
+    "create_time": 1767713002,
+    "update_time": 1767713002,
+    "_id": "2025-03-20"
+  },
+  "Quranic Surahs Dataset": {
+    "chunk_ids": [
+      "chunk-c6514729c0089a7326462210b15d6b62"
+    ],
+    "count": 1,
+    "create_time": 1767713002,
+    "update_time": 1767713002,
+    "_id": "Quranic Surahs Dataset"
+  },
+  "Faithfulness and Relevance Metrics": {
+    "chunk_ids": [
+      "chunk-c6514729c0089a7326462210b15d6b62"
+    ],
+    "count": 1,
+    "create_time": 1767713003,
+    "update_time": 1767713003,
+    "_id": "Faithfulness and Relevance Metrics"
+  },
+  "Large Models": {
+    "chunk_ids": [
+      "chunk-c6514729c0089a7326462210b15d6b62"
+    ],
+    "count": 1,
+    "create_time": 1767713003,
+    "update_time": 1767713003,
+    "_id": "Large Models"
+  },
+  "GraphRAG": {
+    "chunk_ids": [
+      "chunk-1eb3f14c91d32e9673d9a0d928dccad0"
+    ],
+    "count": 1,
+    "create_time": 1767713575,
+    "update_time": 1767713575,
+    "_id": "GraphRAG"
+  },
+  "Microsoft Research": {
+    "chunk_ids": [
+      "chunk-1eb3f14c91d32e9673d9a0d928dccad0"
+    ],
+    "count": 1,
+    "create_time": 1767713575,
+    "update_time": 1767713575,
+    "_id": "Microsoft Research"
+  },
+  "Knowledge Graph": {
+    "chunk_ids": [
+      "chunk-1eb3f14c91d32e9673d9a0d928dccad0"
+    ],
+    "count": 1,
+    "create_time": 1767713575,
+    "update_time": 1767713575,
+    "_id": "Knowledge Graph"
+  },
+  "Question-Aware Generation": {
+    "chunk_ids": [
+      "chunk-1eb3f14c91d32e9673d9a0d928dccad0"
+    ],
+    "count": 1,
+    "create_time": 1767713575,
+    "update_time": 1767713575,
+    "_id": "Question-Aware Generation"
+  },
+  "Community Detection Algorithms": {
+    "chunk_ids": [
+      "chunk-1eb3f14c91d32e9673d9a0d928dccad0"
+    ],
+    "count": 1,
+    "create_time": 1767713575,
+    "update_time": 1767713575,
+    "_id": "Community Detection Algorithms"
+  }
+}

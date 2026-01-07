@@ -1,0 +1,86 @@
+{
+  "chunk-7e465c313730e93412238c5e48c4949a": {
+    "tokens": 307,
+    "content": "Title: AR-RAG: Autoregressive Retrieval Augmentation for Image Generation\n\nAuthors: Jingyuan Qi, Zhiyang Xu, Qifan Wang, Lifu Huang\n\nPublished: 2025-06-08\n\nAbstract:\nWe introduce Autoregressive Retrieval Augmentation (AR-RAG), a novel paradigm that enhances image generation by autoregressively incorporating knearest neighbor retrievals at the patch level. Unlike prior methods that perform a single, static retrieval before generation and condition the entire generation on fixed reference images, AR-RAG performs context-aware retrievals at each generation step, using prior-generated patches as queries to retrieve and incorporate the most relevant patch-level visual references, enabling the model to respond to evolving generation needs while avoiding limitations (e.g., over-copying, stylistic bias, etc.) prevalent in existing methods. To realize AR-RAG, we propose two parallel frameworks: (1) Distribution-Augmentation in Decoding (DAiD), a training-free plug-and-use decoding strategy that directly merges the distribution of model-predicted patches with the distribution of retrieved patches, and (2) Feature-Augmentation in Decoding (FAiD), a parameter-efficient fine-tuning method that progressively smooths the features of retrieved patches via multi-scale convolution operations and leverages them to augment the image generation process. We validate the effectiveness of AR-RAG on widely adopted benchmarks, including Midjourney-30K, GenEval and DPG-Bench, demonstrating significant performance gains over state-of-the-art image generation models.",
+    "chunk_order_index": 0,
+    "full_doc_id": "doc-7e465c313730e93412238c5e48c4949a",
+    "file_path": "unknown_source",
+    "llm_cache_list": [
+      "default:extract:ff243efd837d5c5dde5367147f194b1e",
+      "default:extract:2b265a3d8671d07024fdb51f3b542e0c"
+    ],
+    "create_time": 1767712939,
+    "update_time": 1767712963,
+    "_id": "chunk-7e465c313730e93412238c5e48c4949a"
+  },
+  "chunk-4ce3e0842ccf55f97b27f1a977faaa67": {
+    "tokens": 326,
+    "content": "Title: Automated Literature Review Using NLP Techniques and LLM-Based Retrieval-Augmented Generation\n\nAuthors: Nurshat Fateh Ali, Md. Mahdi Mohtasim, Shakil Mosharrof, T. Gopi Krishna\n\nPublished: 2024-11-27\n\nAbstract:\nThis research presents and compares multiple approaches to automate the generation of literature reviews using several Natural Language Processing (NLP) techniques and retrieval-augmented generation (RAG) with a Large Language Model (LLM). The ever-increasing number of research articles provides a huge challenge for manual literature review. It has resulted in an increased demand for automation. Developing a system capable of automatically generating the literature reviews from only the PDF files as input is the primary objective of this research work. The effectiveness of several Natural Language Processing (NLP) strategies, such as the frequency-based method (spaCy), the transformer model (Simple T5), and retrieval-augmented generation (RAG) with Large Language Model (GPT-3.5-turbo), is evaluated to meet the primary objective. The SciTLDR dataset is chosen for this research experiment and three distinct techniques are utilized to implement three different systems for auto-generating the literature reviews. The ROUGE scores are used for the evaluation of all three systems. Based on the evaluation, the Large Language Model GPT-3.5-turbo achieved the highest ROUGE-1 score, 0.364. The transformer model comes in second place and spaCy is at the last position. Finally, a graphical user interface is created for the best system based on the large language model.",
+    "chunk_order_index": 0,
+    "full_doc_id": "doc-4ce3e0842ccf55f97b27f1a977faaa67",
+    "file_path": "unknown_source",
+    "llm_cache_list": [
+      "default:extract:6680dd6df1cf6bb515a61e7a580c560b",
+      "default:extract:9786ae3f880b707dd727890fb0a71431"
+    ],
+    "create_time": 1767712939,
+    "update_time": 1767712964,
+    "_id": "chunk-4ce3e0842ccf55f97b27f1a977faaa67"
+  },
+  "chunk-b8b7e56cc9748f6ddbb3c635e03029c7": {
+    "tokens": 317,
+    "content": "Title: EVOR: Evolving Retrieval for Code Generation\n\nAuthors: Hongjin Su, Shuyang Jiang, Yuhang Lai, Haoyuan Wu, Boao Shi, Che Liu, Qian Liu, Tao Yu\n\nPublished: 2024-02-19\n\nAbstract:\nRecently the retrieval-augmented generation (RAG) has been successfully applied in code generation. However, existing pipelines for retrieval-augmented code generation (RACG) employ static knowledge bases with a single source, limiting the adaptation capabilities of Large Language Models (LLMs) to domains they have insufficient knowledge of. In this work, we develop a novel pipeline, EVOR, that employs the synchronous evolution of both queries and diverse knowledge bases. On two realistic settings where the external knowledge is required to solve code generation tasks, we compile four new datasets associated with frequently updated libraries and long-tail programming languages, named EVOR-BENCH. Extensive experiments demonstrate that EVOR achieves two to four times of execution accuracy compared to other methods such as Reflexion (Shinn et al., 2024), DocPrompting (Zhou et al., 2023), etc. We demonstrate that EVOR is flexible and can be easily combined with them to achieve further improvement. Further analysis reveals that EVOR benefits from the synchronous evolution of queries and documents and the diverse information sources in the knowledge base. We hope that our studies will inspire more insights into the design of advanced RACG pipelines in future research. Our model, code, and data are available at https://arks-codegen.github.io.",
+    "chunk_order_index": 0,
+    "full_doc_id": "doc-b8b7e56cc9748f6ddbb3c635e03029c7",
+    "file_path": "unknown_source",
+    "llm_cache_list": [
+      "default:extract:f0942391dd54e8e18eb5b1a6acdb4a72",
+      "default:extract:01a565c2135362b1c09e69458b08af14"
+    ],
+    "create_time": 1767712967,
+    "update_time": 1767712984,
+    "_id": "chunk-b8b7e56cc9748f6ddbb3c635e03029c7"
+  },
+  "chunk-8b61b46112793ea564faf7bd71cfe6bb": {
+    "tokens": 279,
+    "content": "Title: Riddle Me This! Stealthy Membership Inference for Retrieval-Augmented Generation\n\nAuthors: Ali Naseh, Yuefeng Peng, Anshuman Suri, Harsh Chaudhari, Alina Oprea, Amir Houmansadr\n\nPublished: 2025-02-01\n\nAbstract:\nRetrieval-Augmented Generation (RAG) enables Large Language Models (LLMs) to generate grounded responses by leveraging external knowledge databases without altering model parameters. Although the absence of weight tuning prevents leakage via model parameters, it introduces the risk of inference adversaries exploiting retrieved documents in the model's context. Existing methods for membership inference and data extraction often rely on jailbreaking or carefully crafted unnatural queries, which can be easily detected or thwarted with query rewriting techniques common in RAG systems. In this work, we present Interrogation Attack (IA), a membership inference technique targeting documents in the RAG datastore. By crafting natural-text queries that are answerable only with the target document's presence, our approach demonstrates successful inference with just 30 queries while remaining stealthy; straightforward detectors identify adversarial prompts from existing methods up to ~76x more frequently than those generated by our attack. We observe a 2x improvement in TPR@1%FPR over prior inference attacks across diverse RAG configurations, all while costing less than $0.02 per document inference.",
+    "chunk_order_index": 0,
+    "full_doc_id": "doc-8b61b46112793ea564faf7bd71cfe6bb",
+    "file_path": "unknown_source",
+    "llm_cache_list": [
+      "default:extract:9acb11dad56815a85d3d3da2617ac9b1",
+      "default:extract:af043470f24e4fcfa8df51786fabf781"
+    ],
+    "create_time": 1767712968,
+    "update_time": 1767712986,
+    "_id": "chunk-8b61b46112793ea564faf7bd71cfe6bb"
+  },
+  "chunk-c6514729c0089a7326462210b15d6b62": {
+    "tokens": 435,
+    "content": "Title: Investigating Retrieval-Augmented Generation in Quranic Studies: A Study of 13 Open-Source Large Language Models\n\nAuthors: Zahra Khalila, Arbi Haza Nasution, Winda Monika, Aytug Onan, Yohei Murakami, Yasir Bin Ismail Radi, Noor Mohammad Osmani\n\nPublished: 2025-03-20\n\nAbstract:\nAccurate and contextually faithful responses are critical when applying large language models (LLMs) to sensitive and domain-specific tasks, such as answering queries related to quranic studies. General-purpose LLMs often struggle with hallucinations, where generated responses deviate from authoritative sources, raising concerns about their reliability in religious contexts. This challenge highlights the need for systems that can integrate domain-specific knowledge while maintaining response accuracy, relevance, and faithfulness. In this study, we investigate 13 open-source LLMs categorized into large (e.g., Llama3:70b, Gemma2:27b, QwQ:32b), medium (e.g., Gemma2:9b, Llama3:8b), and small (e.g., Llama3.2:3b, Phi3:3.8b). A Retrieval-Augmented Generation (RAG) is used to make up for the problems that come with using separate models. This research utilizes a descriptive dataset of Quranic surahs including the meanings, historical context, and qualities of the 114 surahs, allowing the model to gather relevant knowledge before responding. The models are evaluated using three key metrics set by human evaluators: context relevance, answer faithfulness, and answer relevance. The findings reveal that large models consistently outperform smaller models in capturing query semantics and producing accurate, contextually grounded responses. The Llama3.2:3b model, even though it is considered small, does very well on faithfulness (4.619) and relevance (4.857), showing the promise of smaller architectures that have been well optimized. This article examines the trade-offs between model size, computational efficiency, and response quality while using LLMs in domain-specific applications.",
+    "chunk_order_index": 0,
+    "full_doc_id": "doc-c6514729c0089a7326462210b15d6b62",
+    "file_path": "unknown_source",
+    "llm_cache_list": [
+      "default:extract:57294ed41c7679c9960235f2df3600b1",
+      "default:extract:c70279b54a70198f1fd1934d7c250b25"
+    ],
+    "create_time": 1767712989,
+    "update_time": 1767713001,
+    "_id": "chunk-c6514729c0089a7326462210b15d6b62"
+  },
+  "chunk-1eb3f14c91d32e9673d9a0d928dccad0": {
+    "tokens": 46,
+    "content": "GraphRAG is a new approach that combines knowledge graphs with retrieval-augmented generation.\n    It was developed by Microsoft Research to improve question-answering capabilities.\n    The key innovation is using community detection algorithms on the knowledge graph.",
+    "chunk_order_index": 0,
+    "full_doc_id": "doc-1eb3f14c91d32e9673d9a0d928dccad0",
+    "file_path": "unknown_source",
+    "llm_cache_list": [
+      "default:extract:9a383d10214921b831734f037494c6de",
+      "default:extract:185da0f0983d27e05b37208b4c01520b"
+    ],
+    "create_time": 1767713571,
+    "update_time": 1767713575,
+    "_id": "chunk-1eb3f14c91d32e9673d9a0d928dccad0"
+  }
+}

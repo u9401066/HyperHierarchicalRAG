@@ -1,0 +1,104 @@
+{
+  "doc-7e465c313730e93412238c5e48c4949a": {
+    "status": "processed",
+    "chunks_count": 1,
+    "chunks_list": [
+      "chunk-7e465c313730e93412238c5e48c4949a"
+    ],
+    "content_summary": "Title: AR-RAG: Autoregressive Retrieval Augmentation for Image Generation\n\nAuthors: Jingyuan Qi, Zhiyang Xu, Qifan Wang, Lifu Huang\n\nPublished: 2025-06-08\n\nAbstract:\nWe introduce Autoregressive Retrieval Augmentation (AR-RAG), a novel paradigm that e...",
+    "content_length": 1564,
+    "created_at": "2026-01-06T15:18:47.359291+00:00",
+    "updated_at": "2026-01-06T15:22:48.346580+00:00",
+    "file_path": "unknown_source",
+    "track_id": "insert_20260106_231847_0078a4ab",
+    "metadata": {
+      "processing_start_time": 1767712939,
+      "processing_end_time": 1767712968
+    }
+  },
+  "doc-4ce3e0842ccf55f97b27f1a977faaa67": {
+    "status": "processed",
+    "chunks_count": 1,
+    "chunks_list": [
+      "chunk-4ce3e0842ccf55f97b27f1a977faaa67"
+    ],
+    "content_summary": "Title: Automated Literature Review Using NLP Techniques and LLM-Based Retrieval-Augmented Generation\n\nAuthors: Nurshat Fateh Ali, Md. Mahdi Mohtasim, Shakil Mosharrof, T. Gopi Krishna\n\nPublished: 2024-11-27\n\nAbstract:\nThis research presents and compa...",
+    "content_length": 1596,
+    "created_at": "2026-01-06T15:18:47.589701+00:00",
+    "updated_at": "2026-01-06T15:22:47.298285+00:00",
+    "file_path": "unknown_source",
+    "track_id": "insert_20260106_231847_5de1b10a",
+    "metadata": {
+      "processing_start_time": 1767712939,
+      "processing_end_time": 1767712967
+    }
+  },
+  "doc-b8b7e56cc9748f6ddbb3c635e03029c7": {
+    "status": "processed",
+    "chunks_count": 1,
+    "chunks_list": [
+      "chunk-b8b7e56cc9748f6ddbb3c635e03029c7"
+    ],
+    "content_summary": "Title: EVOR: Evolving Retrieval for Code Generation\n\nAuthors: Hongjin Su, Shuyang Jiang, Yuhang Lai, Haoyuan Wu, Boao Shi, Che Liu, Qian Liu, Tao Yu\n\nPublished: 2024-02-19\n\nAbstract:\nRecently the retrieval-augmented generation (RAG) has been successf...",
+    "content_length": 1540,
+    "created_at": "2026-01-06T15:18:47.606940+00:00",
+    "updated_at": "2026-01-06T15:23:10.058089+00:00",
+    "file_path": "unknown_source",
+    "track_id": "insert_20260106_231847_176e4bf9",
+    "metadata": {
+      "processing_start_time": 1767712967,
+      "processing_end_time": 1767712990
+    }
+  },
+  "doc-8b61b46112793ea564faf7bd71cfe6bb": {
+    "status": "processed",
+    "chunks_count": 1,
+    "chunks_list": [
+      "chunk-8b61b46112793ea564faf7bd71cfe6bb"
+    ],
+    "content_summary": "Title: Riddle Me This! Stealthy Membership Inference for Retrieval-Augmented Generation\n\nAuthors: Ali Naseh, Yuefeng Peng, Anshuman Suri, Harsh Chaudhari, Alina Oprea, Amir Houmansadr\n\nPublished: 2025-02-01\n\nAbstract:\nRetrieval-Augmented Generation (...",
+    "content_length": 1424,
+    "created_at": "2026-01-06T15:18:47.632127+00:00",
+    "updated_at": "2026-01-06T15:23:09.888937+00:00",
+    "file_path": "unknown_source",
+    "track_id": "insert_20260106_231847_4de24724",
+    "metadata": {
+      "processing_start_time": 1767712968,
+      "processing_end_time": 1767712989
+    }
+  },
+  "doc-c6514729c0089a7326462210b15d6b62": {
+    "status": "processed",
+    "chunks_count": 1,
+    "chunks_list": [
+      "chunk-c6514729c0089a7326462210b15d6b62"
+    ],
+    "content_summary": "Title: Investigating Retrieval-Augmented Generation in Quranic Studies: A Study of 13 Open-Source Large Language Models\n\nAuthors: Zahra Khalila, Arbi Haza Nasution, Winda Monika, Aytug Onan, Yohei Murakami, Yasir Bin Ismail Radi, Noor Mohammad Osmani...",
+    "content_length": 1983,
+    "created_at": "2026-01-06T15:18:47.662910+00:00",
+    "updated_at": "2026-01-06T15:23:24.459636+00:00",
+    "file_path": "unknown_source",
+    "track_id": "insert_20260106_231847_e85857f7",
+    "metadata": {
+      "processing_start_time": 1767712989,
+      "processing_end_time": 1767713004
+    }
+  },
+  "doc-1eb3f14c91d32e9673d9a0d928dccad0": {
+    "status": "processed",
+    "chunks_count": 1,
+    "chunks_list": [
+      "chunk-1eb3f14c91d32e9673d9a0d928dccad0"
+    ],
+    "content_summary": "GraphRAG is a new approach that combines knowledge graphs with retrieval-augmented generation.\n    It was developed by Microsoft Research to improve question-answering capabilities.\n    The key innovation is using community detection algorithms on th...",
+    "content_length": 268,
+    "created_at": "2026-01-06T15:32:51.618059+00:00",
+    "updated_at": "2026-01-06T15:32:56.878437+00:00",
+    "file_path": "unknown_source",
+    "track_id": "insert_20260106_233251_e7626fc2",
+    "metadata": {
+      "processing_start_time": 1767713571,
+      "processing_end_time": 1767713576
+    }
+  }
+}

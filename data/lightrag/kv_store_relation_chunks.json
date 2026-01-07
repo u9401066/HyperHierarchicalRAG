@@ -1,0 +1,515 @@
+{
+  "AR-RAG<SEP>Jingyuan Qi": {
+    "chunk_ids": [
+      "chunk-7e465c313730e93412238c5e48c4949a"
+    ],
+    "count": 1,
+    "create_time": 1767712964,
+    "update_time": 1767712964,
+    "_id": "AR-RAG<SEP>Jingyuan Qi"
+  },
+  "AR-RAG<SEP>Zhiyang Xu": {
+    "chunk_ids": [
+      "chunk-7e465c313730e93412238c5e48c4949a"
+    ],
+    "count": 1,
+    "create_time": 1767712964,
+    "update_time": 1767712964,
+    "_id": "AR-RAG<SEP>Zhiyang Xu"
+  },
+  "AR-RAG<SEP>Qifan Wang": {
+    "chunk_ids": [
+      "chunk-7e465c313730e93412238c5e48c4949a"
+    ],
+    "count": 1,
+    "create_time": 1767712964,
+    "update_time": 1767712964,
+    "_id": "AR-RAG<SEP>Qifan Wang"
+  },
+  "AR-RAG<SEP>Lifu Huang": {
+    "chunk_ids": [
+      "chunk-7e465c313730e93412238c5e48c4949a"
+    ],
+    "count": 1,
+    "create_time": 1767712965,
+    "update_time": 1767712965,
+    "_id": "AR-RAG<SEP>Lifu Huang"
+  },
+  "Automated Literature Review Using NLP Techniques and LLM-Based Retrieval-Augmented Generation<SEP>Nurshat Fateh Ali": {
+    "chunk_ids": [
+      "chunk-4ce3e0842ccf55f97b27f1a977faaa67"
+    ],
+    "count": 1,
+    "create_time": 1767712965,
+    "update_time": 1767712965,
+    "_id": "Automated Literature Review Using NLP Techniques and LLM-Based Retrieval-Augmented Generation<SEP>Nurshat Fateh Ali"
+  },
+  "Retrieval-Augmented Generation (RAG)<SEP>Simple T5": {
+    "chunk_ids": [
+      "chunk-4ce3e0842ccf55f97b27f1a977faaa67"
+    ],
+    "count": 1,
+    "create_time": 1767712965,
+    "update_time": 1767712965,
+    "_id": "Retrieval-Augmented Generation (RAG)<SEP>Simple T5"
+  },
+  "AR-RAG<SEP>Midjourney-30K": {
+    "chunk_ids": [
+      "chunk-7e465c313730e93412238c5e48c4949a"
+    ],
+    "count": 1,
+    "create_time": 1767712965,
+    "update_time": 1767712965,
+    "_id": "AR-RAG<SEP>Midjourney-30K"
+  },
+  "Md. Mahdi Mohtasim<SEP>Nurshat Fateh Ali": {
+    "chunk_ids": [
+      "chunk-4ce3e0842ccf55f97b27f1a977faaa67"
+    ],
+    "count": 1,
+    "create_time": 1767712965,
+    "update_time": 1767712965,
+    "_id": "Md. Mahdi Mohtasim<SEP>Nurshat Fateh Ali"
+  },
+  "Simple T5<SEP>spaCy": {
+    "chunk_ids": [
+      "chunk-4ce3e0842ccf55f97b27f1a977faaa67"
+    ],
+    "count": 1,
+    "create_time": 1767712965,
+    "update_time": 1767712965,
+    "_id": "Simple T5<SEP>spaCy"
+  },
+  "Large Language Model GPT-3.5-turbo<SEP>Retrieval-Augmented Generation (RAG)": {
+    "chunk_ids": [
+      "chunk-4ce3e0842ccf55f97b27f1a977faaa67"
+    ],
+    "count": 1,
+    "create_time": 1767712965,
+    "update_time": 1767712965,
+    "_id": "Large Language Model GPT-3.5-turbo<SEP>Retrieval-Augmented Generation (RAG)"
+  },
+  "AR-RAG<SEP>GenEval": {
+    "chunk_ids": [
+      "chunk-7e465c313730e93412238c5e48c4949a"
+    ],
+    "count": 1,
+    "create_time": 1767712965,
+    "update_time": 1767712965,
+    "_id": "AR-RAG<SEP>GenEval"
+  },
+  "Automated Literature Review Using NLP Techniques and LLM-Based Retrieval-Augmented Generation<SEP>Md. Mahdi Mohtasim": {
+    "chunk_ids": [
+      "chunk-4ce3e0842ccf55f97b27f1a977faaa67"
+    ],
+    "count": 1,
+    "create_time": 1767712966,
+    "update_time": 1767712966,
+    "_id": "Automated Literature Review Using NLP Techniques and LLM-Based Retrieval-Augmented Generation<SEP>Md. Mahdi Mohtasim"
+  },
+  "ROUGE scores<SEP>Simple T5": {
+    "chunk_ids": [
+      "chunk-4ce3e0842ccf55f97b27f1a977faaa67"
+    ],
+    "count": 1,
+    "create_time": 1767712966,
+    "update_time": 1767712966,
+    "_id": "ROUGE scores<SEP>Simple T5"
+  },
+  "AR-RAG<SEP>DPG-Bench": {
+    "chunk_ids": [
+      "chunk-7e465c313730e93412238c5e48c4949a"
+    ],
+    "count": 1,
+    "create_time": 1767712966,
+    "update_time": 1767712966,
+    "_id": "AR-RAG<SEP>DPG-Bench"
+  },
+  "Automated Literature Review Using NLP Techniques and LLM-Based Retrieval-Augmented Generation<SEP>Shakil Mosharrof": {
+    "chunk_ids": [
+      "chunk-4ce3e0842ccf55f97b27f1a977faaa67"
+    ],
+    "count": 1,
+    "create_time": 1767712966,
+    "update_time": 1767712966,
+    "_id": "Automated Literature Review Using NLP Techniques and LLM-Based Retrieval-Augmented Generation<SEP>Shakil Mosharrof"
+  },
+  "AR-RAG<SEP>DAiD": {
+    "chunk_ids": [
+      "chunk-7e465c313730e93412238c5e48c4949a"
+    ],
+    "count": 1,
+    "create_time": 1767712966,
+    "update_time": 1767712966,
+    "_id": "AR-RAG<SEP>DAiD"
+  },
+  "Automated Literature Review Using NLP Techniques and LLM-Based Retrieval-Augmented Generation<SEP>T. Gopi Krishna": {
+    "chunk_ids": [
+      "chunk-4ce3e0842ccf55f97b27f1a977faaa67"
+    ],
+    "count": 1,
+    "create_time": 1767712966,
+    "update_time": 1767712966,
+    "_id": "Automated Literature Review Using NLP Techniques and LLM-Based Retrieval-Augmented Generation<SEP>T. Gopi Krishna"
+  },
+  "ROUGE-1 score evaluation<SEP>Simple T5": {
+    "chunk_ids": [
+      "chunk-4ce3e0842ccf55f97b27f1a977faaa67"
+    ],
+    "count": 1,
+    "create_time": 1767712966,
+    "update_time": 1767712966,
+    "_id": "ROUGE-1 score evaluation<SEP>Simple T5"
+  },
+  "ROUGE scores<SEP>spaCy": {
+    "chunk_ids": [
+      "chunk-4ce3e0842ccf55f97b27f1a977faaa67"
+    ],
+    "count": 1,
+    "create_time": 1767712966,
+    "update_time": 1767712966,
+    "_id": "ROUGE scores<SEP>spaCy"
+  },
+  "Large Language Model GPT-3.5-turbo<SEP>ROUGE scores": {
+    "chunk_ids": [
+      "chunk-4ce3e0842ccf55f97b27f1a977faaa67"
+    ],
+    "count": 1,
+    "create_time": 1767712966,
+    "update_time": 1767712966,
+    "_id": "Large Language Model GPT-3.5-turbo<SEP>ROUGE scores"
+  },
+  "AR-RAG<SEP>FAiD": {
+    "chunk_ids": [
+      "chunk-7e465c313730e93412238c5e48c4949a"
+    ],
+    "count": 1,
+    "create_time": 1767712967,
+    "update_time": 1767712967,
+    "_id": "AR-RAG<SEP>FAiD"
+  },
+  "AR-RAG<SEP>Image Generation": {
+    "chunk_ids": [
+      "chunk-7e465c313730e93412238c5e48c4949a"
+    ],
+    "count": 1,
+    "create_time": 1767712967,
+    "update_time": 1767712967,
+    "_id": "AR-RAG<SEP>Image Generation"
+  },
+  "EVOR<SEP>Hongjin Su": {
+    "chunk_ids": [
+      "chunk-b8b7e56cc9748f6ddbb3c635e03029c7"
+    ],
+    "count": 1,
+    "create_time": 1767712985,
+    "update_time": 1767712985,
+    "_id": "EVOR<SEP>Hongjin Su"
+  },
+  "EVOR<SEP>Shuyang Jiang": {
+    "chunk_ids": [
+      "chunk-b8b7e56cc9748f6ddbb3c635e03029c7"
+    ],
+    "count": 1,
+    "create_time": 1767712985,
+    "update_time": 1767712985,
+    "_id": "EVOR<SEP>Shuyang Jiang"
+  },
+  "EVOR<SEP>Yuhang Lai": {
+    "chunk_ids": [
+      "chunk-b8b7e56cc9748f6ddbb3c635e03029c7"
+    ],
+    "count": 1,
+    "create_time": 1767712985,
+    "update_time": 1767712985,
+    "_id": "EVOR<SEP>Yuhang Lai"
+  },
+  "EVOR<SEP>Haoyuan Wu": {
+    "chunk_ids": [
+      "chunk-b8b7e56cc9748f6ddbb3c635e03029c7"
+    ],
+    "count": 1,
+    "create_time": 1767712986,
+    "update_time": 1767712986,
+    "_id": "EVOR<SEP>Haoyuan Wu"
+  },
+  "Boao Shi<SEP>EVOR": {
+    "chunk_ids": [
+      "chunk-b8b7e56cc9748f6ddbb3c635e03029c7"
+    ],
+    "count": 1,
+    "create_time": 1767712986,
+    "update_time": 1767712986,
+    "_id": "Boao Shi<SEP>EVOR"
+  },
+  "Che Liu<SEP>EVOR": {
+    "chunk_ids": [
+      "chunk-b8b7e56cc9748f6ddbb3c635e03029c7"
+    ],
+    "count": 1,
+    "create_time": 1767712986,
+    "update_time": 1767712986,
+    "_id": "Che Liu<SEP>EVOR"
+  },
+  "EVOR<SEP>Qian Liu": {
+    "chunk_ids": [
+      "chunk-b8b7e56cc9748f6ddbb3c635e03029c7"
+    ],
+    "count": 1,
+    "create_time": 1767712987,
+    "update_time": 1767712987,
+    "_id": "EVOR<SEP>Qian Liu"
+  },
+  "Ali Naseh<SEP>Yuefeng Peng": {
+    "chunk_ids": [
+      "chunk-8b61b46112793ea564faf7bd71cfe6bb"
+    ],
+    "count": 1,
+    "create_time": 1767712987,
+    "update_time": 1767712987,
+    "_id": "Ali Naseh<SEP>Yuefeng Peng"
+  },
+  "Interrogation Attack (IA)<SEP>Retrieval-Augmented Generation (RAG)": {
+    "chunk_ids": [
+      "chunk-8b61b46112793ea564faf7bd71cfe6bb"
+    ],
+    "count": 1,
+    "create_time": 1767712987,
+    "update_time": 1767712987,
+    "_id": "Interrogation Attack (IA)<SEP>Retrieval-Augmented Generation (RAG)"
+  },
+  "Alina Oprea<SEP>Amir Houmansadr": {
+    "chunk_ids": [
+      "chunk-8b61b46112793ea564faf7bd71cfe6bb"
+    ],
+    "count": 1,
+    "create_time": 1767712987,
+    "update_time": 1767712987,
+    "_id": "Alina Oprea<SEP>Amir Houmansadr"
+  },
+  "EVOR<SEP>Tao Yu": {
+    "chunk_ids": [
+      "chunk-b8b7e56cc9748f6ddbb3c635e03029c7"
+    ],
+    "count": 1,
+    "create_time": 1767712987,
+    "update_time": 1767712987,
+    "_id": "EVOR<SEP>Tao Yu"
+  },
+  "Datastore<SEP>Interrogation Attack (IA)": {
+    "chunk_ids": [
+      "chunk-8b61b46112793ea564faf7bd71cfe6bb"
+    ],
+    "count": 1,
+    "create_time": 1767712987,
+    "update_time": 1767712987,
+    "_id": "Datastore<SEP>Interrogation Attack (IA)"
+  },
+  "Anshuman Suri<SEP>Yuefeng Peng": {
+    "chunk_ids": [
+      "chunk-8b61b46112793ea564faf7bd71cfe6bb"
+    ],
+    "count": 1,
+    "create_time": 1767712987,
+    "update_time": 1767712987,
+    "_id": "Anshuman Suri<SEP>Yuefeng Peng"
+  },
+  "Large Language Model (LLM)<SEP>Retrieval-Augmented Generation (RAG)": {
+    "chunk_ids": [
+      "chunk-8b61b46112793ea564faf7bd71cfe6bb"
+    ],
+    "count": 1,
+    "create_time": 1767712987,
+    "update_time": 1767712987,
+    "_id": "Large Language Model (LLM)<SEP>Retrieval-Augmented Generation (RAG)"
+  },
+  "EVOR<SEP>Reflexion": {
+    "chunk_ids": [
+      "chunk-b8b7e56cc9748f6ddbb3c635e03029c7"
+    ],
+    "count": 1,
+    "create_time": 1767712987,
+    "update_time": 1767712987,
+    "_id": "EVOR<SEP>Reflexion"
+  },
+  "Harsh Chaudhari<SEP>Yuefeng Peng": {
+    "chunk_ids": [
+      "chunk-8b61b46112793ea564faf7bd71cfe6bb"
+    ],
+    "count": 1,
+    "create_time": 1767712988,
+    "update_time": 1767712988,
+    "_id": "Harsh Chaudhari<SEP>Yuefeng Peng"
+  },
+  "Anshuman Suri<SEP>Harsh Chaudhari": {
+    "chunk_ids": [
+      "chunk-8b61b46112793ea564faf7bd71cfe6bb"
+    ],
+    "count": 1,
+    "create_time": 1767712988,
+    "update_time": 1767712988,
+    "_id": "Anshuman Suri<SEP>Harsh Chaudhari"
+  },
+  "DocPrompting<SEP>EVOR": {
+    "chunk_ids": [
+      "chunk-b8b7e56cc9748f6ddbb3c635e03029c7"
+    ],
+    "count": 1,
+    "create_time": 1767712988,
+    "update_time": 1767712988,
+    "_id": "DocPrompting<SEP>EVOR"
+  },
+  "Ali Naseh<SEP>Anshuman Suri": {
+    "chunk_ids": [
+      "chunk-8b61b46112793ea564faf7bd71cfe6bb"
+    ],
+    "count": 1,
+    "create_time": 1767712988,
+    "update_time": 1767712988,
+    "_id": "Ali Naseh<SEP>Anshuman Suri"
+  },
+  "Ali Naseh<SEP>Harsh Chaudhari": {
+    "chunk_ids": [
+      "chunk-8b61b46112793ea564faf7bd71cfe6bb"
+    ],
+    "count": 1,
+    "create_time": 1767712988,
+    "update_time": 1767712988,
+    "_id": "Ali Naseh<SEP>Harsh Chaudhari"
+  },
+  "EVOR<SEP>EVOR-BENCH": {
+    "chunk_ids": [
+      "chunk-b8b7e56cc9748f6ddbb3c635e03029c7"
+    ],
+    "count": 1,
+    "create_time": 1767712989,
+    "update_time": 1767712989,
+    "_id": "EVOR<SEP>EVOR-BENCH"
+  },
+  "Ali Naseh<SEP>Retrieval-Augmented Generation (RAG)": {
+    "chunk_ids": [
+      "chunk-8b61b46112793ea564faf7bd71cfe6bb"
+    ],
+    "count": 1,
+    "create_time": 1767712989,
+    "update_time": 1767712989,
+    "_id": "Ali Naseh<SEP>Retrieval-Augmented Generation (RAG)"
+  },
+  "Ali Naseh<SEP>Riddle Me This!": {
+    "chunk_ids": [
+      "chunk-8b61b46112793ea564faf7bd71cfe6bb"
+    ],
+    "count": 1,
+    "create_time": 1767712989,
+    "update_time": 1767712989,
+    "_id": "Ali Naseh<SEP>Riddle Me This!"
+  },
+  "ARKS-CodeGen<SEP>EVOR": {
+    "chunk_ids": [
+      "chunk-b8b7e56cc9748f6ddbb3c635e03029c7"
+    ],
+    "count": 1,
+    "create_time": 1767712989,
+    "update_time": 1767712989,
+    "_id": "ARKS-CodeGen<SEP>EVOR"
+  },
+  "Retrieval-Augmented Generation (RAG)<SEP>Zahra Khalila": {
+    "chunk_ids": [
+      "chunk-c6514729c0089a7326462210b15d6b62"
+    ],
+    "count": 1,
+    "create_time": 1767713002,
+    "update_time": 1767713002,
+    "_id": "Retrieval-Augmented Generation (RAG)<SEP>Zahra Khalila"
+  },
+  "Llama3.2:3b<SEP>Quranic Surahs Dataset": {
+    "chunk_ids": [
+      "chunk-c6514729c0089a7326462210b15d6b62"
+    ],
+    "count": 1,
+    "create_time": 1767713002,
+    "update_time": 1767713002,
+    "_id": "Llama3.2:3b<SEP>Quranic Surahs Dataset"
+  },
+  "Arbi Haza Nasution<SEP>Retrieval-Augmented Generation (RAG)": {
+    "chunk_ids": [
+      "chunk-c6514729c0089a7326462210b15d6b62"
+    ],
+    "count": 1,
+    "create_time": 1767713002,
+    "update_time": 1767713002,
+    "_id": "Arbi Haza Nasution<SEP>Retrieval-Augmented Generation (RAG)"
+  },
+  "Llama3:70b<SEP>Quranic Surahs Dataset": {
+    "chunk_ids": [
+      "chunk-c6514729c0089a7326462210b15d6b62"
+    ],
+    "count": 1,
+    "create_time": 1767713003,
+    "update_time": 1767713003,
+    "_id": "Llama3:70b<SEP>Quranic Surahs Dataset"
+  },
+  "Faithfulness and Relevance Metrics<SEP>Llama3.2:3b": {
+    "chunk_ids": [
+      "chunk-c6514729c0089a7326462210b15d6b62"
+    ],
+    "count": 1,
+    "create_time": 1767713003,
+    "update_time": 1767713003,
+    "_id": "Faithfulness and Relevance Metrics<SEP>Llama3.2:3b"
+  },
+  "Gemma2:27b<SEP>Quranic Surahs Dataset": {
+    "chunk_ids": [
+      "chunk-c6514729c0089a7326462210b15d6b62"
+    ],
+    "count": 1,
+    "create_time": 1767713003,
+    "update_time": 1767713003,
+    "_id": "Gemma2:27b<SEP>Quranic Surahs Dataset"
+  },
+  "Quranic Surahs Dataset<SEP>Retrieval-Augmented Generation (RAG)": {
+    "chunk_ids": [
+      "chunk-c6514729c0089a7326462210b15d6b62"
+    ],
+    "count": 1,
+    "create_time": 1767713003,
+    "update_time": 1767713003,
+    "_id": "Quranic Surahs Dataset<SEP>Retrieval-Augmented Generation (RAG)"
+  },
+  "Large Models<SEP>Llama3.2:3b": {
+    "chunk_ids": [
+      "chunk-c6514729c0089a7326462210b15d6b62"
+    ],
+    "count": 1,
+    "create_time": 1767713003,
+    "update_time": 1767713003,
+    "_id": "Large Models<SEP>Llama3.2:3b"
+  },
+  "GraphRAG<SEP>Microsoft Research": {
+    "chunk_ids": [
+      "chunk-1eb3f14c91d32e9673d9a0d928dccad0"
+    ],
+    "count": 1,
+    "create_time": 1767713575,
+    "update_time": 1767713575,
+    "_id": "GraphRAG<SEP>Microsoft Research"
+  },
+  "Community Detection Algorithms<SEP>Knowledge Graph": {
+    "chunk_ids": [
+      "chunk-1eb3f14c91d32e9673d9a0d928dccad0"
+    ],
+    "count": 1,
+    "create_time": 1767713575,
+    "update_time": 1767713575,
+    "_id": "Community Detection Algorithms<SEP>Knowledge Graph"
+  },
+  "GraphRAG<SEP>Knowledge Graph": {
+    "chunk_ids": [
+      "chunk-1eb3f14c91d32e9673d9a0d928dccad0"
+    ],
+    "count": 1,
+    "create_time": 1767713576,
+    "update_time": 1767713576,
+    "_id": "GraphRAG<SEP>Knowledge Graph"
+  }
+}

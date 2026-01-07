@@ -1,0 +1,1180 @@
+<?xml version='1.0' encoding='utf-8'?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+  <key id="d13" for="edge" attr.name="truncate" attr.type="string" />
+  <key id="d12" for="edge" attr.name="created_at" attr.type="long" />
+  <key id="d11" for="edge" attr.name="file_path" attr.type="string" />
+  <key id="d10" for="edge" attr.name="source_id" attr.type="string" />
+  <key id="d9" for="edge" attr.name="keywords" attr.type="string" />
+  <key id="d8" for="edge" attr.name="description" attr.type="string" />
+  <key id="d7" for="edge" attr.name="weight" attr.type="double" />
+  <key id="d6" for="node" attr.name="truncate" attr.type="string" />
+  <key id="d5" for="node" attr.name="created_at" attr.type="long" />
+  <key id="d4" for="node" attr.name="file_path" attr.type="string" />
+  <key id="d3" for="node" attr.name="source_id" attr.type="string" />
+  <key id="d2" for="node" attr.name="description" attr.type="string" />
+  <key id="d1" for="node" attr.name="entity_type" attr.type="string" />
+  <key id="d0" for="node" attr.name="entity_id" attr.type="string" />
+  <graph edgedefault="undirected">
+    <node id="AR-RAG">
+      <data key="d0">AR-RAG</data>
+      <data key="d1">concept</data>
+      <data key="d2">AR-RAG is a novel paradigm for enhancing image generation by autoregressively incorporating knearest neighbor retrievals at the patch level.</data>
+      <data key="d3">chunk-7e465c313730e93412238c5e48c4949a</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712963</data>
+      <data key="d6" />
+    </node>
+    <node id="Jingyuan Qi">
+      <data key="d0">Jingyuan Qi</data>
+      <data key="d1">person</data>
+      <data key="d2">Jingyuan Qi is an author of AR-RAG, contributing to its development and research.</data>
+      <data key="d3">chunk-7e465c313730e93412238c5e48c4949a</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712963</data>
+      <data key="d6" />
+    </node>
+    <node id="Zhiyang Xu">
+      <data key="d0">Zhiyang Xu</data>
+      <data key="d1">person</data>
+      <data key="d2">Zhiyang Xu is a co-author of AR-RAG, collaborating with other researchers on the project.</data>
+      <data key="d3">chunk-7e465c313730e93412238c5e48c4949a</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712963</data>
+      <data key="d6" />
+    </node>
+    <node id="Qifan Wang">
+      <data key="d0">Qifan Wang</data>
+      <data key="d1">person</data>
+      <data key="d2">Qifan Wang is an author of AR-RAG, contributing to its research and development.</data>
+      <data key="d3">chunk-7e465c313730e93412238c5e48c4949a</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712963</data>
+      <data key="d6" />
+    </node>
+    <node id="Lifu Huang">
+      <data key="d0">Lifu Huang</data>
+      <data key="d1">person</data>
+      <data key="d2">Lifu Huang is a co-author of AR-RAG, participating in the project's research and publication.</data>
+      <data key="d3">chunk-7e465c313730e93412238c5e48c4949a</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712963</data>
+      <data key="d6" />
+    </node>
+    <node id="Midjourney-30K">
+      <data key="d0">Midjourney-30K</data>
+      <data key="d1">dataset</data>
+      <data key="d2">Midjourney-30K is a benchmark used to evaluate AR-RAG on image generation tasks.</data>
+      <data key="d3">chunk-7e465c313730e93412238c5e48c4949a</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712963</data>
+      <data key="d6" />
+    </node>
+    <node id="GenEval">
+      <data key="d0">GenEval</data>
+      <data key="d1">benchmark</data>
+      <data key="d2">GenEval is a widely adopted benchmark for evaluating the performance of image generation models, including AR-RAG.</data>
+      <data key="d3">chunk-7e465c313730e93412238c5e48c4949a</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712963</data>
+      <data key="d6" />
+    </node>
+    <node id="DPG-Bench">
+      <data key="d0">DPG-Bench</data>
+      <data key="d1">dataset</data>
+      <data key="d2">DPG-Bench is another dataset used to evaluate the effectiveness of AR-RAG on image generation tasks.</data>
+      <data key="d3">chunk-7e465c313730e93412238c5e48c4949a</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712963</data>
+      <data key="d6" />
+    </node>
+    <node id="Autoregressive Retrieval Augmentation">
+      <data key="d0">Autoregressive Retrieval Augmentation</data>
+      <data key="d1">concept</data>
+      <data key="d2">AR-RAG is a novel paradigm for enhancing image generation by autoregressively incorporating knearest neighbor retrievals at the patch level.</data>
+      <data key="d3">chunk-7e465c313730e93412238c5e48c4949a</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712964</data>
+      <data key="d6" />
+    </node>
+    <node id="Nurshat Fateh Ali">
+      <data key="d0">Nurshat Fateh Ali</data>
+      <data key="d1">person</data>
+      <data key="d2">Nurshat Fateh Ali is one of the authors of the research paper titled Automated Literature Review Using NLP Techniques and LLM-Based Retrieval-Augmented Generation.</data>
+      <data key="d3">chunk-4ce3e0842ccf55f97b27f1a977faaa67</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712964</data>
+      <data key="d6" />
+    </node>
+    <node id="Md. Mahdi Mohtasim">
+      <data key="d0">Md. Mahdi Mohtasim</data>
+      <data key="d1">person</data>
+      <data key="d2">Md. Mahdi Mohtasim is an author of the mentioned research paper.</data>
+      <data key="d3">chunk-4ce3e0842ccf55f97b27f1a977faaa67</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712964</data>
+      <data key="d6" />
+    </node>
+    <node id="Shakil Mosharrof">
+      <data key="d0">Shakil Mosharrof</data>
+      <data key="d1">person</data>
+      <data key="d2">Shakil Mosharrof is a contributor to the Automated Literature Review Using NLP Techniques and LLM-Based Retrieval-Augmented Generation.</data>
+      <data key="d3">chunk-4ce3e0842ccf55f97b27f1a977faaa67</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712964</data>
+      <data key="d6" />
+    </node>
+    <node id="T. Gopi Krishna">
+      <data key="d0">T. Gopi Krishna</data>
+      <data key="d1">person</data>
+      <data key="d2">T. Gopi Krishna co-authored the research paper on automated literature review using NLP techniques and retrieval-augmented generation.</data>
+      <data key="d3">chunk-4ce3e0842ccf55f97b27f1a977faaa67</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712964</data>
+      <data key="d6" />
+    </node>
+    <node id="Automated Literature Review Using NLP Techniques and LLM-Based Retrieval-Augmented Generation">
+      <data key="d0">Automated Literature Review Using NLP Techniques and LLM-Based Retrieval-Augmented Generation</data>
+      <data key="d1">category</data>
+      <data key="d2">The research paper explores how to automate the process of generating literature reviews using NLP techniques and a large language model.</data>
+      <data key="d3">chunk-4ce3e0842ccf55f97b27f1a977faaa67</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712964</data>
+      <data key="d6" />
+    </node>
+    <node id="Natural Language Processing (NLP) Strategies">
+      <data key="d0">Natural Language Processing (NLP) Strategies</data>
+      <data key="d1">concept</data>
+      <data key="d2">Natural Language Processing strategies are utilized in this research work for automatic generation of literature reviews.</data>
+      <data key="d3">chunk-4ce3e0842ccf55f97b27f1a977faaa67</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712964</data>
+      <data key="d6" />
+    </node>
+    <node id="Retrieval-Augmented Generation (RAG)">
+      <data key="d0">Retrieval-Augmented Generation (RAG)</data>
+      <data key="d1">concept</data>
+      <data key="d2">Retrieval-Augmented Generation is an approach used to automate the process of generating literature reviews with a large language model.&lt;SEP&gt;RAG enables Large Language Models to generate grounded responses by leveraging external knowledge databases without altering model parameters.&lt;SEP&gt;Retrieval-Augmented Generation is a method used to make up for problems with using separate models.</data>
+      <data key="d3">chunk-4ce3e0842ccf55f97b27f1a977faaa67&lt;SEP&gt;chunk-8b61b46112793ea564faf7bd71cfe6bb&lt;SEP&gt;chunk-c6514729c0089a7326462210b15d6b62</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767713001</data>
+      <data key="d6" />
+    </node>
+    <node id="Large Language Model GPT-3.5-turbo">
+      <data key="d0">Large Language Model GPT-3.5-turbo</data>
+      <data key="d1">technology</data>
+      <data key="d2">GPT-3.5-turbo is a type of large language model utilized in this research for automatic generation of literature reviews.</data>
+      <data key="d3">chunk-4ce3e0842ccf55f97b27f1a977faaa67</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712964</data>
+      <data key="d6" />
+    </node>
+    <node id="Simple T5">
+      <data key="d0">Simple T5</data>
+      <data key="d1">method</data>
+      <data key="d2">The transformer-based model Simple T5 is used as one of the NLP strategies to generate literature reviews.</data>
+      <data key="d3">chunk-4ce3e0842ccf55f97b27f1a977faaa67</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712965</data>
+      <data key="d6" />
+    </node>
+    <node id="spaCy">
+      <data key="d0">spaCy</data>
+      <data key="d1">method</data>
+      <data key="d2">spaCy is a natural language processing strategy used for automatic generation of literature reviews based on frequency.</data>
+      <data key="d3">chunk-4ce3e0842ccf55f97b27f1a977faaa67</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712965</data>
+      <data key="d6" />
+    </node>
+    <node id="SciTLDR dataset">
+      <data key="d0">SciTLDR dataset</data>
+      <data key="d1">data</data>
+      <data key="d2">The SciTLDR dataset is used as the basis for this research work on automated literature review generation.</data>
+      <data key="d3">chunk-4ce3e0842ccf55f97b27f1a977faaa67</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712965</data>
+      <data key="d6" />
+    </node>
+    <node id="ROUGE scores">
+      <data key="d0">ROUGE scores</data>
+      <data key="d3">chunk-4ce3e0842ccf55f97b27f1a977faaa67</data>
+      <data key="d2">The Simple T5 transformer model obtained a lower ROUGE score compared to other evaluated NLP strategies in this research.</data>
+      <data key="d1">UNKNOWN</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712966</data>
+      <data key="d6" />
+    </node>
+    <node id="DAiD">
+      <data key="d0">DAiD</data>
+      <data key="d3">chunk-7e465c313730e93412238c5e48c4949a</data>
+      <data key="d2">DAiD is a training-free plug-and-use decoding strategy that directly merges the distribution of model-predicted patches with the distribution of retrieved patches in AR-RAG.</data>
+      <data key="d1">UNKNOWN</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712966</data>
+      <data key="d6" />
+    </node>
+    <node id="ROUGE-1 score evaluation">
+      <data key="d0">ROUGE-1 score evaluation</data>
+      <data key="d3">chunk-4ce3e0842ccf55f97b27f1a977faaa67</data>
+      <data key="d2">The Simple T5 model was evaluated based on its ROUGE-1 score performance.</data>
+      <data key="d1">UNKNOWN</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712966</data>
+      <data key="d6" />
+    </node>
+    <node id="FAiD">
+      <data key="d0">FAiD</data>
+      <data key="d3">chunk-7e465c313730e93412238c5e48c4949a</data>
+      <data key="d2">FAiD is a parameter-efficient fine-tuning method that progressively smooths the features of retrieved patches via multi-scale convolution operations and leverages them to augment the image generation process in AR-RAG.</data>
+      <data key="d1">UNKNOWN</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712967</data>
+      <data key="d6" />
+    </node>
+    <node id="Image Generation">
+      <data key="d0">Image Generation</data>
+      <data key="d3">chunk-7e465c313730e93412238c5e48c4949a</data>
+      <data key="d2">AR-RAG is designed for enhancing image generation tasks by incorporating autoregressive retrievals at the patch level.</data>
+      <data key="d1">UNKNOWN</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712967</data>
+      <data key="d6" />
+    </node>
+    <node id="EVOR">
+      <data key="d0">EVOR</data>
+      <data key="d1">concept</data>
+      <data key="d2">EVOR is a novel pipeline for retrieval-augmented code generation (RACG) that employs the synchronous evolution of both queries and diverse knowledge bases.</data>
+      <data key="d3">chunk-b8b7e56cc9748f6ddbb3c635e03029c7</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712984</data>
+      <data key="d6" />
+    </node>
+    <node id="Hongjin Su">
+      <data key="d0">Hongjin Su</data>
+      <data key="d1">person</data>
+      <data key="d2">Hongjin Su is an author who contributed to the development of EVOR.</data>
+      <data key="d3">chunk-b8b7e56cc9748f6ddbb3c635e03029c7</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712984</data>
+      <data key="d6" />
+    </node>
+    <node id="Shuyang Jiang">
+      <data key="d0">Shuyang Jiang</data>
+      <data key="d1">person</data>
+      <data key="d2">Shuyang Jiang is an author who contributed to the development of EVOR.</data>
+      <data key="d3">chunk-b8b7e56cc9748f6ddbb3c635e03029c7</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712984</data>
+      <data key="d6" />
+    </node>
+    <node id="Yuhang Lai">
+      <data key="d0">Yuhang Lai</data>
+      <data key="d1">person</data>
+      <data key="d2">Yuhang Lai is an author who contributed to the development of EVOR.</data>
+      <data key="d3">chunk-b8b7e56cc9748f6ddbb3c635e03029c7</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712984</data>
+      <data key="d6" />
+    </node>
+    <node id="Haoyuan Wu">
+      <data key="d0">Haoyuan Wu</data>
+      <data key="d1">person</data>
+      <data key="d2">Haoyuan Wu is an author who contributed to the development of EVOR.</data>
+      <data key="d3">chunk-b8b7e56cc9748f6ddbb3c635e03029c7</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712984</data>
+      <data key="d6" />
+    </node>
+    <node id="Boao Shi">
+      <data key="d0">Boao Shi</data>
+      <data key="d1">person</data>
+      <data key="d2">Boao Shi is an author who contributed to the development of EVOR.</data>
+      <data key="d3">chunk-b8b7e56cc9748f6ddbb3c635e03029c7</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712984</data>
+      <data key="d6" />
+    </node>
+    <node id="Che Liu">
+      <data key="d0">Che Liu</data>
+      <data key="d1">person</data>
+      <data key="d2">Che Liu is an author who contributed to the development of EVOR.</data>
+      <data key="d3">chunk-b8b7e56cc9748f6ddbb3c635e03029c7</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712984</data>
+      <data key="d6" />
+    </node>
+    <node id="Qian Liu">
+      <data key="d0">Qian Liu</data>
+      <data key="d1">person</data>
+      <data key="d2">Qian Liu is an author who contributed to the development of EVOR.</data>
+      <data key="d3">chunk-b8b7e56cc9748f6ddbb3c635e03029c7</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712984</data>
+      <data key="d6" />
+    </node>
+    <node id="Tao Yu">
+      <data key="d0">Tao Yu</data>
+      <data key="d1">person</data>
+      <data key="d2">Tao Yu is an author who contributed to the development of EVOR.</data>
+      <data key="d3">chunk-b8b7e56cc9748f6ddbb3c635e03029c7</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712984</data>
+      <data key="d6" />
+    </node>
+    <node id="ARKS-CodeGen">
+      <data key="d0">ARKS-CodeGen</data>
+      <data key="d1">organization</data>
+      <data key="d2">ARKS-CodeGen is a platform where the model, code, and data of EVOR are available.</data>
+      <data key="d3">chunk-b8b7e56cc9748f6ddbb3c635e03029c7</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712984</data>
+      <data key="d6" />
+    </node>
+    <node id="Ali Naseh">
+      <data key="d0">Ali Naseh</data>
+      <data key="d1">person</data>
+      <data key="d2">Ali Naseh is an author of the paper "Riddle Me This! Stealthy Membership Inference for Retrieval-Augmented Generation".</data>
+      <data key="d3">chunk-8b61b46112793ea564faf7bd71cfe6bb</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712986</data>
+      <data key="d6" />
+    </node>
+    <node id="Yuefeng Peng">
+      <data key="d0">Yuefeng Peng</data>
+      <data key="d1">person</data>
+      <data key="d2">Yuefeng Peng is an author of the paper "Riddle Me This! Stealthy Membership Inference for Retrieval-Augmented Generation".</data>
+      <data key="d3">chunk-8b61b46112793ea564faf7bd71cfe6bb</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712986</data>
+      <data key="d6" />
+    </node>
+    <node id="Anshuman Suri">
+      <data key="d0">Anshuman Suri</data>
+      <data key="d1">person</data>
+      <data key="d2">Anshuman Suri is an author of the paper "Riddle Me This! Stealthy Membership Inference for Retrieval-Augmented Generation".</data>
+      <data key="d3">chunk-8b61b46112793ea564faf7bd71cfe6bb</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712986</data>
+      <data key="d6" />
+    </node>
+    <node id="Harsh Chaudhari">
+      <data key="d0">Harsh Chaudhari</data>
+      <data key="d1">person</data>
+      <data key="d2">Harsh Chaudhari is an author of the paper "Riddle Me This! Stealthy Membership Inference for Retrieval-Augmented Generation".</data>
+      <data key="d3">chunk-8b61b46112793ea564faf7bd71cfe6bb</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712986</data>
+      <data key="d6" />
+    </node>
+    <node id="Alina Oprea">
+      <data key="d0">Alina Oprea</data>
+      <data key="d1">person</data>
+      <data key="d2">Alina Oprea is an author of the paper "Riddle Me This! Stealthy Membership Inference for Retrieval-Augmented Generation".</data>
+      <data key="d3">chunk-8b61b46112793ea564faf7bd71cfe6bb</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712986</data>
+      <data key="d6" />
+    </node>
+    <node id="Amir Houmansadr">
+      <data key="d0">Amir Houmansadr</data>
+      <data key="d1">person</data>
+      <data key="d2">Amir Houmansadr is an author of the paper "Riddle Me This! Stealthy Membership Inference for Retrieval-Augmented Generation".</data>
+      <data key="d3">chunk-8b61b46112793ea564faf7bd71cfe6bb</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712986</data>
+      <data key="d6" />
+    </node>
+    <node id="Interrogation Attack (IA)">
+      <data key="d0">Interrogation Attack (IA)</data>
+      <data key="d1">method</data>
+      <data key="d2">The Interrogation Attack is a membership inference technique targeting documents in the RAG datastore.</data>
+      <data key="d3">chunk-8b61b46112793ea564faf7bd71cfe6bb</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712986</data>
+      <data key="d6" />
+    </node>
+    <node id="Large Language Model (LLM)">
+      <data key="d0">Large Language Model (LLM)</data>
+      <data key="d1">concept</data>
+      <data key="d2">LLMs are models that can generate text based on input and context, enhanced with retrieval-Augmented Generation.</data>
+      <data key="d3">chunk-8b61b46112793ea564faf7bd71cfe6bb</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712987</data>
+      <data key="d6" />
+    </node>
+    <node id="Datastore">
+      <data key="d0">Datastore</data>
+      <data key="d1">database</data>
+      <data key="d2">The datastore is a database used in RAG systems to store retrieved documents for model generation.</data>
+      <data key="d3">chunk-8b61b46112793ea564faf7bd71cfe6bb</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712987</data>
+      <data key="d6" />
+    </node>
+    <node id="2025-02-01">
+      <data key="d0">2025-02-01</data>
+      <data key="d1">date</data>
+      <data key="d2">The date 2025-02-01 is the publication date of the paper "Riddle Me This! Stealthy Membership Inference for Retrieval-Augmented Generation".</data>
+      <data key="d3">chunk-8b61b46112793ea564faf7bd71cfe6bb</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712987</data>
+      <data key="d6" />
+    </node>
+    <node id="Riddle Me This!">
+      <data key="d0">Riddle Me This!</data>
+      <data key="d1">title</data>
+      <data key="d2">"Riddle Me This!" is the title of the paper.</data>
+      <data key="d3">chunk-8b61b46112793ea564faf7bd71cfe6bb</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712987</data>
+      <data key="d6" />
+    </node>
+    <node id="Reflexion">
+      <data key="d0">Reflexion</data>
+      <data key="d3">chunk-b8b7e56cc9748f6ddbb3c635e03029c7</data>
+      <data key="d2">The Reflexion method has a different performance compared to EVOR in code generation tasks.</data>
+      <data key="d1">UNKNOWN</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712987</data>
+      <data key="d6" />
+    </node>
+    <node id="DocPrompting">
+      <data key="d0">DocPrompting</data>
+      <data key="d3">chunk-b8b7e56cc9748f6ddbb3c635e03029c7</data>
+      <data key="d2">The DocPrompting method has a different performance compared to EVOR in code generation tasks.</data>
+      <data key="d1">UNKNOWN</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712988</data>
+      <data key="d6" />
+    </node>
+    <node id="EVOR-BENCH">
+      <data key="d0">EVOR-BENCH</data>
+      <data key="d3">chunk-b8b7e56cc9748f6ddbb3c635e03029c7</data>
+      <data key="d2">The EVOR-BENCH dataset is used for evaluating the performance of EVOR.</data>
+      <data key="d1">UNKNOWN</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767712989</data>
+      <data key="d6" />
+    </node>
+    <node id="Zahra Khalila">
+      <data key="d0">Zahra Khalila</data>
+      <data key="d1">person</data>
+      <data key="d2">Zahra Khalila is a researcher involved in the study of Retrieval-Augmented Generation in Quranic Studies.</data>
+      <data key="d3">chunk-c6514729c0089a7326462210b15d6b62</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767713001</data>
+      <data key="d6" />
+    </node>
+    <node id="Arbi Haza Nasution">
+      <data key="d0">Arbi Haza Nasution</data>
+      <data key="d1">person</data>
+      <data key="d2">Arbi Haza Nasution is a researcher involved in the study of Retrieval-Augmented Generation in Quranic Studies.</data>
+      <data key="d3">chunk-c6514729c0089a7326462210b15d6b62</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767713001</data>
+      <data key="d6" />
+    </node>
+    <node id="Winda Monika">
+      <data key="d0">Winda Monika</data>
+      <data key="d1">person</data>
+      <data key="d2">Winda Monika is a researcher involved in the study of Retrieval-Augmented Generation in Quranic Studies.</data>
+      <data key="d3">chunk-c6514729c0089a7326462210b15d6b62</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767713001</data>
+      <data key="d6" />
+    </node>
+    <node id="Aytug Onan">
+      <data key="d0">Aytug Onan</data>
+      <data key="d1">person</data>
+      <data key="d2">Aytug Onan is a researcher involved in the study of Retrieval-Augmented Generation in Quranic Studies.</data>
+      <data key="d3">chunk-c6514729c0089a7326462210b15d6b62</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767713001</data>
+      <data key="d6" />
+    </node>
+    <node id="Yohei Murakami">
+      <data key="d0">Yohei Murakami</data>
+      <data key="d1">person</data>
+      <data key="d2">Yohei Murakami is a researcher involved in the study of Retrieval-Augmented Generation in Quranic Studies.</data>
+      <data key="d3">chunk-c6514729c0089a7326462210b15d6b62</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767713001</data>
+      <data key="d6" />
+    </node>
+    <node id="Yasir Bin Ismail Radi">
+      <data key="d0">Yasir Bin Ismail Radi</data>
+      <data key="d1">person</data>
+      <data key="d2">Yasir Bin Ismail Radi is a researcher involved in the study of Retrieval-Augmented Generation in Quranic Studies.</data>
+      <data key="d3">chunk-c6514729c0089a7326462210b15d6b62</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767713001</data>
+      <data key="d6" />
+    </node>
+    <node id="Noor Mohammad Osmani">
+      <data key="d0">Noor Mohammad Osmani</data>
+      <data key="d1">person</data>
+      <data key="d2">Noor Mohammad Osmani is a researcher involved in the study of Retrieval-Augmented Generation in Quranic Studies.</data>
+      <data key="d3">chunk-c6514729c0089a7326462210b15d6b62</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767713001</data>
+      <data key="d6" />
+    </node>
+    <node id="Llama3:70b">
+      <data key="d0">Llama3:70b</data>
+      <data key="d1">equipment</data>
+      <data key="d2">Llama3:70b is one of the large language models investigated in the study.</data>
+      <data key="d3">chunk-c6514729c0089a7326462210b15d6b62</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767713002</data>
+      <data key="d6" />
+    </node>
+    <node id="Gemma2:27b">
+      <data key="d0">Gemma2:27b</data>
+      <data key="d1">equipment</data>
+      <data key="d2">Gemma2:27b is another large language model studied.</data>
+      <data key="d3">chunk-c6514729c0089a7326462210b15d6b62</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767713002</data>
+      <data key="d6" />
+    </node>
+    <node id="QwQ:32b">
+      <data key="d0">QwQ:32b</data>
+      <data key="d1">equipment</data>
+      <data key="d2">QwQ:32b is a third large language model investigated in the study.</data>
+      <data key="d3">chunk-c6514729c0089a7326462210b15d6b62</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767713002</data>
+      <data key="d6" />
+    </node>
+    <node id="Llama3:8b">
+      <data key="d0">Llama3:8b</data>
+      <data key="d1">equipment</data>
+      <data key="d2">Llama3:8b is one of the medium-sized language models studied.</data>
+      <data key="d3">chunk-c6514729c0089a7326462210b15d6b62</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767713002</data>
+      <data key="d6" />
+    </node>
+    <node id="Gemma2:9b">
+      <data key="d0">Gemma2:9b</data>
+      <data key="d1">equipment</data>
+      <data key="d2">Gemma2:9b is a second medium-sized language model examined in the study.</data>
+      <data key="d3">chunk-c6514729c0089a7326462210b15d6b62</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767713002</data>
+      <data key="d6" />
+    </node>
+    <node id="Llama3.2:3b">
+      <data key="d0">Llama3.2:3b</data>
+      <data key="d1">equipment</data>
+      <data key="d2">Llama3.2:3b is considered a small but well-optimized language model that does very well on faithfulness and relevance metrics.</data>
+      <data key="d3">chunk-c6514729c0089a7326462210b15d6b62</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767713002</data>
+      <data key="d6" />
+    </node>
+    <node id="Phi3:3.8b">
+      <data key="d0">Phi3:3.8b</data>
+      <data key="d1">equipment</data>
+      <data key="d2">Phi3:3.8b is another small language model studied in the paper.</data>
+      <data key="d3">chunk-c6514729c0089a7326462210b15d6b62</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767713002</data>
+      <data key="d6" />
+    </node>
+    <node id="2025-03-20">
+      <data key="d0">2025-03-20</data>
+      <data key="d1">date</data>
+      <data key="d2">The date of publication for the study.</data>
+      <data key="d3">chunk-c6514729c0089a7326462210b15d6b62</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767713002</data>
+      <data key="d6" />
+    </node>
+    <node id="Quranic Surahs Dataset">
+      <data key="d0">Quranic Surahs Dataset</data>
+      <data key="d3">chunk-c6514729c0089a7326462210b15d6b62</data>
+      <data key="d2">Llama3.2:3b gathered relevant knowledge from the Quranic Surahs dataset before responding to queries.&lt;SEP&gt;The Quranic Surahs dataset was used to gather relevant knowledge by Llama3.2:3b before responding to queries.</data>
+      <data key="d1">UNKNOWN</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767713002</data>
+      <data key="d6" />
+    </node>
+    <node id="Faithfulness and Relevance Metrics">
+      <data key="d0">Faithfulness and Relevance Metrics</data>
+      <data key="d3">chunk-c6514729c0089a7326462210b15d6b62</data>
+      <data key="d2">Llama3.2:3b does very well on faithfulness (4.619) and relevance (4.857), according to human evaluators.</data>
+      <data key="d1">UNKNOWN</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767713003</data>
+      <data key="d6" />
+    </node>
+    <node id="Large Models">
+      <data key="d0">Large Models</data>
+      <data key="d3">chunk-c6514729c0089a7326462210b15d6b62</data>
+      <data key="d2">Llama3.2:3b outperforms smaller models in capturing query semantics and producing accurate, contextually grounded responses.</data>
+      <data key="d1">UNKNOWN</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767713003</data>
+      <data key="d6" />
+    </node>
+    <node id="GraphRAG">
+      <data key="d0">GraphRAG</data>
+      <data key="d1">concept</data>
+      <data key="d2">GraphRAG is a new approach combining knowledge graphs with retrieval-augmented generation.</data>
+      <data key="d3">chunk-1eb3f14c91d32e9673d9a0d928dccad0</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767713575</data>
+      <data key="d6" />
+    </node>
+    <node id="Microsoft Research">
+      <data key="d0">Microsoft Research</data>
+      <data key="d1">organization</data>
+      <data key="d2">Microsoft Research developed GraphRAG to improve question-answering capabilities.</data>
+      <data key="d3">chunk-1eb3f14c91d32e9673d9a0d928dccad0</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767713575</data>
+      <data key="d6" />
+    </node>
+    <node id="Knowledge Graph">
+      <data key="d0">Knowledge Graph</data>
+      <data key="d1">datastructure</data>
+      <data key="d2">A knowledge graph is a data structure used by GraphRAG, which combines entities and their relationships.</data>
+      <data key="d3">chunk-1eb3f14c91d32e9673d9a0d928dccad0</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767713575</data>
+      <data key="d6" />
+    </node>
+    <node id="Question-Aware Generation">
+      <data key="d0">Question-Aware Generation</data>
+      <data key="d1">concept</data>
+      <data key="d2">Question-aware generation is a component of retrieval-augmented generation in GraphRAG.</data>
+      <data key="d3">chunk-1eb3f14c91d32e9673d9a0d928dccad0</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767713575</data>
+      <data key="d6" />
+    </node>
+    <node id="Community Detection Algorithms">
+      <data key="d0">Community Detection Algorithms</data>
+      <data key="d3">chunk-1eb3f14c91d32e9673d9a0d928dccad0</data>
+      <data key="d2">GraphRAG uses community detection algorithms on the knowledge graph.</data>
+      <data key="d1">UNKNOWN</data>
+      <data key="d4">unknown_source</data>
+      <data key="d5">1767713575</data>
+      <data key="d6" />
+    </node>
+    <edge source="AR-RAG" target="Jingyuan Qi">
+      <data key="d7">1.0</data>
+      <data key="d8">Jingyuan Qi contributed to the development and research of AR-RAG.</data>
+      <data key="d9">contribution,research collaboration</data>
+      <data key="d10">chunk-7e465c313730e93412238c5e48c4949a</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712964</data>
+      <data key="d13" />
+    </edge>
+    <edge source="AR-RAG" target="Zhiyang Xu">
+      <data key="d7">1.0</data>
+      <data key="d8">Zhiyang Xu collaborated with other researchers on AR-RAG.</data>
+      <data key="d9">contribution,research collaboration</data>
+      <data key="d10">chunk-7e465c313730e93412238c5e48c4949a</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712964</data>
+      <data key="d13" />
+    </edge>
+    <edge source="AR-RAG" target="Qifan Wang">
+      <data key="d7">1.0</data>
+      <data key="d8">Qifan Wang contributed to the research and development of AR-RAG.</data>
+      <data key="d9">contribution,research collaboration</data>
+      <data key="d10">chunk-7e465c313730e93412238c5e48c4949a</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712964</data>
+      <data key="d13" />
+    </edge>
+    <edge source="AR-RAG" target="Lifu Huang">
+      <data key="d7">1.0</data>
+      <data key="d8">Lifu Huang participated in the project's research and publication.</data>
+      <data key="d9">contribution,research collaboration</data>
+      <data key="d10">chunk-7e465c313730e93412238c5e48c4949a</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712965</data>
+      <data key="d13" />
+    </edge>
+    <edge source="AR-RAG" target="Midjourney-30K">
+      <data key="d7">1.0</data>
+      <data key="d8">AR-RAG was evaluated on Midjourney-30K for its performance on image generation tasks.</data>
+      <data key="d9">benchmark,performance evaluation</data>
+      <data key="d10">chunk-7e465c313730e93412238c5e48c4949a</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712965</data>
+      <data key="d13" />
+    </edge>
+    <edge source="AR-RAG" target="GenEval">
+      <data key="d7">1.0</data>
+      <data key="d8">AR-RAG's performance was also assessed using the GenEval benchmark.</data>
+      <data key="d9">benchmark,performance evaluation</data>
+      <data key="d10">chunk-7e465c313730e93412238c5e48c4949a</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712965</data>
+      <data key="d13" />
+    </edge>
+    <edge source="AR-RAG" target="DPG-Bench">
+      <data key="d7">1.0</data>
+      <data key="d8">The effectiveness of AR-RAG was further evaluated on DPG-Bench for image generation tasks.</data>
+      <data key="d9">dataset,performance evaluation</data>
+      <data key="d10">chunk-7e465c313730e93412238c5e48c4949a</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712966</data>
+      <data key="d13" />
+    </edge>
+    <edge source="AR-RAG" target="DAiD">
+      <data key="d7">1.0</data>
+      <data key="d8">DAiD is a training-free plug-and-use decoding strategy that directly merges the distribution of model-predicted patches with the distribution of retrieved patches in AR-RAG.</data>
+      <data key="d9">method,research framework</data>
+      <data key="d10">chunk-7e465c313730e93412238c5e48c4949a</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712966</data>
+      <data key="d13" />
+    </edge>
+    <edge source="AR-RAG" target="FAiD">
+      <data key="d7">1.0</data>
+      <data key="d8">FAiD is a parameter-efficient fine-tuning method that progressively smooths the features of retrieved patches via multi-scale convolution operations and leverages them to augment the image generation process in AR-RAG.</data>
+      <data key="d9">method,research framework</data>
+      <data key="d10">chunk-7e465c313730e93412238c5e48c4949a</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712967</data>
+      <data key="d13" />
+    </edge>
+    <edge source="AR-RAG" target="Image Generation">
+      <data key="d7">1.0</data>
+      <data key="d8">AR-RAG is designed for enhancing image generation tasks by incorporating autoregressive retrievals at the patch level.</data>
+      <data key="d9">application,task</data>
+      <data key="d10">chunk-7e465c313730e93412238c5e48c4949a</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712968</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Nurshat Fateh Ali" target="Automated Literature Review Using NLP Techniques and LLM-Based Retrieval-Augmented Generation">
+      <data key="d7">1.0</data>
+      <data key="d8">Nurshat Fateh Ali is one of the authors of this research paper on automated literature review.</data>
+      <data key="d9">authorship,research publication</data>
+      <data key="d10">chunk-4ce3e0842ccf55f97b27f1a977faaa67</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712965</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Nurshat Fateh Ali" target="Md. Mahdi Mohtasim">
+      <data key="d7">1.0</data>
+      <data key="d8">Nurshat Fateh Ali and Md. Mahdi Mohtasim collaborated as co-authors in this research paper.</data>
+      <data key="d9">authorship,collaboration</data>
+      <data key="d10">chunk-4ce3e0842ccf55f97b27f1a977faaa67</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712965</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Md. Mahdi Mohtasim" target="Automated Literature Review Using NLP Techniques and LLM-Based Retrieval-Augmented Generation">
+      <data key="d7">1.0</data>
+      <data key="d8">Md. Mahdi Mohtasim is a co-author of the mentioned research paper.</data>
+      <data key="d9">authorship,research publication</data>
+      <data key="d10">chunk-4ce3e0842ccf55f97b27f1a977faaa67</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712966</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Shakil Mosharrof" target="Automated Literature Review Using NLP Techniques and LLM-Based Retrieval-Augmented Generation">
+      <data key="d7">1.0</data>
+      <data key="d8">Shakil Mosharrof contributed to this research on automated literature review using NLP techniques.</data>
+      <data key="d9">co-authorship,research publication</data>
+      <data key="d10">chunk-4ce3e0842ccf55f97b27f1a977faaa67</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712966</data>
+      <data key="d13" />
+    </edge>
+    <edge source="T. Gopi Krishna" target="Automated Literature Review Using NLP Techniques and LLM-Based Retrieval-Augmented Generation">
+      <data key="d7">1.0</data>
+      <data key="d8">T. Gopi Krishna co-authored the mentioned research paper on automation of literature reviews using a large language model.</data>
+      <data key="d9">co-authorship,research publication</data>
+      <data key="d10">chunk-4ce3e0842ccf55f97b27f1a977faaa67</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712966</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Retrieval-Augmented Generation (RAG)" target="Simple T5">
+      <data key="d7">1.0</data>
+      <data key="d8">The Simple T5 method is compared to the Retrieval-Augmented Generation (RAG) approach for generating literature reviews in this research work.</data>
+      <data key="d9">method comparison,performance evaluation</data>
+      <data key="d10">chunk-4ce3e0842ccf55f97b27f1a977faaa67</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712965</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Retrieval-Augmented Generation (RAG)" target="Large Language Model GPT-3.5-turbo">
+      <data key="d7">1.0</data>
+      <data key="d8">The Retrieval-Augmented Generation with a large language model is evaluated and compared to other NLP strategies in this research.</data>
+      <data key="d9">RAG implementation,performance comparison</data>
+      <data key="d10">chunk-4ce3e0842ccf55f97b27f1a977faaa67</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712965</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Retrieval-Augmented Generation (RAG)" target="Interrogation Attack (IA)">
+      <data key="d7">1.0</data>
+      <data key="d8">The Interrogation Attack targets documents in the RAG datastore.</data>
+      <data key="d9">inference technique,method application</data>
+      <data key="d10">chunk-8b61b46112793ea564faf7bd71cfe6bb</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712987</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Retrieval-Augmented Generation (RAG)" target="Large Language Model (LLM)">
+      <data key="d7">1.0</data>
+      <data key="d8">RAG enables Large Language Models to generate grounded responses by leveraging external knowledge databases without altering model parameters.</data>
+      <data key="d9">concept application,model enhancement</data>
+      <data key="d10">chunk-8b61b46112793ea564faf7bd71cfe6bb</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712987</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Retrieval-Augmented Generation (RAG)" target="Ali Naseh">
+      <data key="d7">1.0</data>
+      <data key="d8">The paper by Ali Naseh et al. uses Retrieval-Augmented Generation to generate grounded responses without altering model parameters.</data>
+      <data key="d9">generation of grounded responses,method application</data>
+      <data key="d10">chunk-8b61b46112793ea564faf7bd71cfe6bb</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712989</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Retrieval-Augmented Generation (RAG)" target="Zahra Khalila">
+      <data key="d7">1.0</data>
+      <data key="d8">Zahra Khalila is a researcher who investigated the use of Retrieval-Augmented Generation.</data>
+      <data key="d9">RAG application,researcher methodology</data>
+      <data key="d10">chunk-c6514729c0089a7326462210b15d6b62</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767713002</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Retrieval-Augmented Generation (RAG)" target="Arbi Haza Nasution">
+      <data key="d7">1.0</data>
+      <data key="d8">Arbi Haza Nasution is also involved in using RAG for Quranic Studies.</data>
+      <data key="d9">RAG application,researcher methodology</data>
+      <data key="d10">chunk-c6514729c0089a7326462210b15d6b62</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767713002</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Retrieval-Augmented Generation (RAG)" target="Quranic Surahs Dataset">
+      <data key="d7">1.0</data>
+      <data key="d8">The study utilizes Retrieval-Augmented Generation to make up for the problems of using separate models and to gather relevant knowledge from the Quranic Surahs dataset.</data>
+      <data key="d9">dataset,methodology application</data>
+      <data key="d10">chunk-c6514729c0089a7326462210b15d6b62</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767713003</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Large Language Model GPT-3.5-turbo" target="ROUGE scores">
+      <data key="d7">1.0</data>
+      <data key="d8">GPT-3.5-turbo achieved the highest ROUGE-1 score of 0.364 among the evaluated systems in this research work.</data>
+      <data key="d9">achievement evaluation,performance measurement</data>
+      <data key="d10">chunk-4ce3e0842ccf55f97b27f1a977faaa67</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712966</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Simple T5" target="spaCy">
+      <data key="d7">1.0</data>
+      <data key="d8">SpaCy and the transformer-based model Simple T5 are evaluated as part of this research to compare their performance in automatic generation of literature reviews.</data>
+      <data key="d9">NLP strategy evaluation,performance comparison</data>
+      <data key="d10">chunk-4ce3e0842ccf55f97b27f1a977faaa67</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712965</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Simple T5" target="ROUGE scores">
+      <data key="d7">1.0</data>
+      <data key="d8">The Simple T5 transformer model obtained a lower ROUGE score compared to other evaluated NLP strategies in this research.</data>
+      <data key="d9">evaluation,performance comparison</data>
+      <data key="d10">chunk-4ce3e0842ccf55f97b27f1a977faaa67</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712966</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Simple T5" target="ROUGE-1 score evaluation">
+      <data key="d7">1.0</data>
+      <data key="d8">The Simple T5 model was evaluated based on its ROUGE-1 score performance.</data>
+      <data key="d9">method evaluation,performance comparison</data>
+      <data key="d10">chunk-4ce3e0842ccf55f97b27f1a977faaa67</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712966</data>
+      <data key="d13" />
+    </edge>
+    <edge source="spaCy" target="ROUGE scores">
+      <data key="d7">1.0</data>
+      <data key="d8">SpaCy achieved the lowest ROUGE-1 score among the systems compared and evaluated in this research work.</data>
+      <data key="d9">evaluation results,performance assessment</data>
+      <data key="d10">chunk-4ce3e0842ccf55f97b27f1a977faaa67</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712966</data>
+      <data key="d13" />
+    </edge>
+    <edge source="EVOR" target="Hongjin Su">
+      <data key="d7">1.0</data>
+      <data key="d8">Hongjin Su was one of the authors who developed EVOR.</data>
+      <data key="d9">authorship,contribution</data>
+      <data key="d10">chunk-b8b7e56cc9748f6ddbb3c635e03029c7</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712985</data>
+      <data key="d13" />
+    </edge>
+    <edge source="EVOR" target="Shuyang Jiang">
+      <data key="d7">1.0</data>
+      <data key="d8">Shuyang Jiang was one of the authors who developed EVOR.</data>
+      <data key="d9">authorship,contribution</data>
+      <data key="d10">chunk-b8b7e56cc9748f6ddbb3c635e03029c7</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712985</data>
+      <data key="d13" />
+    </edge>
+    <edge source="EVOR" target="Yuhang Lai">
+      <data key="d7">1.0</data>
+      <data key="d8">Yuhang Lai was one of the authors who developed EVOR.</data>
+      <data key="d9">authorship,contribution</data>
+      <data key="d10">chunk-b8b7e56cc9748f6ddbb3c635e03029c7</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712985</data>
+      <data key="d13" />
+    </edge>
+    <edge source="EVOR" target="Haoyuan Wu">
+      <data key="d7">1.0</data>
+      <data key="d8">Haoyuan Wu was one of the authors who developed EVOR.</data>
+      <data key="d9">authorship,contribution</data>
+      <data key="d10">chunk-b8b7e56cc9748f6ddbb3c635e03029c7</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712986</data>
+      <data key="d13" />
+    </edge>
+    <edge source="EVOR" target="Boao Shi">
+      <data key="d7">1.0</data>
+      <data key="d8">Boao Shi was one of the authors who developed EVOR.</data>
+      <data key="d9">authorship,contribution</data>
+      <data key="d10">chunk-b8b7e56cc9748f6ddbb3c635e03029c7</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712986</data>
+      <data key="d13" />
+    </edge>
+    <edge source="EVOR" target="Che Liu">
+      <data key="d7">1.0</data>
+      <data key="d8">Che Liu was one of the authors who developed EVOR.</data>
+      <data key="d9">authorship,contribution</data>
+      <data key="d10">chunk-b8b7e56cc9748f6ddbb3c635e03029c7</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712986</data>
+      <data key="d13" />
+    </edge>
+    <edge source="EVOR" target="Qian Liu">
+      <data key="d7">1.0</data>
+      <data key="d8">Qian Liu was one of the authors who developed EVOR.</data>
+      <data key="d9">authorship,contribution</data>
+      <data key="d10">chunk-b8b7e56cc9748f6ddbb3c635e03029c7</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712987</data>
+      <data key="d13" />
+    </edge>
+    <edge source="EVOR" target="Tao Yu">
+      <data key="d7">1.0</data>
+      <data key="d8">Tao Yu was one of the authors who developed EVOR.</data>
+      <data key="d9">authorship,contribution</data>
+      <data key="d10">chunk-b8b7e56cc9748f6ddbb3c635e03029c7</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712987</data>
+      <data key="d13" />
+    </edge>
+    <edge source="EVOR" target="Reflexion">
+      <data key="d7">1.0</data>
+      <data key="d8">The Reflexion method has a different performance compared to EVOR in code generation tasks.</data>
+      <data key="d9">method comparison,performance difference</data>
+      <data key="d10">chunk-b8b7e56cc9748f6ddbb3c635e03029c7</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712988</data>
+      <data key="d13" />
+    </edge>
+    <edge source="EVOR" target="DocPrompting">
+      <data key="d7">1.0</data>
+      <data key="d8">The DocPrompting method has a different performance compared to EVOR in code generation tasks.</data>
+      <data key="d9">method comparison,performance difference</data>
+      <data key="d10">chunk-b8b7e56cc9748f6ddbb3c635e03029c7</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712988</data>
+      <data key="d13" />
+    </edge>
+    <edge source="EVOR" target="EVOR-BENCH">
+      <data key="d7">1.0</data>
+      <data key="d8">The EVOR-BENCH dataset is used for evaluating the performance of EVOR.</data>
+      <data key="d9">dataset association,performance evaluation</data>
+      <data key="d10">chunk-b8b7e56cc9748f6ddbb3c635e03029c7</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712989</data>
+      <data key="d13" />
+    </edge>
+    <edge source="EVOR" target="ARKS-CodeGen">
+      <data key="d7">1.0</data>
+      <data key="d8">The model, code, and data of EVOR are available on the ARKS-CodeGen platform.</data>
+      <data key="d9">platform,resource availability</data>
+      <data key="d10">chunk-b8b7e56cc9748f6ddbb3c635e03029c7</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712989</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Ali Naseh" target="Yuefeng Peng">
+      <data key="d7">1.0</data>
+      <data key="d8">Ali Naseh and Yuefeng Peng are co-authors of the paper "Riddle Me This! Stealthy Membership Inference for Retrieval-Augmented Generation".</data>
+      <data key="d9">co-authorship,collaboration</data>
+      <data key="d10">chunk-8b61b46112793ea564faf7bd71cfe6bb</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712987</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Ali Naseh" target="Anshuman Suri">
+      <data key="d7">1.0</data>
+      <data key="d8">Ali Naseh and Anshuman Suri are co-authors of the paper "Riddle Me This! Stealthy Membership Inference for Retrieval-Augmented Generation".</data>
+      <data key="d9">co-authorship,collaboration</data>
+      <data key="d10">chunk-8b61b46112793ea564faf7bd71cfe6bb</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712988</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Ali Naseh" target="Harsh Chaudhari">
+      <data key="d7">1.0</data>
+      <data key="d8">Ali Naseh and Harsh Chaudhari are co-authors of the paper "Riddle Me This! Stealthy Membership Inference for Retrieval-Augmented Generation".</data>
+      <data key="d9">co-authorship,collaboration</data>
+      <data key="d10">chunk-8b61b46112793ea564faf7bd71cfe6bb</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712988</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Ali Naseh" target="Riddle Me This!">
+      <data key="d7">1.0</data>
+      <data key="d8">"Riddle Me This!" is a paper authored by Ali Naseh et al.</data>
+      <data key="d9">publication,title authorship</data>
+      <data key="d10">chunk-8b61b46112793ea564faf7bd71cfe6bb</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712989</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Yuefeng Peng" target="Anshuman Suri">
+      <data key="d7">1.0</data>
+      <data key="d8">Yuefeng Peng and Anshuman Suri are co-authors of the paper "Riddle Me This! Stealthy Membership Inference for Retrieval-Augmented Generation".</data>
+      <data key="d9">co-authorship,collaboration</data>
+      <data key="d10">chunk-8b61b46112793ea564faf7bd71cfe6bb</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712987</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Yuefeng Peng" target="Harsh Chaudhari">
+      <data key="d7">1.0</data>
+      <data key="d8">Yuefeng Peng and Harsh Chaudhari are co-authors of the paper "Riddle Me This! Stealthy Membership Inference for Retrieval-Augmented Generation".</data>
+      <data key="d9">co-authorship,collaboration</data>
+      <data key="d10">chunk-8b61b46112793ea564faf7bd71cfe6bb</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712988</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Anshuman Suri" target="Harsh Chaudhari">
+      <data key="d7">1.0</data>
+      <data key="d8">Anshuman Suri and Harsh Chaudhari are co-authors of the paper "Riddle Me This! Stealthy Membership Inference for Retrieval-Augmented Generation".</data>
+      <data key="d9">co-authorship,collaboration</data>
+      <data key="d10">chunk-8b61b46112793ea564faf7bd71cfe6bb</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712988</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Alina Oprea" target="Amir Houmansadr">
+      <data key="d7">1.0</data>
+      <data key="d8">Alina Oprea and Amir Houmansadr are co-authors of the paper "Riddle Me This! Stealthy Membership Inference for Retrieval-Augmented Generation".</data>
+      <data key="d9">co-authorship,collaboration</data>
+      <data key="d10">chunk-8b61b46112793ea564faf7bd71cfe6bb</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712987</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Interrogation Attack (IA)" target="Datastore">
+      <data key="d7">1.0</data>
+      <data key="d8">The Interrogation Attack targets documents in the RAG datastore, accessing it for inference.</data>
+      <data key="d9">database access,inference technique</data>
+      <data key="d10">chunk-8b61b46112793ea564faf7bd71cfe6bb</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767712987</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Llama3:70b" target="Quranic Surahs Dataset">
+      <data key="d7">1.0</data>
+      <data key="d8">Large models like Llama3:70b gathered relevant knowledge from the Quranic Surahs dataset before responding.</data>
+      <data key="d9">knowledge gathering,model training data</data>
+      <data key="d10">chunk-c6514729c0089a7326462210b15d6b62</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767713003</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Gemma2:27b" target="Quranic Surahs Dataset">
+      <data key="d7">1.0</data>
+      <data key="d8">Gemma2:27b also gathered relevant knowledge from the Quranic Surahs dataset for better responses.</data>
+      <data key="d9">knowledge gathering,model training data</data>
+      <data key="d10">chunk-c6514729c0089a7326462210b15d6b62</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767713003</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Llama3.2:3b" target="Quranic Surahs Dataset">
+      <data key="d7">2.0</data>
+      <data key="d8">Llama3.2:3b gathered relevant knowledge from the Quranic Surahs dataset before responding to queries.&lt;SEP&gt;The Quranic Surahs dataset was used to gather relevant knowledge by Llama3.2:3b before responding to queries.</data>
+      <data key="d9">knowledge gathering,model training data</data>
+      <data key="d10">chunk-c6514729c0089a7326462210b15d6b62</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767713002</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Llama3.2:3b" target="Faithfulness and Relevance Metrics">
+      <data key="d7">1.0</data>
+      <data key="d8">Llama3.2:3b does very well on faithfulness (4.619) and relevance (4.857), according to human evaluators.</data>
+      <data key="d9">metrics,model performance evaluation</data>
+      <data key="d10">chunk-c6514729c0089a7326462210b15d6b62</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767713003</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Llama3.2:3b" target="Large Models">
+      <data key="d7">1.0</data>
+      <data key="d8">Llama3.2:3b outperforms smaller models in capturing query semantics and producing accurate, contextually grounded responses.</data>
+      <data key="d9">model comparison,performance</data>
+      <data key="d10">chunk-c6514729c0089a7326462210b15d6b62</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767713004</data>
+      <data key="d13" />
+    </edge>
+    <edge source="GraphRAG" target="Microsoft Research">
+      <data key="d7">1.0</data>
+      <data key="d8">GraphRAG was developed by Microsoft Research.</data>
+      <data key="d9">algorithm development,research institution</data>
+      <data key="d10">chunk-1eb3f14c91d32e9673d9a0d928dccad0</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767713575</data>
+      <data key="d13" />
+    </edge>
+    <edge source="GraphRAG" target="Knowledge Graph">
+      <data key="d7">1.0</data>
+      <data key="d8">GraphRAG uses community detection algorithms on the knowledge graph.</data>
+      <data key="d9">algorithm application,data structure usage</data>
+      <data key="d10">chunk-1eb3f14c91d32e9673d9a0d928dccad0</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767713576</data>
+      <data key="d13" />
+    </edge>
+    <edge source="Knowledge Graph" target="Community Detection Algorithms">
+      <data key="d7">1.0</data>
+      <data key="d8">GraphRAG uses community detection algorithms on the knowledge graph.</data>
+      <data key="d9">algorithm application,data structure usage</data>
+      <data key="d10">chunk-1eb3f14c91d32e9673d9a0d928dccad0</data>
+      <data key="d11">unknown_source</data>
+      <data key="d12">1767713576</data>
+      <data key="d13" />
+    </edge>
+  </graph>
+</graphml>

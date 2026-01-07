@@ -55,17 +55,25 @@
 ## ✨ 核心特性
 
 ### 🔍 階層式檢索 (from LightRAG)
+
 - **Local Keywords**: 實體級別的精確檢索
 - **Global Keywords**: 主題級別的語義檢索
 - **Hybrid Mode**: 結合關鍵字與向量檢索
 
-### 🕸️ 超圖記憶 (from HGMem)
+### 🗄️ 雙路儲存架構 (Dual-Path Storage) - [NEW!]
+
+- **Local-Fast 模式**: 基於 **SQLite** 的一站式儲存。將 KG (圖譜)、Memory (超圖記憶) 與 Chunks (文本與元數據) 整合進單個 SQLite 檔案，實現事務一致性與零配置啟動。
+- **Enterprise 模式**: 支援 **Milvus** / **PostgreSQL** / **Neo4j** 分散式後端，滿足大規模預算與高併發需求。
+
+### �🕸️ 超圖記憶 (from HGMem)
+
 - **HyperEdge**: 支援 n-ary 關係（超越傳統二元關係）
 - **Memory.evolve()**: 記憶自適應演化機制
 - **Hypergraph Chain**: 長 RAG 鏈多跳推理 (2-hop BFS traversal)
 - **Memory Persistence**: SQLite 持久化記憶點
 
 ### 🔌 MCP 整合 (22 Tools)
+
 - **文本 CRUD**: `insert_document`, `insert_text`, `insert_batch`
 - **知識查詢**: `query`, `query_simple`, `query_data`
 - **記憶操作**: `evolve_memory`, `get_memory_context`, `clear_memory_points`
@@ -112,6 +120,7 @@ OLLAMA_HOST=http://localhost:11434
 ### 作為 MCP Server 使用
 
 `.vscode/mcp.json`:
+
 ```json
 {
   "servers": {

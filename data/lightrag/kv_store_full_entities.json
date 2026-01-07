@@ -1,0 +1,124 @@
+{
+  "doc-4ce3e0842ccf55f97b27f1a977faaa67": {
+    "entity_names": [
+      "Large Language Model GPT-3.5-turbo",
+      "spaCy",
+      "SciTLDR dataset",
+      "T. Gopi Krishna",
+      "Md. Mahdi Mohtasim",
+      "Nurshat Fateh Ali",
+      "Simple T5",
+      "Natural Language Processing (NLP) Strategies",
+      "Automated Literature Review Using NLP Techniques and LLM-Based Retrieval-Augmented Generation",
+      "ROUGE-1 score evaluation",
+      "ROUGE scores",
+      "Retrieval-Augmented Generation (RAG)",
+      "Shakil Mosharrof"
+    ],
+    "count": 13,
+    "create_time": 1767712967,
+    "update_time": 1767712967,
+    "_id": "doc-4ce3e0842ccf55f97b27f1a977faaa67"
+  },
+  "doc-7e465c313730e93412238c5e48c4949a": {
+    "entity_names": [
+      "DPG-Bench",
+      "Autoregressive Retrieval Augmentation",
+      "DAiD",
+      "Midjourney-30K",
+      "AR-RAG",
+      "GenEval",
+      "Qifan Wang",
+      "FAiD",
+      "Image Generation",
+      "Lifu Huang",
+      "Jingyuan Qi",
+      "Zhiyang Xu"
+    ],
+    "count": 12,
+    "create_time": 1767712968,
+    "update_time": 1767712968,
+    "_id": "doc-7e465c313730e93412238c5e48c4949a"
+  },
+  "doc-8b61b46112793ea564faf7bd71cfe6bb": {
+    "entity_names": [
+      "Harsh Chaudhari",
+      "Ali Naseh",
+      "Alina Oprea",
+      "2025-02-01",
+      "Anshuman Suri",
+      "Interrogation Attack (IA)",
+      "Datastore",
+      "Yuefeng Peng",
+      "Large Language Model (LLM)",
+      "Riddle Me This!",
+      "Amir Houmansadr",
+      "Retrieval-Augmented Generation (RAG)"
+    ],
+    "count": 12,
+    "create_time": 1767712989,
+    "update_time": 1767712989,
+    "_id": "doc-8b61b46112793ea564faf7bd71cfe6bb"
+  },
+  "doc-b8b7e56cc9748f6ddbb3c635e03029c7": {
+    "entity_names": [
+      "DocPrompting",
+      "Reflexion",
+      "Hongjin Su",
+      "Boao Shi",
+      "EVOR",
+      "Shuyang Jiang",
+      "ARKS-CodeGen",
+      "Che Liu",
+      "EVOR-BENCH",
+      "Qian Liu",
+      "Yuhang Lai",
+      "Haoyuan Wu",
+      "Tao Yu"
+    ],
+    "count": 13,
+    "create_time": 1767712990,
+    "update_time": 1767712990,
+    "_id": "doc-b8b7e56cc9748f6ddbb3c635e03029c7"
+  },
+  "doc-c6514729c0089a7326462210b15d6b62": {
+    "entity_names": [
+      "Yasir Bin Ismail Radi",
+      "Noor Mohammad Osmani",
+      "Gemma2:27b",
+      "Zahra Khalila",
+      "Aytug Onan",
+      "Phi3:3.8b",
+      "Yohei Murakami",
+      "Large Models",
+      "Llama3:70b",
+      "Retrieval-Augmented Generation (RAG)",
+      "Faithfulness and Relevance Metrics",
+      "2025-03-20",
+      "Winda Monika",
+      "Llama3.2:3b",
+      "Arbi Haza Nasution",
+      "Quranic Surahs Dataset",
+      "Llama3:8b",
+      "Gemma2:9b",
+      "QwQ:32b"
+    ],
+    "count": 19,
+    "create_time": 1767713004,
+    "update_time": 1767713004,
+    "_id": "doc-c6514729c0089a7326462210b15d6b62"
+  },
+  "doc-1eb3f14c91d32e9673d9a0d928dccad0": {
+    "entity_names": [
+      "Question-Aware Generation",
+      "Knowledge Graph",
+      "GraphRAG",
+      "Microsoft Research",
+      "Community Detection Algorithms"
+    ],
+    "count": 5,
+    "create_time": 1767713576,
+    "update_time": 1767713576,
+    "_id": "doc-1eb3f14c91d32e9673d9a0d928dccad0"
+  }
+}
