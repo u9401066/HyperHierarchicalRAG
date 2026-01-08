@@ -6,7 +6,7 @@ authors = [
     {name = "u9401066", email = "u9401066@gap.kmu.edu.tw"}
 ]
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 dependencies = [
     # === 核心 RAG 依賴 (from external/) ===
     # 安裝方式:

@@ -1,22 +1,18 @@
-# Progress (Updated: 2026-01-07)
+# Progress (Updated: 2026-01-08)
 
 ## Done
 
-- Fix LightRAG LLM integration (hashing_kv issue)
-- Implement Hypergraph multi-hop expansion (BFS)
-- Implement SQLite persistence for Memory Points
-- Create unified RAGEngine query flow with hypergraph step
-- Update MCP server with 22 tools
-- Initial testing of long RAG chain via MCP queries
-- Document Dual-Path Storage Strategy (SQLite vs Enterprise) in README/ROADMAP
+- Upgrade project to Python 3.12 via uv
+- Modernize type hinting using PEP 604 (pipe syntax) across codebase
+- Fix linting errors and logic bugs in engine.py and mcp_server.py
+- Standardize LLM function signatures for system prompt handling
+- Perform widespread code cleanup using Ruff
 
 ## Doing
 
-
+- Testing system stability after Python 3.12 upgrade
 
 ## Next
 
-- Implement SQLiteUnifiedRepository (KG + Chunks + Memory integration)
-- Refactor RAGEngine to support STORAGE_TYPE switching
-- Add basic reranker for multi-hop expanded entities
-- Create Docker Compose for Enterprise Stack (Milvus/PG)
+- Implement basic reranker for multi-hop expanded entities
+- Add metadata provenance for Memory Points in SQLite repository

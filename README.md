@@ -4,10 +4,10 @@
 > 
 > 透過 MCP (Model Context Protocol) 將知識檢索能力暴露給 AI Agent
 
-[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![MCP Compatible](https://img.shields.io/badge/MCP-Compatible-green.svg)](https://modelcontextprotocol.io/)
-[![Version](https://img.shields.io/badge/version-0.6.0-brightgreen.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.7.0-brightgreen.svg)](CHANGELOG.md)
 
 🌐 [繁體中文](README.zh-TW.md)
 
@@ -90,15 +90,12 @@ git clone https://github.com/u9401066/HyperHierarchicalRAG.git
 cd HyperHierarchicalRAG
 
 # 2. 建立虛擬環境 (使用 uv)
-uv venv --python 3.11
+uv venv --python 3.12
 .\.venv\Scripts\Activate.ps1  # Windows
 source .venv/bin/activate     # Linux/Mac
 
 # 3. 安裝依賴
-uv pip install -e ".[dev]"
-
-# 4. 安裝 external LightRAG
-uv pip install -e ./external/LightRAG
+uv sync --all-extras
 ```
 
 ### 環境變數配置

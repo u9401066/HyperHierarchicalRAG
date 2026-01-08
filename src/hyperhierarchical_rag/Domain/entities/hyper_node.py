@@ -9,20 +9,21 @@ References:
 - Data Model: docs/architecture/data-model.md
 """
 
+import hashlib
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import List, Optional
 from uuid import uuid4
-import hashlib
 
 
 class NodeLevel(Enum):
     """
     Hierarchical level of the node (from LightRAG).
-    
+
     - LOCAL: Specific entities (ll_keywords in LightRAG)
     - GLOBAL: Abstract concepts/themes (hl_keywords in LightRAG)
     """
+
     LOCAL = "local"
     GLOBAL = "global"
 
@@ -31,7 +32,7 @@ class NodeLevel(Enum):
 class HyperNode:
     """
     Entity node in the hypergraph.
-    
+
     Attributes:
         id: Unique identifier (hash of name by default)
         name: Entity name
@@ -41,6 +42,7 @@ class HyperNode:
         embedding: Semantic embedding vector (optional, computed lazily)
         source_id: Source document ID
     """
+
     name: str
     description: str = ""
     level: NodeLevel = NodeLevel.LOCAL
@@ -48,26 +50,26 @@ class HyperNode:
     embedding: Optional[List[float]] = None
     source_id: Optional[str] = None
     id: str = field(default_factory=lambda: str(uuid4()))
-    
+
     def __post_init__(self) -> None:
         """Generate ID from name hash if not provided."""
         if self.id == str(uuid4()):  # Default was used
             self.id = self._generate_id(self.name)
-    
+
     @staticmethod
     def _generate_id(name: str) -> str:
         """Generate a deterministic ID from the entity name."""
         return hashlib.sha256(name.encode()).hexdigest()[:16]
-    
+
     def add_keyword(self, keyword: str) -> None:
         """Add a keyword for indexing."""
         if keyword not in self.keywords:
             self.keywords.append(keyword)
-    
+
     def set_embedding(self, embedding: List[float]) -> None:
         """Set the semantic embedding vector."""
         self.embedding = embedding
-    
+
     def to_dict(self) -> dict:
         """Convert to dictionary for serialization."""
         return {
@@ -79,7 +81,7 @@ class HyperNode:
             "embedding": self.embedding,
             "source_id": self.source_id,
         }
-    
+
     @classmethod
     def from_dict(cls, data: dict) -> "HyperNode":
         """Create from dictionary."""
@@ -92,10 +94,10 @@ class HyperNode:
             embedding=data.get("embedding"),
             source_id=data.get("source_id"),
         )
-    
+
     def __hash__(self) -> int:
         return hash(self.id)
-    
+
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, HyperNode):
             return False

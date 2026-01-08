@@ -1,44 +1,37 @@
 # Active Context
 
 ## Current Status
-- 🎯 **核心策略**：先整合，後創新 (整合 MVP 優先)
-- ✅ **Phase 1 核心整合基本完成**
-- 🔄 進入 MCP Server 實作階段
+- ✅ **Python 3.12 升級完成**：全面使用 `uv` 管理與恢復 `|` 標註。
+- ✅ **代碼現代化修復**：修復了 `engine.py`, `mcp_server.py`, `persistence` 等 20+ 個檔案的型別與邏輯錯誤。
+- 🔄 **準備提交環境變更**。
 
-## Architecture Decision Log
+## Current Goals
+- [x] 升級 Python 3.12 並釘選版本。
+- [x] 修復所有 `mypy` 和 `ruff` 偵測到的型別不相容問題。
+- [x] 恢復 Python 3.10+ 的簡潔 Union 語法 (`|`)。
+- [ ] 執行完整的 E2E 驗證（待環境穩定後）。
 
-### 關鍵決策：單層 Hypergraph + 節點 Level 屬性
-- **問題**: LightRAG 的 High/Low Level 如何與 HGMem 的 Hypergraph 整合？
-- **選項**: A) 雙層分離 Graph, B) 疊層獨立 Graph, C) 單層統一 + Level 屬性
-- **決策**: **採用方案 C**
-- **原因**: 
-  1. LightRAG 的 High/Low 是查詢路由概念，不是儲存結構
-  2. Hyperedge 的價值在於跨 Level 連接（主題↔實體）
-  3. 單層結構簡潔，查詢時用 Level 過濾即可
+## Architecture Decision Log (Update)
+
+### 決策：全面轉向 Python 3.12 現代語法
+- **背景**: 之前為了相容性改回 `Union/Optional`。
+- **決策**: **恢復 PEP 604 語法**。
+- **原因**: 專案已決定使用 `uv` 鎖定 Python 3.12+，無須再為舊版本做語法妥協，現代語法更易於閱讀與維護。
 
 ## Implemented Components
 
 ### Domain Layer
-- `HyperNode`: 節點實體 (id, name, level, keywords, embedding)
-- `HyperEdge`: 超邊實體 (n-ary node_ids, evolve_count, evolve() method)
-- `NodeLevel`: Enum (LOCAL, GLOBAL)
-- `MemoryEvolver`: LLM-driven 記憶演化服務 (EVOLVE_MEMORY_*_PROMPT)
-- `IHypergraphRepository`: Repository 介面
+- `HyperNode`: 支援 `|` 語法標註。
+- `KGMemorySyncService`: 修正了 `None` 賦值邏輯與 Lambda 描述函數。
 
 ### Infrastructure Layer
-- `InMemoryHypergraphRepository`: MVP 記憶體儲存 + keyword index + BFS
-- `HierarchicalRouter`: LightRAG Adapter (keyword extraction)
+- `SQLiteUnifiedRepository`: 補全 `Generator` 標註。
+- `Adapters`: 加入 `cast` 處理外部庫返回的 `Any` 型別。
 
 ### Application Layer
-- `QueryProcessor`: 5-step 整合查詢流程
-  1. Keyword Extraction (LightRAG)
-  2. KG Retrieval (LightRAG)
-  3. Hyperedge Traversal (HGMem topology)
-  4. Memory Evolution (HGMem evolve)
-  5. Response Generation
+- `RAGEngine`: 修正 LLM 初始化邏輯與實體選取。
 
 ## Next Steps
-- 完成 MCP Server Tools 實作
-- 實作 LightRAG 完整 wrapper (目前只有 keyword extraction)
-- End-to-end 測試
-- 補充文檔與 README 更新
+- 提交代碼並推送至 GitHub。
+- 測試 `RAGEngine` 的 `STORAGE_TYPE` 動態切換。
+- 實作超圖擴展實體的 Reranker。

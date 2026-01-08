@@ -9,17 +9,17 @@ Tools provided:
 📚 Document CRUD:
   - insert_document: Insert text into RAG system
   - delete_document: Delete document by ID
-  
+
 🔍 Knowledge Query:
   - query: Full query with memory evolution
   - query_simple: Quick query without memory
   - query_data: Get raw entities/relations (no LLM)
-  
+
 🧠 Memory Management:
   - evolve_memory: Trigger memory evolution
   - get_memory_context: Get current memory state
   - clear_memory: Clear all memory points
-  
+
 📊 Knowledge Graph Operations:
   - create_entity: Add single entity
   - create_relation: Add relation between entities
@@ -28,7 +28,7 @@ Tools provided:
   - get_knowledge_graph: Get full KG structure
   - delete_entity: Remove entity and relations
   - merge_entities: Merge two entities
-  
+
 🔧 System:
   - get_health: Health check
   - get_graph_stats: Graph statistics
@@ -37,16 +37,15 @@ Tools provided:
 ═══════════════════════════════════════════════════════════════════════════════
 """
 
-import asyncio
 import logging
 from contextlib import asynccontextmanager
 from dataclasses import dataclass
-from typing import Any, Dict, List, Literal, Optional, AsyncIterator
+from typing import Any, AsyncIterator, Dict, List, Optional
 
 from mcp.server.fastmcp import Context, FastMCP
 from pydantic import Field
 
-from hyperhierarchical_rag.engine import RAGEngine, QueryMode
+from hyperhierarchical_rag.engine import RAGEngine
 
 logger = logging.getLogger(__name__)
 
@@ -54,6 +53,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class AppContext:
     """Application context with RAGEngine."""
+
     engine: RAGEngine
 
 
@@ -64,13 +64,13 @@ async def app_lifespan(server: FastMCP) -> AsyncIterator[AppContext]:
     Initializes RAGEngine at startup with all components.
     """
     logger.info("HyperHierarchicalRAG MCP Server starting...")
-    
+
     # Initialize RAGEngine from environment
     engine = RAGEngine.from_env()
     init_result = await engine.initialize()
-    
+
     logger.info(f"RAGEngine initialized: {init_result}")
-    
+
     try:
         yield AppContext(engine=engine)
     finally:
@@ -85,12 +85,12 @@ def format_response(result: Any, is_error: bool = False) -> Dict[str, Any]:
     """Format response in standard format."""
     if is_error:
         return {"status": "error", "error": str(result)}
-    
+
     if isinstance(result, dict):
         return {"status": "success", "response": result}
     if hasattr(result, "to_dict"):
         return {"status": "success", "response": result.to_dict()}
-    
+
     return {"status": "success", "response": str(result)}
 
 
@@ -102,9 +102,10 @@ def get_engine(ctx: Context) -> RAGEngine:
 
 # ==================== Document CRUD Tools ====================
 
+
 @mcp.tool(
     name="insert_document",
-    description="Insert a document into the RAG system. LightRAG handles: chunking, entity extraction, KG building, vector indexing."
+    description="Insert a document into the RAG system. LightRAG handles: chunking, entity extraction, KG building, vector indexing.",
 )
 async def insert_document(
     ctx: Context,
@@ -123,7 +124,7 @@ async def insert_document(
 
 @mcp.tool(
     name="delete_document",
-    description="Delete a document and all its associated entities/relations from the KG."
+    description="Delete a document and all its associated entities/relations from the KG.",
 )
 async def delete_document(
     ctx: Context,
@@ -141,6 +142,7 @@ async def delete_document(
 
 # ==================== Knowledge Query Tools ====================
 
+
 @mcp.tool(
     name="query",
     description="""Execute a full RAG query with optional memory evolution (HGMem).
@@ -153,12 +155,14 @@ Modes:
 - mix: All modes combined
 - bypass: Skip KG, direct retrieval
 
-Set evolve_memory=True to enable HGMem memory evolution."""
+Set evolve_memory=True to enable HGMem memory evolution.""",
 )
 async def query(
     ctx: Context,
     query: str = Field(description="Query text"),
-    mode: str = Field(description="Query mode: hybrid, local, global, naive, mix, bypass", default="hybrid"),
+    mode: str = Field(
+        description="Query mode: hybrid, local, global, naive, mix, bypass", default="hybrid"
+    ),
     top_k: int = Field(description="Number of results to retrieve", default=10),
     evolve_memory: bool = Field(description="Enable HGMem memory evolution", default=True),
     visualize: bool = Field(description="Generate query path visualization", default=False),
@@ -181,7 +185,7 @@ async def query(
 
 @mcp.tool(
     name="query_simple",
-    description="Quick query - returns LightRAG's response without memory evolution. Use for fast lookups."
+    description="Quick query - returns LightRAG's response without memory evolution. Use for fast lookups.",
 )
 async def query_simple(
     ctx: Context,
@@ -200,7 +204,7 @@ async def query_simple(
 
 @mcp.tool(
     name="query_data",
-    description="Query and return raw entities/relations/chunks without LLM processing. Useful for data exploration."
+    description="Query and return raw entities/relations/chunks without LLM processing. Useful for data exploration.",
 )
 async def query_data(
     ctx: Context,
@@ -220,6 +224,7 @@ async def query_data(
 
 # ==================== Memory Management Tools (HGMem) ====================
 
+
 @mcp.tool(
     name="evolve_memory",
     description="""Trigger HGMem memory evolution based on retrieved context.
@@ -228,7 +233,7 @@ Memory evolution:
 1. Extracts memory points from context
 2. Updates existing memories with new information
 3. Creates associations between related concepts
-4. Tracks history for temporal reasoning"""
+4. Tracks history for temporal reasoning""",
 )
 async def evolve_memory(
     ctx: Context,
@@ -240,18 +245,20 @@ async def evolve_memory(
         engine = get_engine(ctx)
         if not engine._memory_evolver:
             return format_response("Memory evolver not initialized", is_error=True)
-        
+
         result = await engine._memory_evolver.evolve_and_track(
             retrieved_info=context,
             main_query=query,
             subqueries=[],
         )
-        return format_response({
-            "inserted": len(result.inserted_points),
-            "updated": len(result.updated_points),
-            "inserted_points": [p.identifier for p in result.inserted_points],
-            "updated_points": [p.identifier for p in result.updated_points],
-        })
+        return format_response(
+            {
+                "inserted": len(result.inserted_points),
+                "updated": len(result.updated_points),
+                "inserted_points": [", ".join(p.involved_objects) for p in result.inserted_points],
+                "updated_points": [", ".join(p[1].involved_objects) for p in result.updated_points],
+            }
+        )
     except Exception as e:
         logger.exception(f"Error evolving memory: {e}")
         return format_response(str(e), is_error=True)
@@ -259,7 +266,7 @@ async def evolve_memory(
 
 @mcp.tool(
     name="get_memory_context",
-    description="Get current memory context - all memory points formatted for LLM consumption."
+    description="Get current memory context - all memory points formatted for LLM consumption.",
 )
 async def get_memory_context(
     ctx: Context,
@@ -270,15 +277,17 @@ async def get_memory_context(
         engine = get_engine(ctx)
         if not engine._memory_evolver:
             return format_response({"context": "", "count": 0})
-        
+
         context = await engine._memory_evolver.get_memory_context()
         points_context = await engine._memory_evolver.get_memory_points_context(delimiter)
-        
-        return format_response({
-            "context": context,
-            "points_context": points_context,
-            "memory_points_count": len(engine._memory_evolver.memory_points),
-        })
+
+        return format_response(
+            {
+                "context": context,
+                "points_context": points_context,
+                "memory_points_count": len(engine._memory_evolver.memory_points),
+            }
+        )
     except Exception as e:
         logger.exception(f"Error getting memory context: {e}")
         return format_response(str(e), is_error=True)
@@ -286,7 +295,7 @@ async def get_memory_context(
 
 @mcp.tool(
     name="get_memory_point_info",
-    description="Get detailed information about a specific memory point by its identifier."
+    description="Get detailed information about a specific memory point by its identifier.",
 )
 async def get_memory_point_info(
     ctx: Context,
@@ -297,8 +306,10 @@ async def get_memory_point_info(
         engine = get_engine(ctx)
         if not engine._memory_evolver:
             return format_response("Memory evolver not initialized", is_error=True)
-        
-        info = engine._memory_evolver.get_memory_point_info(identifier)
+
+        # Convert string identifier back to list for search
+        objs = [s.strip() for s in identifier.split(",")]
+        info = await engine._memory_evolver.get_memory_point_info(objs)
         return format_response({"info": info})
     except Exception as e:
         logger.exception(f"Error getting memory point info: {e}")
@@ -307,7 +318,7 @@ async def get_memory_point_info(
 
 @mcp.tool(
     name="clear_memory",
-    description="Clear all memory points. Use with caution - this removes all learned context."
+    description="Clear all memory points. Use with caution - this removes all learned context.",
 )
 async def clear_memory(ctx: Context) -> Dict[str, Any]:
     """Clear all memory points."""
@@ -315,14 +326,11 @@ async def clear_memory(ctx: Context) -> Dict[str, Any]:
         engine = get_engine(ctx)
         if not engine._memory_evolver:
             return format_response("Memory evolver not initialized", is_error=True)
-        
+
         count = len(engine._memory_evolver.memory_points)
         engine._memory_evolver.memory_points.clear()
-        
-        return format_response({
-            "cleared": count,
-            "message": f"Cleared {count} memory points"
-        })
+
+        return format_response({"cleared": count, "message": f"Cleared {count} memory points"})
     except Exception as e:
         logger.exception(f"Error clearing memory: {e}")
         return format_response(str(e), is_error=True)
@@ -330,10 +338,8 @@ async def clear_memory(ctx: Context) -> Dict[str, Any]:
 
 # ==================== Knowledge Graph Operations ====================
 
-@mcp.tool(
-    name="create_entity",
-    description="Create a single entity in the Knowledge Graph."
-)
+
+@mcp.tool(name="create_entity", description="Create a single entity in the Knowledge Graph.")
 async def create_entity(
     ctx: Context,
     entity_name: str = Field(description="Name of the entity"),
@@ -358,7 +364,7 @@ async def create_entity(
 
 @mcp.tool(
     name="create_relation",
-    description="Create a relation (edge) between two entities in the Knowledge Graph."
+    description="Create a relation (edge) between two entities in the Knowledge Graph.",
 )
 async def create_relation(
     ctx: Context,
@@ -386,7 +392,7 @@ async def create_relation(
 
 @mcp.tool(
     name="get_entity_info",
-    description="Get detailed information about an entity including its relations."
+    description="Get detailed information about an entity including its relations.",
 )
 async def get_entity_info(
     ctx: Context,
@@ -406,7 +412,7 @@ async def get_entity_info(
 
 @mcp.tool(
     name="get_relation_info",
-    description="Get detailed information about a relation between two entities."
+    description="Get detailed information about a relation between two entities.",
 )
 async def get_relation_info(
     ctx: Context,
@@ -418,11 +424,7 @@ async def get_relation_info(
         engine = get_engine(ctx)
         info = await engine.get_relation_info(src_entity, tgt_entity)
         if info is None:
-            return format_response({
-                "found": False, 
-                "src": src_entity, 
-                "tgt": tgt_entity
-            })
+            return format_response({"found": False, "src": src_entity, "tgt": tgt_entity})
         return format_response({"found": True, "relation": info})
     except Exception as e:
         logger.exception(f"Error getting relation info: {e}")
@@ -431,7 +433,7 @@ async def get_relation_info(
 
 @mcp.tool(
     name="get_knowledge_graph",
-    description="Get the full Knowledge Graph structure with all entities and relations."
+    description="Get the full Knowledge Graph structure with all entities and relations.",
 )
 async def get_knowledge_graph(
     ctx: Context,
@@ -453,7 +455,7 @@ async def get_knowledge_graph(
 
 @mcp.tool(
     name="delete_entity",
-    description="Delete an entity and all its associated relations from the Knowledge Graph."
+    description="Delete an entity and all its associated relations from the Knowledge Graph.",
 )
 async def delete_entity(
     ctx: Context,
@@ -471,7 +473,7 @@ async def delete_entity(
 
 @mcp.tool(
     name="merge_entities",
-    description="Merge two entities - source entity is merged into target, source is deleted."
+    description="Merge two entities - source entity is merged into target, source is deleted.",
 )
 async def merge_entities(
     ctx: Context,
@@ -488,10 +490,7 @@ async def merge_entities(
         return format_response(str(e), is_error=True)
 
 
-@mcp.tool(
-    name="insert_custom_kg",
-    description="Insert custom entities and relations in bulk."
-)
+@mcp.tool(name="insert_custom_kg", description="Insert custom entities and relations in bulk.")
 async def insert_custom_kg(
     ctx: Context,
     entities: List[Dict[str, Any]] = Field(
@@ -522,31 +521,27 @@ async def insert_custom_kg(
 
 # ==================== System Tools ====================
 
+
 @mcp.tool(
-    name="get_health",
-    description="Check the health status of the RAG system and all components."
+    name="get_health", description="Check the health status of the RAG system and all components."
 )
 async def get_health(ctx: Context) -> Dict[str, Any]:
     """Health check with component status."""
     try:
         engine = get_engine(ctx)
         status = engine.get_status()
-        return format_response({
-            "status": "healthy" if status["initialized"] else "initializing",
-            "version": "0.6.0",
-            "components": status["components"],
-        })
+        return format_response(
+            {
+                "status": "healthy" if status["initialized"] else "initializing",
+                "version": "0.6.0",
+                "components": status["components"],
+            }
+        )
     except Exception as e:
-        return format_response({
-            "status": "unhealthy",
-            "error": str(e)
-        })
+        return format_response({"status": "unhealthy", "error": str(e)})
 
 
-@mcp.tool(
-    name="get_graph_stats",
-    description="Get detailed statistics about the Knowledge Graph."
-)
+@mcp.tool(name="get_graph_stats", description="Get detailed statistics about the Knowledge Graph.")
 async def get_graph_stats(ctx: Context) -> Dict[str, Any]:
     """Get graph statistics."""
     try:
@@ -560,7 +555,7 @@ async def get_graph_stats(ctx: Context) -> Dict[str, Any]:
 
 @mcp.tool(
     name="export_data",
-    description="Export all data from the RAG system (entities, relations, chunks)."
+    description="Export all data from the RAG system (entities, relations, chunks).",
 )
 async def export_data(ctx: Context) -> Dict[str, Any]:
     """Export all data."""
@@ -574,8 +569,7 @@ async def export_data(ctx: Context) -> Dict[str, Any]:
 
 
 @mcp.tool(
-    name="clear_cache",
-    description="Clear LLM response cache. Use when you need fresh responses."
+    name="clear_cache", description="Clear LLM response cache. Use when you need fresh responses."
 )
 async def clear_cache(ctx: Context) -> Dict[str, Any]:
     """Clear LLM cache."""
@@ -590,7 +584,7 @@ async def clear_cache(ctx: Context) -> Dict[str, Any]:
 
 @mcp.tool(
     name="visualize_graph",
-    description="Generate an interactive HTML visualization of the Knowledge Graph."
+    description="Generate an interactive HTML visualization of the Knowledge Graph.",
 )
 async def visualize_graph(
     ctx: Context,
@@ -600,10 +594,7 @@ async def visualize_graph(
     try:
         engine = get_engine(ctx)
         path = await engine.visualize_graph(filename=filename)
-        return format_response({
-            "path": str(path),
-            "message": f"Visualization saved to {path}"
-        })
+        return format_response({"path": str(path), "message": f"Visualization saved to {path}"})
     except Exception as e:
         logger.exception(f"Error generating visualization: {e}")
         return format_response(str(e), is_error=True)

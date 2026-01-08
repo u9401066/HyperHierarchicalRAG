@@ -5,6 +5,22 @@
 格式基於 [Keep a Changelog](https://keepachangelog.com/zh-TW/1.0.0/)，
 專案遵循 [語義化版本](https://semver.org/lang/zh-TW/)。
 
+## [0.7.0] - 2026-01-08
+
+### Added
+
+- **Python 3.12 升級** 🚀
+  - 使用 `uv` 管理 Python 版本，釘選為 3.12.12。
+  - 恢復現代 Python 語法，全面使用 PEP 604 `|` Union 標註。
+- **型別系統現代化**
+  - 修復了全專案的 Lint 錯誤（包括 `engine.py`, `mcp_server.py`, `persistence` 等）。
+  - 在關鍵適配器中加入 `cast` 標註，提升代碼穩健性與 IDE 支援。
+
+### Changed
+
+- 優化 `engine.py` 的 LLM 函數簽名，解耦系統提示詞處理。
+- 升級 `README.md` 環境配置，優先推薦使用 `uv sync`。
+
 ## [0.6.0] - 2026-01-07
 
 ### Added
