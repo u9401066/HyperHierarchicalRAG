@@ -1,6 +1,6 @@
 [project]
 name = "hyperhierarchical-rag"
-version = "0.1.0"
+version = "0.7.1"
 description = "A novel RAG system combining Hypergraph Memory with Hierarchical Retrieval, exposed as MCP tools"
 authors = [
     {name = "u9401066", email = "u9401066@gap.kmu.edu.tw"}
@@ -37,9 +37,10 @@ dev = [
     "pytest>=7.0.0",
     "pytest-cov>=4.0.0",
     "pytest-asyncio>=0.21.0",
-    "black>=23.0.0",
     "ruff>=0.1.0",
     "mypy>=1.0.0",
+    "pre-commit>=3.0.0",
+    "bandit>=1.7.0",
 ]
 
 # MCP Server 入口點
@@ -65,21 +66,59 @@ packages = ["src/hyperhierarchical_rag"]
 
 [tool.black]
 line-length = 100
-target-version = ['py310']
+target-version = ['py312']
 
 [tool.ruff]
 line-length = 100
-target-version = "py310"
-select = ["E", "F", "I", "N", "W"]
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "B", "C4", "UP", "SIM"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"src/hyperhierarchical_rag/engine.py" = ["E402"]
+"src/hyperhierarchical_rag/mcp_server.py" = ["B008"]
+"scripts/*" = ["E402"]
+"tests/*" = ["ARG001", "ARG002", "SIM105"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["hyperhierarchical_rag"]
 
 [tool.mypy]
-python_version = "3.10"
+python_version = "3.12"
+# 漸進式嚴格：先開啟基本檢查，待泛型型別標註完善後再啟用 strict
+strict = false
 warn_return_any = true
 warn_unused_configs = true
-disallow_untyped_defs = true
+check_untyped_defs = true
+no_implicit_optional = true
+show_error_codes = true
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+disable_error_code = ["type-arg", "unused-ignore"]
+
+[tool.bandit]
+exclude_dirs = ["tests", "scripts", "external"]
+skips = ["B101"]  # assert 用於測試
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
+asyncio_mode = "auto"
+markers = [
+    "unit: Unit tests (fast, no IO)",
+    "integration: Integration tests (may use DB/network)",
+    "e2e: End-to-end tests (full pipeline)",
+    "slow: Slow tests (>5s)",
+]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+]
+
+[dependency-groups]
+dev = [
+    "pytest-timeout>=2.4.0",
+]

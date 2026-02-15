@@ -12,15 +12,16 @@ KG-Memory 雙向同步服務
 
 import hashlib
 import re
+from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Any, Callable, Dict, List, Tuple
+from typing import Any
 
 # ============ 輔助函數 ============
 
 
 def compute_mdhash_id(content: str, prefix: str = "") -> str:
     """計算 MD5 hash ID"""
-    return prefix + hashlib.md5(content.encode()).hexdigest()
+    return prefix + hashlib.md5(content.encode()).hexdigest()  # noqa: S324  # nosec B324
 
 
 def clean_str(s: str) -> str:
@@ -28,7 +29,7 @@ def clean_str(s: str) -> str:
     return s.strip().strip('"').strip("'")
 
 
-def split_string_by_multi_markers(content: str, markers: List[str]) -> List[str]:
+def split_string_by_multi_markers(content: str, markers: list[str]) -> list[str]:
     """根據多個標記分割字符串"""
     pattern = "|".join(re.escape(m) for m in markers)
     return [s.strip() for s in re.split(pattern, content) if s.strip()]
@@ -37,7 +38,7 @@ def split_string_by_multi_markers(content: str, markers: List[str]) -> List[str]
 # ============ Prompts ============
 
 SUMMARIZE_ABSENT_ENTITIES_PROMPT = """---Goal---
-Given the following context information and target entities/relationships, 
+Given the following context information and target entities/relationships,
 summarize the descriptions for the entities and relationships that appear in the context.
 
 ---Target Entities---
@@ -63,8 +64,8 @@ If an entity/relationship cannot be found in the context, skip it.
 
 
 def postprocess_summarize_absent_entities_relationships(
-    response: str, format_dict: Dict[str, str]
-) -> Tuple[Dict[str, Dict], Dict[tuple, Dict]]:
+    response: str, format_dict: dict[str, str]
+) -> tuple[dict[str, dict], dict[tuple, dict]]:
     """
     解析 LLM 對缺失實體/關係的摘要回應
 
@@ -145,7 +146,7 @@ class KGMemorySyncService:
     llm_func: Callable  # LLM 函數
 
     # 格式設定
-    format_dict: Dict[str, str] | None = None
+    format_dict: dict[str, str] | None = None
 
     # 描述函數 (用於生成向量內容)
     entity_description_func: Callable | None = None
@@ -172,10 +173,10 @@ class KGMemorySyncService:
 
     async def collect_absent_entities_relationships(
         self,
-        absent_entities_hyperedges_kv: Dict[str, List[List[str]]],
+        absent_entities_hyperedges_kv: dict[str, list[list[str]]],
         context_info: str,
         max_iterations: int = 3,
-    ) -> Tuple[Dict[str, Dict], Dict[tuple, Dict]]:
+    ) -> tuple[dict[str, dict], dict[tuple, dict]]:
         """
         收集並補全缺失的實體和關係
         """
@@ -194,7 +195,7 @@ class KGMemorySyncService:
         remaining_entities = list(absent_entities_hyperedges_kv.keys())
         remaining_relationships = list(absent_relationships)
 
-        for iteration in range(max_iterations):
+        for _iteration in range(max_iterations):
             if not remaining_entities and not remaining_relationships:
                 break
 
@@ -224,7 +225,7 @@ class KGMemorySyncService:
 
             # 更新剩餘列表
             remaining_entities = [
-                e for e in absent_entities_hyperedges_kv.keys() if e not in collected_entities
+                e for e in absent_entities_hyperedges_kv if e not in collected_entities
             ]
             remaining_relationships = [
                 r for r in absent_relationships if r not in collected_relationships
@@ -239,8 +240,8 @@ class KGMemorySyncService:
         return collected_entities, collected_relationships
 
     def _build_absent_relationships(
-        self, absent_entities_hyperedges_kv: Dict[str, List[List[str]]]
-    ) -> List[Tuple[str, str]]:
+        self, absent_entities_hyperedges_kv: dict[str, list[list[str]]]
+    ) -> list[tuple[str, str]]:
         """構建缺失關係列表"""
         relationships = []
 
@@ -257,8 +258,8 @@ class KGMemorySyncService:
 
     def _build_summarize_prompt(
         self,
-        target_entities: List[str],
-        target_relationships: List[Tuple[str, str]],
+        target_entities: list[str],
+        target_relationships: list[tuple[str, str]],
         context_info: str,
     ) -> str:
         """構建 LLM prompt"""
@@ -278,7 +279,7 @@ class KGMemorySyncService:
         )
 
     async def _add_entities_to_kg_and_vdb(
-        self, collected_entities: Dict[str, Dict], remaining_entities: List[str]
+        self, collected_entities: dict[str, dict], remaining_entities: list[str]
     ) -> None:
         """將實體添加到 KG 和向量庫"""
         assert self.entity_description_func is not None
@@ -319,8 +320,8 @@ class KGMemorySyncService:
 
     async def _add_relationships_to_kg_and_vdb(
         self,
-        collected_relationships: Dict[tuple, Dict],
-        remaining_relationships: List[Tuple[str, str]],
+        collected_relationships: dict[tuple, dict],
+        remaining_relationships: list[tuple[str, str]],
     ) -> None:
         """將關係添加到 KG 和向量庫"""
         assert self.relationship_description_func is not None
@@ -366,16 +367,16 @@ class KGMemorySyncService:
 
 
 async def collect_absent_entities_relationships(
-    absent_entities_hyperedges_kv: Dict[str, List[List[str]]],
+    absent_entities_hyperedges_kv: dict[str, list[list[str]]],
     info: str,
     knowledge_graph_inst: Any,
     entities_vdb: Any,
     relationships_vdb: Any,
     llm_model_func: Callable,
-    format_dict: Dict[str, str],
+    format_dict: dict[str, str],
     entity_description_func: Callable,
     relationship_description_func: Callable,
-) -> Tuple[Dict, Dict]:
+) -> tuple[dict, dict]:
     """
     獨立函數版本 (兼容 HGMem 原始介面)
 

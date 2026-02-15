@@ -11,7 +11,7 @@ LightRAG Knowledge Graph Adapter
 
 import asyncio
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional, Protocol, Tuple, cast, runtime_checkable
+from typing import Any, Protocol, cast, runtime_checkable
 
 
 @runtime_checkable
@@ -22,19 +22,19 @@ class IKnowledgeGraph(Protocol):
         """檢查實體是否存在"""
         ...
 
-    async def get_node(self, entity_name: str) -> Optional[Dict[str, Any]]:
+    async def get_node(self, entity_name: str) -> dict[str, Any] | None:
         """獲取實體數據"""
         ...
 
-    async def get_neighbor_nodes(self, entity_name: str) -> List[str]:
+    async def get_neighbor_nodes(self, entity_name: str) -> list[str]:
         """獲取鄰居節點名稱"""
         ...
 
-    async def upsert_node(self, entity_name: str, node_data: Dict[str, Any]) -> None:
+    async def upsert_node(self, entity_name: str, node_data: dict[str, Any]) -> None:
         """插入或更新實體"""
         ...
 
-    async def upsert_edge(self, src_id: str, tgt_id: str, edge_data: Dict[str, Any]) -> None:
+    async def upsert_edge(self, src_id: str, tgt_id: str, edge_data: dict[str, Any]) -> None:
         """插入或更新關係邊"""
         ...
 
@@ -58,7 +58,7 @@ class LightRAGKGAdapter:
     """
 
     graph_storage: Any  # LightRAG 的 BaseGraphStorage 實例
-    _cache: Dict[str, Dict[str, Any]] = field(default_factory=dict)
+    _cache: dict[str, dict[str, Any]] = field(default_factory=dict)
     _cache_enabled: bool = field(default=True)
 
     async def has_node(self, entity_name: str) -> bool:
@@ -89,7 +89,7 @@ class LightRAGKGAdapter:
         except Exception:
             return False
 
-    async def get_node(self, entity_name: str) -> Optional[Dict[str, Any]]:
+    async def get_node(self, entity_name: str) -> dict[str, Any] | None:
         """
         獲取實體的完整數據
 
@@ -113,11 +113,11 @@ class LightRAGKGAdapter:
             node_data = await self.graph_storage.get_node(entity_name)
             if node_data and self._cache_enabled:
                 self._cache[entity_name] = node_data
-            return cast(Dict[str, Any] | None, node_data)
+            return cast(dict[str, Any] | None, node_data)
 
         return None
 
-    async def get_neighbor_nodes(self, entity_name: str) -> List[str]:
+    async def get_neighbor_nodes(self, entity_name: str) -> list[str]:
         """
         獲取實體的所有鄰居節點
 
@@ -133,7 +133,7 @@ class LightRAGKGAdapter:
 
         if hasattr(self.graph_storage, "get_neighbor_nodes"):
             res = await self.graph_storage.get_neighbor_nodes(entity_name)
-            return cast(List[str], res)
+            return cast(list[str], res)
 
         # Fallback: 使用 edge iteration
         if hasattr(self.graph_storage, "_graph"):
@@ -143,7 +143,7 @@ class LightRAGKGAdapter:
 
         return []
 
-    async def get_node_edges(self, entity_name: str) -> List[Dict[str, Any]]:
+    async def get_node_edges(self, entity_name: str) -> list[dict[str, Any]]:
         """
         獲取與實體相關的所有邊
 
@@ -158,7 +158,7 @@ class LightRAGKGAdapter:
 
         if hasattr(self.graph_storage, "get_node_edges"):
             res = await self.graph_storage.get_node_edges(entity_name)
-            return cast(List[Dict[str, Any]], res)
+            return cast(list[dict[str, Any]], res)
 
         # Fallback: 遍歷鄰居獲取邊
         neighbors = await self.get_neighbor_nodes(entity_name)
@@ -169,7 +169,7 @@ class LightRAGKGAdapter:
 
         return edges
 
-    async def get_edge(self, src_id: str, tgt_id: str) -> Optional[Dict[str, Any]]:
+    async def get_edge(self, src_id: str, tgt_id: str) -> dict[str, Any] | None:
         """
         獲取兩個實體之間的邊數據
 
@@ -185,11 +185,11 @@ class LightRAGKGAdapter:
 
         if hasattr(self.graph_storage, "get_edge"):
             res = await self.graph_storage.get_edge(src_id, tgt_id)
-            return cast(Dict[str, Any] | None, res)
+            return cast(dict[str, Any] | None, res)
 
         return None
 
-    async def upsert_node(self, entity_name: str, node_data: Dict[str, Any]) -> None:
+    async def upsert_node(self, entity_name: str, node_data: dict[str, Any]) -> None:
         """
         插入或更新實體
 
@@ -209,7 +209,7 @@ class LightRAGKGAdapter:
         if hasattr(self.graph_storage, "upsert_node"):
             await self.graph_storage.upsert_node(entity_name, node_data=node_data)
 
-    async def upsert_edge(self, src_id: str, tgt_id: str, edge_data: Dict[str, Any]) -> None:
+    async def upsert_edge(self, src_id: str, tgt_id: str, edge_data: dict[str, Any]) -> None:
         """
         插入或更新關係邊
 
@@ -239,7 +239,7 @@ class LightRAGKGAdapter:
 
     # ========== 批量操作 ==========
 
-    async def batch_get_nodes(self, entity_names: List[str]) -> Dict[str, Dict[str, Any]]:
+    async def batch_get_nodes(self, entity_names: list[str]) -> dict[str, dict[str, Any]]:
         """
         批量獲取多個實體
 
@@ -253,13 +253,13 @@ class LightRAGKGAdapter:
         tasks = [self.get_node(name) for name in entity_names]
         nodes = await asyncio.gather(*tasks, return_exceptions=True)
 
-        for name, node in zip(entity_names, nodes):
+        for name, node in zip(entity_names, nodes, strict=False):
             if isinstance(node, dict):
                 results[name.upper()] = node
 
         return results
 
-    async def batch_upsert_nodes(self, nodes: Dict[str, Dict[str, Any]]) -> None:
+    async def batch_upsert_nodes(self, nodes: dict[str, dict[str, Any]]) -> None:
         """
         批量插入/更新實體
 
@@ -269,7 +269,7 @@ class LightRAGKGAdapter:
         tasks = [self.upsert_node(name, data) for name, data in nodes.items()]
         await asyncio.gather(*tasks)
 
-    async def batch_upsert_edges(self, edges: List[Dict[str, Any]]) -> None:
+    async def batch_upsert_edges(self, edges: list[dict[str, Any]]) -> None:
         """
         批量插入/更新邊
 
@@ -286,11 +286,11 @@ class LightRAGKGAdapter:
 
     # ========== 查詢統計 ==========
 
-    async def get_all_nodes(self) -> List[str]:
+    async def get_all_nodes(self) -> list[str]:
         """獲取所有實體名稱"""
         if hasattr(self.graph_storage, "get_all_nodes"):
             res = await self.graph_storage.get_all_nodes()
-            return cast(List[str], res)
+            return cast(list[str], res)
 
         if hasattr(self.graph_storage, "_graph"):
             return list(self.graph_storage._graph.nodes())
@@ -329,27 +329,27 @@ class InMemoryKGAdapter(LightRAGKGAdapter):
     """
 
     def __init__(self) -> None:
-        self._nodes: Dict[str, Dict[str, Any]] = {}
-        self._edges: Dict[Tuple[Any, ...], Dict[str, Any]] = {}
-        self._adjacency: Dict[str, List[str]] = {}
+        self._nodes: dict[str, dict[str, Any]] = {}
+        self._edges: dict[tuple[Any, ...], dict[str, Any]] = {}
+        self._adjacency: dict[str, list[str]] = {}
         super().__init__(graph_storage=None, _cache_enabled=False)
 
     async def has_node(self, entity_name: str) -> bool:
         return entity_name.upper() in self._nodes
 
-    async def get_node(self, entity_name: str) -> Optional[Dict[str, Any]]:
+    async def get_node(self, entity_name: str) -> dict[str, Any] | None:
         return self._nodes.get(entity_name.upper())
 
-    async def get_neighbor_nodes(self, entity_name: str) -> List[str]:
+    async def get_neighbor_nodes(self, entity_name: str) -> list[str]:
         return self._adjacency.get(entity_name.upper(), [])
 
-    async def upsert_node(self, entity_name: str, node_data: Dict[str, Any]) -> None:
+    async def upsert_node(self, entity_name: str, node_data: dict[str, Any]) -> None:
         entity_name = entity_name.upper()
         self._nodes[entity_name] = node_data
         if entity_name not in self._adjacency:
             self._adjacency[entity_name] = []
 
-    async def upsert_edge(self, src_id: str, tgt_id: str, edge_data: Dict[str, Any]) -> None:
+    async def upsert_edge(self, src_id: str, tgt_id: str, edge_data: dict[str, Any]) -> None:
         src_id = src_id.upper()
         tgt_id = tgt_id.upper()
 
@@ -367,7 +367,7 @@ class InMemoryKGAdapter(LightRAGKGAdapter):
         if src_id not in self._adjacency[tgt_id]:
             self._adjacency[tgt_id].append(src_id)
 
-    async def get_edge(self, src_id: str, tgt_id: str) -> Optional[Dict[str, Any]]:
+    async def get_edge(self, src_id: str, tgt_id: str) -> dict[str, Any] | None:
         src_id = src_id.upper()
         tgt_id = tgt_id.upper()
         return self._edges.get((src_id, tgt_id)) or self._edges.get((tgt_id, src_id))
@@ -381,7 +381,7 @@ class InMemoryKGAdapter(LightRAGKGAdapter):
         # 清除相關邊
         self._edges = {k: v for k, v in self._edges.items() if entity_name not in k}
 
-    async def get_all_nodes(self) -> List[str]:
+    async def get_all_nodes(self) -> list[str]:
         return list(self._nodes.keys())
 
     async def get_node_count(self) -> int:

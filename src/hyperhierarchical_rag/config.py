@@ -15,10 +15,11 @@ MCP MODE: Supports multi-user with automatic storage backend detection
 """
 
 import os
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Literal, Optional, cast
+from typing import Any, Literal, cast
 
 from dotenv import load_dotenv
 
@@ -70,8 +71,10 @@ def get_ollama_llm_func(host: str, model: str) -> Callable:
             return str(result)
 
         return llm_func
-    except ImportError:
-        raise ImportError("LightRAG not installed. Run: uv pip install -e ./external/LightRAG")
+    except ImportError as err:
+        raise ImportError(
+            "LightRAG not installed. Run: uv pip install -e ./external/LightRAG"
+        ) from err
 
 
 def get_ollama_embed_func(host: str, model: str = "bge-m3:latest") -> Callable:
@@ -90,7 +93,7 @@ def get_ollama_embed_func(host: str, model: str = "bge-m3:latest") -> Callable:
     try:
         from lightrag.llm.ollama import ollama_embed  # type: ignore
 
-        async def embed_func(texts: List[str]) -> List[List[float]]:
+        async def embed_func(texts: list[str]) -> list[list[float]]:
             result = await ollama_embed(
                 texts=texts,
                 host=host,
@@ -102,8 +105,10 @@ def get_ollama_embed_func(host: str, model: str = "bge-m3:latest") -> Callable:
             return list(result)
 
         return embed_func
-    except ImportError:
-        raise ImportError("LightRAG not installed. Run: uv pip install -e ./external/LightRAG")
+    except ImportError as err:
+        raise ImportError(
+            "LightRAG not installed. Run: uv pip install -e ./external/LightRAG"
+        ) from err
 
 
 @dataclass
@@ -112,8 +117,8 @@ class LLMConfig:
 
     provider: Literal["openai", "ollama", "azure"] = "openai"
     model: str = "gpt-4o-mini"
-    api_key: Optional[str] = field(default_factory=lambda: os.getenv("OPENAI_API_KEY"))
-    api_base: Optional[str] = field(default_factory=lambda: os.getenv("OPENAI_API_BASE"))
+    api_key: str | None = field(default_factory=lambda: os.getenv("OPENAI_API_KEY"))
+    api_base: str | None = field(default_factory=lambda: os.getenv("OPENAI_API_BASE"))
     temperature: float = 0.0
     max_tokens: int = 4096
 
@@ -130,11 +135,9 @@ class LLMConfig:
 
     def validate(self) -> bool:
         """Check if configuration is valid."""
-        if self.provider == "openai" and not self.api_key:
-            return False
-        return True
+        return not (self.provider == "openai" and not self.api_key)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "provider": self.provider,
             "model": self.model,
@@ -157,7 +160,7 @@ class EmbeddingConfig:
     # Sentence Transformers settings
     st_model: str = "all-MiniLM-L6-v2"
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "provider": self.provider,
             "model": self.model,
@@ -188,25 +191,25 @@ class StorageConfig:
     # PostgreSQL settings
     postgres_host: str = field(default_factory=lambda: os.getenv("POSTGRES_HOST", "localhost"))
     postgres_port: int = field(default_factory=lambda: int(os.getenv("POSTGRES_PORT", "5432")))
-    postgres_user: Optional[str] = field(default_factory=lambda: os.getenv("POSTGRES_USER"))
-    postgres_password: Optional[str] = field(default_factory=lambda: os.getenv("POSTGRES_PASSWORD"))
-    postgres_database: Optional[str] = field(default_factory=lambda: os.getenv("POSTGRES_DATABASE"))
+    postgres_user: str | None = field(default_factory=lambda: os.getenv("POSTGRES_USER"))
+    postgres_password: str | None = field(default_factory=lambda: os.getenv("POSTGRES_PASSWORD"))
+    postgres_database: str | None = field(default_factory=lambda: os.getenv("POSTGRES_DATABASE"))
     postgres_max_connections: int = 20
 
     # MongoDB settings
-    mongo_uri: Optional[str] = field(default_factory=lambda: os.getenv("MONGO_URI"))
-    mongo_database: Optional[str] = field(default_factory=lambda: os.getenv("MONGO_DATABASE"))
+    mongo_uri: str | None = field(default_factory=lambda: os.getenv("MONGO_URI"))
+    mongo_database: str | None = field(default_factory=lambda: os.getenv("MONGO_DATABASE"))
 
     # Redis settings
-    redis_uri: Optional[str] = field(default_factory=lambda: os.getenv("REDIS_URI"))
+    redis_uri: str | None = field(default_factory=lambda: os.getenv("REDIS_URI"))
 
     # Neo4j settings
-    neo4j_uri: Optional[str] = field(default_factory=lambda: os.getenv("NEO4J_URI"))
-    neo4j_user: Optional[str] = field(default_factory=lambda: os.getenv("NEO4J_USER", "neo4j"))
-    neo4j_password: Optional[str] = field(default_factory=lambda: os.getenv("NEO4J_PASSWORD"))
+    neo4j_uri: str | None = field(default_factory=lambda: os.getenv("NEO4J_URI"))
+    neo4j_user: str | None = field(default_factory=lambda: os.getenv("NEO4J_USER", "neo4j"))
+    neo4j_password: str | None = field(default_factory=lambda: os.getenv("NEO4J_PASSWORD"))
 
     # Milvus settings
-    milvus_uri: Optional[str] = field(default_factory=lambda: os.getenv("MILVUS_URI"))
+    milvus_uri: str | None = field(default_factory=lambda: os.getenv("MILVUS_URI"))
 
     # Visualization output
     viz_dir: Path = field(default_factory=lambda: Path("./data/visualizations"))
@@ -275,7 +278,7 @@ class StorageConfig:
         """Get full path to SQLite hypergraph database."""
         return self.hypergraph_dir / self.hypergraph_db
 
-    def to_lightrag_kwargs(self) -> Dict[str, str]:
+    def to_lightrag_kwargs(self) -> dict[str, str]:
         """Get kwargs for LightRAG initialization."""
         return {
             "kv_storage": self.kv_storage,
@@ -284,7 +287,7 @@ class StorageConfig:
             "doc_status_storage": self.doc_status_storage,
         }
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "mode": self.mode.value,
             "kv_storage": self.kv_storage,
@@ -325,7 +328,7 @@ class MCPConfig:
     # Rate limiting
     max_requests_per_minute: int = 60
 
-    def get_internal_llm_func(self) -> Optional[Callable]:
+    def get_internal_llm_func(self) -> Callable | None:
         """Get the internal LLM function for automated tasks."""
         if not self.internal_llm_enabled or self.internal_llm_provider == "none":
             return None
@@ -350,7 +353,7 @@ class MCPConfig:
 
         return None
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "internal_llm_enabled": self.internal_llm_enabled,
             "internal_llm_provider": self.internal_llm_provider,
@@ -405,7 +408,7 @@ class HyperHierarchicalConfig:
 
         return config
 
-    def validate(self) -> Dict[str, Any]:
+    def validate(self) -> dict[str, Any]:
         """Validate configuration and return status."""
         issues = []
 
@@ -423,7 +426,7 @@ class HyperHierarchicalConfig:
 
 
 # Global configuration instance
-_config: Optional[HyperHierarchicalConfig] = None
+_config: HyperHierarchicalConfig | None = None
 
 
 def get_config() -> HyperHierarchicalConfig:

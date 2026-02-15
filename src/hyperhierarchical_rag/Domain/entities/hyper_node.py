@@ -12,7 +12,6 @@ References:
 import hashlib
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import List, Optional
 from uuid import uuid4
 
 
@@ -46,9 +45,9 @@ class HyperNode:
     name: str
     description: str = ""
     level: NodeLevel = NodeLevel.LOCAL
-    keywords: List[str] = field(default_factory=list)
-    embedding: Optional[List[float]] = None
-    source_id: Optional[str] = None
+    keywords: list[str] = field(default_factory=list)
+    embedding: list[float] | None = None
+    source_id: str | None = None
     id: str = field(default_factory=lambda: str(uuid4()))
 
     def __post_init__(self) -> None:
@@ -66,7 +65,7 @@ class HyperNode:
         if keyword not in self.keywords:
             self.keywords.append(keyword)
 
-    def set_embedding(self, embedding: List[float]) -> None:
+    def set_embedding(self, embedding: list[float]) -> None:
         """Set the semantic embedding vector."""
         self.embedding = embedding
 

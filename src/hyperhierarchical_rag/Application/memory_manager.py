@@ -12,7 +12,7 @@ References:
 """
 
 import logging
-from typing import Any, Dict, List, Optional
+from typing import Any
 from uuid import uuid4
 
 from hyperhierarchical_rag.Domain.entities import HyperEdge, HyperNode, NodeLevel
@@ -32,9 +32,9 @@ class MemoryManager:
 
     def __init__(self) -> None:
         """Initialize MemoryManager."""
-        self._documents: Dict[str, Dict[str, Any]] = {}
-        self._nodes: Dict[str, HyperNode] = {}
-        self._edges: Dict[str, HyperEdge] = {}
+        self._documents: dict[str, dict[str, Any]] = {}
+        self._nodes: dict[str, HyperNode] = {}
+        self._edges: dict[str, HyperEdge] = {}
         logger.info("MemoryManager initialized")
 
     # ==================== Document CRUD ====================
@@ -42,9 +42,9 @@ class MemoryManager:
     async def insert_document(
         self,
         text: str,
-        doc_id: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        doc_id: str | None = None,
+        metadata: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
         """
         Insert a document and extract knowledge graph.
 
@@ -91,14 +91,14 @@ class MemoryManager:
             "relations_extracted": len(relations),
         }
 
-    async def get_documents(self) -> Dict[str, Any]:
+    async def get_documents(self) -> dict[str, Any]:
         """Get all documents."""
         return {
             "documents": list(self._documents.values()),
             "total": len(self._documents),
         }
 
-    async def delete_document(self, doc_id: str) -> Dict[str, Any]:
+    async def delete_document(self, doc_id: str) -> dict[str, Any]:
         """Delete a document and its associated entities/relations."""
         if doc_id not in self._documents:
             return {"status": "not_found", "doc_id": doc_id}
@@ -127,8 +127,8 @@ class MemoryManager:
 
     async def create_entities(
         self,
-        entities: List[Dict[str, Any]],
-    ) -> Dict[str, Any]:
+        entities: list[dict[str, Any]],
+    ) -> dict[str, Any]:
         """Create multiple entities in the hypergraph."""
         created = []
         for entity_data in entities:
@@ -150,8 +150,8 @@ class MemoryManager:
 
     async def create_relations(
         self,
-        relations: List[Dict[str, Any]],
-    ) -> Dict[str, Any]:
+        relations: list[dict[str, Any]],
+    ) -> dict[str, Any]:
         """Create hyperedges (n-ary relations) in the graph."""
         created = []
         for relation_data in relations:
@@ -175,9 +175,9 @@ class MemoryManager:
 
     async def evolve(
         self,
-        query: Optional[str] = None,
+        query: str | None = None,
         decay_unused: bool = True,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Evolve the hypergraph memory.
 
@@ -216,7 +216,7 @@ class MemoryManager:
             "total_edges": len(self._edges),
         }
 
-    async def get_graph_stats(self) -> Dict[str, Any]:
+    async def get_graph_stats(self) -> dict[str, Any]:
         """Get statistics about the knowledge graph."""
         local_nodes = sum(1 for n in self._nodes.values() if n.level == NodeLevel.LOCAL)
         global_nodes = sum(1 for n in self._nodes.values() if n.level == NodeLevel.GLOBAL)
@@ -243,7 +243,7 @@ class MemoryManager:
         self,
         text: str,
         doc_id: str,
-    ) -> List[HyperNode]:
+    ) -> list[HyperNode]:
         """
         Extract entities from text.
 
@@ -268,9 +268,9 @@ class MemoryManager:
     async def _extract_relations(
         self,
         text: str,
-        entities: List[HyperNode],
+        entities: list[HyperNode],
         doc_id: str,
-    ) -> List[HyperEdge]:
+    ) -> list[HyperEdge]:
         """
         Extract relations from text.
 

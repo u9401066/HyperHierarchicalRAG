@@ -38,9 +38,10 @@ Tools provided:
 """
 
 import logging
+from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 from dataclasses import dataclass
-from typing import Any, AsyncIterator, Dict, List, Optional
+from typing import Any
 
 from mcp.server.fastmcp import Context, FastMCP
 from pydantic import Field
@@ -81,7 +82,7 @@ async def app_lifespan(server: FastMCP) -> AsyncIterator[AppContext]:
 mcp = FastMCP("HyperHierarchicalRAG MCP Server", lifespan=app_lifespan)
 
 
-def format_response(result: Any, is_error: bool = False) -> Dict[str, Any]:
+def format_response(result: Any, is_error: bool = False) -> dict[str, Any]:
     """Format response in standard format."""
     if is_error:
         return {"status": "error", "error": str(result)}
@@ -110,8 +111,8 @@ def get_engine(ctx: Context) -> RAGEngine:
 async def insert_document(
     ctx: Context,
     text: str = Field(description="Document text to insert"),
-    doc_id: Optional[str] = Field(description="Optional document ID", default=None),
-) -> Dict[str, Any]:
+    doc_id: str | None = Field(description="Optional document ID", default=None),
+) -> dict[str, Any]:
     """Insert a document and build knowledge graph."""
     try:
         engine = get_engine(ctx)
@@ -129,7 +130,7 @@ async def insert_document(
 async def delete_document(
     ctx: Context,
     doc_id: str = Field(description="Document ID to delete"),
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Delete a document by ID."""
     try:
         engine = get_engine(ctx)
@@ -146,11 +147,11 @@ async def delete_document(
 @mcp.tool(
     name="query",
     description="""Execute a full RAG query with optional memory evolution (HGMem).
-    
+
 Modes:
 - hybrid: Combines local (entity-level) + global (theme-level) search (recommended)
 - local: Entity/keyword-focused search
-- global: Theme/semantic search  
+- global: Theme/semantic search
 - naive: Simple vector search
 - mix: All modes combined
 - bypass: Skip KG, direct retrieval
@@ -166,7 +167,7 @@ async def query(
     top_k: int = Field(description="Number of results to retrieve", default=10),
     evolve_memory: bool = Field(description="Enable HGMem memory evolution", default=True),
     visualize: bool = Field(description="Generate query path visualization", default=False),
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Full query with memory evolution."""
     try:
         engine = get_engine(ctx)
@@ -191,7 +192,7 @@ async def query_simple(
     ctx: Context,
     query: str = Field(description="Query text"),
     mode: str = Field(description="Query mode: hybrid, local, global", default="hybrid"),
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Simple query without memory evolution."""
     try:
         engine = get_engine(ctx)
@@ -211,7 +212,7 @@ async def query_data(
     query: str = Field(description="Query text"),
     mode: str = Field(description="Query mode", default="hybrid"),
     top_k: int = Field(description="Number of results", default=10),
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Query raw data without LLM."""
     try:
         engine = get_engine(ctx)
@@ -228,7 +229,7 @@ async def query_data(
 @mcp.tool(
     name="evolve_memory",
     description="""Trigger HGMem memory evolution based on retrieved context.
-    
+
 Memory evolution:
 1. Extracts memory points from context
 2. Updates existing memories with new information
@@ -239,7 +240,7 @@ async def evolve_memory(
     ctx: Context,
     context: str = Field(description="Context text for memory evolution"),
     query: str = Field(description="Related query to guide evolution"),
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Trigger memory evolution."""
     try:
         engine = get_engine(ctx)
@@ -271,7 +272,7 @@ async def evolve_memory(
 async def get_memory_context(
     ctx: Context,
     delimiter: str = Field(description="Delimiter between memory points", default="---"),
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Get formatted memory context."""
     try:
         engine = get_engine(ctx)
@@ -300,7 +301,7 @@ async def get_memory_context(
 async def get_memory_point_info(
     ctx: Context,
     identifier: str = Field(description="Memory point identifier"),
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Get single memory point info."""
     try:
         engine = get_engine(ctx)
@@ -320,7 +321,7 @@ async def get_memory_point_info(
     name="clear_memory",
     description="Clear all memory points. Use with caution - this removes all learned context.",
 )
-async def clear_memory(ctx: Context) -> Dict[str, Any]:
+async def clear_memory(ctx: Context) -> dict[str, Any]:
     """Clear all memory points."""
     try:
         engine = get_engine(ctx)
@@ -346,7 +347,7 @@ async def create_entity(
     entity_type: str = Field(description="Type/category (e.g., PERSON, DRUG, CONCEPT)", default=""),
     description: str = Field(description="Entity description", default=""),
     source_id: str = Field(description="Source document ID", default=""),
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Create an entity."""
     try:
         engine = get_engine(ctx)
@@ -373,7 +374,7 @@ async def create_relation(
     description: str = Field(description="Relation description", default=""),
     keywords: str = Field(description="Relation keywords (comma-separated)", default=""),
     source_id: str = Field(description="Source document ID", default=""),
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Create a relation between entities."""
     try:
         engine = get_engine(ctx)
@@ -397,7 +398,7 @@ async def create_relation(
 async def get_entity_info(
     ctx: Context,
     entity_name: str = Field(description="Entity name to lookup"),
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Get entity information."""
     try:
         engine = get_engine(ctx)
@@ -418,7 +419,7 @@ async def get_relation_info(
     ctx: Context,
     src_entity: str = Field(description="Source entity name"),
     tgt_entity: str = Field(description="Target entity name"),
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Get relation information."""
     try:
         engine = get_engine(ctx)
@@ -437,9 +438,9 @@ async def get_relation_info(
 )
 async def get_knowledge_graph(
     ctx: Context,
-    node_label: Optional[str] = Field(description="Filter by entity type", default=None),
+    node_label: str | None = Field(description="Filter by entity type", default=None),
     max_depth: int = Field(description="Maximum traversal depth", default=3),
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Get knowledge graph structure."""
     try:
         engine = get_engine(ctx)
@@ -460,7 +461,7 @@ async def get_knowledge_graph(
 async def delete_entity(
     ctx: Context,
     entity_name: str = Field(description="Entity name to delete"),
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Delete an entity."""
     try:
         engine = get_engine(ctx)
@@ -479,7 +480,7 @@ async def merge_entities(
     ctx: Context,
     source_entity: str = Field(description="Entity to merge from (will be deleted)"),
     target_entity: str = Field(description="Entity to merge into"),
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Merge two entities."""
     try:
         engine = get_engine(ctx)
@@ -493,22 +494,22 @@ async def merge_entities(
 @mcp.tool(name="insert_custom_kg", description="Insert custom entities and relations in bulk.")
 async def insert_custom_kg(
     ctx: Context,
-    entities: List[Dict[str, Any]] = Field(
+    entities: list[dict[str, Any]] = Field(
         description="""List of entity dicts with keys:
         - entity_name (str): Name
         - entity_type (str): Type/category
         - description (str): Description
         - source_id (str): Source document"""
     ),
-    relations: List[Dict[str, Any]] = Field(
+    relations: list[dict[str, Any]] = Field(
         description="""List of relation dicts with keys:
         - src_id (str): Source entity name
-        - tgt_id (str): Target entity name  
+        - tgt_id (str): Target entity name
         - description (str): Relation description
         - keywords (str): Keywords
         - source_id (str): Source document"""
     ),
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Insert custom knowledge graph data."""
     try:
         engine = get_engine(ctx)
@@ -525,7 +526,7 @@ async def insert_custom_kg(
 @mcp.tool(
     name="get_health", description="Check the health status of the RAG system and all components."
 )
-async def get_health(ctx: Context) -> Dict[str, Any]:
+async def get_health(ctx: Context) -> dict[str, Any]:
     """Health check with component status."""
     try:
         engine = get_engine(ctx)
@@ -542,7 +543,7 @@ async def get_health(ctx: Context) -> Dict[str, Any]:
 
 
 @mcp.tool(name="get_graph_stats", description="Get detailed statistics about the Knowledge Graph.")
-async def get_graph_stats(ctx: Context) -> Dict[str, Any]:
+async def get_graph_stats(ctx: Context) -> dict[str, Any]:
     """Get graph statistics."""
     try:
         engine = get_engine(ctx)
@@ -557,7 +558,7 @@ async def get_graph_stats(ctx: Context) -> Dict[str, Any]:
     name="export_data",
     description="Export all data from the RAG system (entities, relations, chunks).",
 )
-async def export_data(ctx: Context) -> Dict[str, Any]:
+async def export_data(ctx: Context) -> dict[str, Any]:
     """Export all data."""
     try:
         engine = get_engine(ctx)
@@ -571,7 +572,7 @@ async def export_data(ctx: Context) -> Dict[str, Any]:
 @mcp.tool(
     name="clear_cache", description="Clear LLM response cache. Use when you need fresh responses."
 )
-async def clear_cache(ctx: Context) -> Dict[str, Any]:
+async def clear_cache(ctx: Context) -> dict[str, Any]:
     """Clear LLM cache."""
     try:
         engine = get_engine(ctx)
@@ -589,7 +590,7 @@ async def clear_cache(ctx: Context) -> Dict[str, Any]:
 async def visualize_graph(
     ctx: Context,
     filename: str = Field(description="Output filename", default="graph.html"),
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Generate graph visualization."""
     try:
         engine = get_engine(ctx)

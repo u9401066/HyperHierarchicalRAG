@@ -1,0 +1,107 @@
+# Pre-commit hooks configuration
+# Install: uv run pre-commit install
+# Run all: uv run pre-commit run --all-files
+# Update hooks: uv run pre-commit autoupdate
+
+default_language_version:
+  python: python3.12
+
+repos:
+  # ============ 基礎檔案檢查 ============
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      # 檔案格式
+      - id: trailing-whitespace
+        name: 移除行尾空白
+      - id: end-of-file-fixer
+        name: 確保檔案以換行結尾
+      - id: check-yaml
+        name: 驗證 YAML 語法
+      - id: check-toml
+        name: 驗證 TOML 語法
+      - id: check-json
+        name: 驗證 JSON 語法
+        exclude: '^(\.vscode/|data/)'
+      - id: check-added-large-files
+        name: 防止提交大檔案
+        args: ['--maxkb=500']
+
+      # 安全性
+      - id: detect-private-key
+        name: 偵測私鑰
+      - id: check-merge-conflict
+        name: 偵測未解決的合併衝突
+
+      # Python 相關
+      - id: check-ast
+        name: 驗證 Python AST
+      - id: debug-statements
+        name: 偵測 debug 語句 (pdb/breakpoint)
+      - id: fix-byte-order-marker
+        name: 移除 BOM
+
+  # ============ Ruff: Linting + Formatting ============
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.9.6
+    hooks:
+      - id: ruff
+        name: Ruff Linter (自動修復)
+        args: [--fix, --exit-non-zero-on-fix]
+      - id: ruff-format
+        name: Ruff Formatter
+
+  # ============ Poetry/依賴檢查 ============
+  - repo: local
+    hooks:
+      # MyPy 型別檢查 (使用本地 uv 環境)
+      - id: mypy
+        name: MyPy 型別檢查
+        entry: uv run mypy src/hyperhierarchical_rag/ --ignore-missing-imports --no-strict-optional --disable-error-code=type-arg --disable-error-code=unused-ignore
+        language: system
+        types: [python]
+        files: ^src/
+        pass_filenames: false
+
+      # Bandit 安全掃描 (使用本地 uv 環境)
+      - id: bandit
+        name: Bandit 安全掃描
+        entry: uv run bandit -c pyproject.toml --severity-level medium -r src/
+        language: system
+        types: [python]
+        files: ^src/
+        pass_filenames: false
+  - repo: local
+    hooks:
+      # 測試必須通過
+      - id: pytest-check
+        name: Pytest 快速測試 (unit only)
+        entry: uv run pytest tests/ -x -q --timeout=30
+        language: system
+        types: [python]
+        pass_filenames: false
+        stages: [pre-push]
+
+      # 確保 pyproject.toml 合法
+      - id: validate-pyproject
+        name: 驗證 pyproject.toml
+        entry: uv run python -c "import tomllib; tomllib.load(open('pyproject.toml','rb')); print('pyproject.toml OK')"
+        language: system
+        files: pyproject\.toml$
+        pass_filenames: false
+
+      # Skills 完整性檢查
+      - id: check-skills
+        name: 檢查 Skills SKILL.md 存在
+        entry: uv run python scripts/check_skills.py
+        language: system
+        files: ^\.claude/skills/
+        pass_filenames: false
+
+      # 架構依賴方向檢查 (DDD)
+      - id: ddd-dependency-check
+        name: DDD 架構依賴方向檢查
+        entry: uv run python scripts/check_ddd_deps.py
+        language: system
+        files: ^src/
+        pass_filenames: false

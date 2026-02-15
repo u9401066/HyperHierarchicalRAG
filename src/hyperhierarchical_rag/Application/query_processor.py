@@ -16,7 +16,8 @@ References:
 """
 
 import logging
-from typing import Any, Callable, Dict, List, Optional
+from collections.abc import Callable
+from typing import Any
 
 from hyperhierarchical_rag.Domain.entities import HyperEdge, HyperNode, NodeLevel
 from hyperhierarchical_rag.Domain.repositories import IHypergraphRepository
@@ -77,8 +78,8 @@ class QueryProcessor:
 
     def __init__(
         self,
-        repository: Optional[IHypergraphRepository] = None,
-        llm_func: Optional[Callable] = None,
+        repository: IHypergraphRepository | None = None,
+        llm_func: Callable | None = None,
     ) -> None:
         """
         Initialize QueryProcessor.
@@ -90,11 +91,11 @@ class QueryProcessor:
         self._repository = repository
         self._llm_func = llm_func
         self._memory_evolver = MemoryEvolver(llm_func=llm_func)
-        self._memory_points: List[MemoryPoint] = []
+        self._memory_points: list[MemoryPoint] = []
 
         # Fallback in-memory storage if no repository provided
-        self._nodes: Dict[str, HyperNode] = {}
-        self._edges: Dict[str, HyperEdge] = {}
+        self._nodes: dict[str, HyperNode] = {}
+        self._edges: dict[str, HyperEdge] = {}
 
         logger.info("QueryProcessor initialized")
 
@@ -109,7 +110,7 @@ class QueryProcessor:
         top_k: int = 10,
         use_hypergraph: bool = True,
         evolve_memory: bool = True,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Execute hybrid query combining hierarchical retrieval and hypergraph reasoning.
 
@@ -185,7 +186,7 @@ class QueryProcessor:
         self,
         query: str,
         top_k: int = 10,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Execute local (entity-level) keyword query.
         Corresponds to ll_keywords in LightRAG.
@@ -208,7 +209,7 @@ class QueryProcessor:
         self,
         query: str,
         top_k: int = 10,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Execute global (theme-level) semantic query.
         Corresponds to hl_keywords in LightRAG.
@@ -229,7 +230,7 @@ class QueryProcessor:
 
     # ==================== LightRAG Integration ====================
 
-    async def _extract_local_keywords(self, query: str) -> List[str]:
+    async def _extract_local_keywords(self, query: str) -> list[str]:
         """
         Extract local (entity) keywords from query.
 
@@ -252,7 +253,7 @@ class QueryProcessor:
 
         return list(set(keywords))[:10]
 
-    async def _extract_global_keywords(self, query: str) -> List[str]:
+    async def _extract_global_keywords(self, query: str) -> list[str]:
         """
         Extract global (theme) keywords from query.
 
@@ -289,9 +290,9 @@ class QueryProcessor:
 
     async def _retrieve_by_keywords(
         self,
-        keywords: List[str],
+        keywords: list[str],
         level: NodeLevel,
-    ) -> List[HyperNode]:
+    ) -> list[HyperNode]:
         """
         Retrieve nodes by keywords and hierarchical level.
 
@@ -305,8 +306,8 @@ class QueryProcessor:
         for node in self._nodes.values():
             if node.level != level:
                 continue
-            node_keywords = set(k.lower() for k in node.keywords)
-            query_keywords = set(k.lower() for k in keywords)
+            node_keywords = {k.lower() for k in node.keywords}
+            query_keywords = {k.lower() for k in keywords}
             if node_keywords & query_keywords:
                 results.append(node)
         return results
@@ -315,9 +316,9 @@ class QueryProcessor:
 
     async def _expand_via_hyperedges(
         self,
-        seed_nodes: List[HyperNode],
+        seed_nodes: list[HyperNode],
         max_hops: int = 2,
-    ) -> List[HyperNode]:
+    ) -> list[HyperNode]:
         """
         Expand candidates via hyperedge traversal.
 
@@ -344,10 +345,10 @@ class QueryProcessor:
 
         # Fallback to in-memory BFS traversal
         expanded = []
-        visited = set(n.id for n in seed_nodes)
+        visited = {n.id for n in seed_nodes}
         current_frontier = seed_nodes.copy()
 
-        for hop in range(max_hops):
+        for _hop in range(max_hops):
             next_frontier = []
 
             for node in current_frontier:
@@ -405,7 +406,7 @@ class QueryProcessor:
             if idx < len(self._memory_points):
                 self._memory_points[idx] = point
 
-    def _build_context_from_nodes(self, nodes: List[HyperNode]) -> str:
+    def _build_context_from_nodes(self, nodes: list[HyperNode]) -> str:
         """Build text context from nodes for memory evolution."""
         lines = []
         for node in nodes:
@@ -419,8 +420,8 @@ class QueryProcessor:
     async def _rank_results(
         self,
         query: str,
-        nodes: List[HyperNode],
-    ) -> List[Dict[str, Any]]:
+        nodes: list[HyperNode],
+    ) -> list[dict[str, Any]]:
         """Rank nodes by relevance to query."""
         # TODO: Use embedding similarity for ranking
         return [node.to_dict() for node in nodes]

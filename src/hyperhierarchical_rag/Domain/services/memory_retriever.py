@@ -12,13 +12,14 @@ Memory Pointwise Related Info Service
 """
 
 import asyncio
+from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Any, Callable, Dict, List, Optional, Set, Tuple, cast
+from typing import Any, cast
 
 # ============ 輔助函數 ============
 
 
-def split_string_by_multi_markers(content: str, markers: List[str]) -> List[str]:
+def split_string_by_multi_markers(content: str, markers: list[str]) -> list[str]:
     """根據標記分割字符串"""
     import re
 
@@ -27,7 +28,7 @@ def split_string_by_multi_markers(content: str, markers: List[str]) -> List[str]
 
 
 def truncate_attribute_by_token_size(
-    items: List[Dict], attribute: str, max_token_size: int, encoding_name: str = "cl100k_base"
+    items: list[dict], attribute: str, max_token_size: int, encoding_name: str = "cl100k_base"
 ) -> None:
     """截斷屬性到指定 token 大小 (原地修改)"""
     try:
@@ -52,11 +53,11 @@ def truncate_attribute_by_token_size(
 
 
 def truncate_list_by_token_size(
-    items: List[Any],
+    items: list[Any],
     key: Callable[[Any], str],
     max_token_size: int,
     encoding_name: str = "cl100k_base",
-) -> List[Any]:
+) -> list[Any]:
     """截斷列表到指定 token 大小"""
     try:
         import tiktoken
@@ -91,7 +92,7 @@ def truncate_list_by_token_size(
         return result
 
 
-def build_entities_context(entities_data: List[Dict]) -> str:
+def build_entities_context(entities_data: list[dict]) -> str:
     """構建實體上下文 CSV"""
     if not entities_data:
         return ""
@@ -106,7 +107,7 @@ def build_entities_context(entities_data: List[Dict]) -> str:
     return "\n".join(lines)
 
 
-def build_text_chunks_context(chunks: List[Dict]) -> str:
+def build_text_chunks_context(chunks: list[dict]) -> str:
     """構建文本塊上下文"""
     if not chunks:
         return ""
@@ -170,13 +171,13 @@ class MemoryPointwiseRetriever:
 
     async def get_memory_pointwise_related_info(
         self,
-        memory_points: List[List[str]],
+        memory_points: list[list[str]],
         query: str,
         query_param: MemoryQueryParam | None = None,
-        history_retrieved_objects: Optional[List[Dict]] = None,
+        history_retrieved_objects: list[dict] | None = None,
         memory_hypergraph: Any = None,
         verbose: bool = True,
-    ) -> Tuple[str, List[Dict], List[str]] | str:
+    ) -> tuple[str, list[dict], list[str]] | str:
         """
         基於記憶點檢索相關的 text chunks
 
@@ -243,9 +244,7 @@ class MemoryPointwiseRetriever:
             return memory_related_info, pointwise_chunks, list(final_chunk_ids)
         return memory_related_info
 
-    def _extract_history_chunk_ids(
-        self, history_retrieved_objects: Optional[List[Dict]]
-    ) -> Set[str]:
+    def _extract_history_chunk_ids(self, history_retrieved_objects: list[dict] | None) -> set[str]:
         """提取歷史檢索的 chunk IDs"""
         if not history_retrieved_objects:
             return set()
@@ -262,8 +261,8 @@ class MemoryPointwiseRetriever:
         return chunk_ids
 
     async def _collect_related_entities(
-        self, memory_points: List[List[str]], query_param: MemoryQueryParam
-    ) -> Tuple[List[Dict], Dict[str, Dict]]:
+        self, memory_points: list[list[str]], query_param: MemoryQueryParam
+    ) -> tuple[list[dict], dict[str, dict]]:
         """收集記憶點相關的所有實體數據"""
         related_entities_data = []
         related_entities_dict = {}
@@ -286,13 +285,13 @@ class MemoryPointwiseRetriever:
 
     async def _retrieve_chunks_per_memory_point(
         self,
-        memory_points: List[List[str]],
+        memory_points: list[list[str]],
         query: str,
         query_param: MemoryQueryParam,
-        related_entities_dict: Dict[str, Dict],
-        history_chunk_ids: Set[str],
+        related_entities_dict: dict[str, dict],
+        history_chunk_ids: set[str],
         memory_hypergraph: Any,
-    ) -> Tuple[List[Dict], Set[str]]:
+    ) -> tuple[list[dict], set[str]]:
         """對每個記憶點檢索相關 chunks"""
         pointwise_chunks = []
         final_chunk_ids = set()
@@ -328,7 +327,7 @@ class MemoryPointwiseRetriever:
 
         return pointwise_chunks, final_chunk_ids
 
-    async def _get_memory_point_info(self, mp: List[str], memory_hypergraph: Any) -> Optional[str]:
+    async def _get_memory_point_info(self, mp: list[str], memory_hypergraph: Any) -> str | None:
         """獲取記憶點的描述信息"""
         if memory_hypergraph and hasattr(memory_hypergraph, "get_hyperedge"):
             try:
@@ -342,8 +341,8 @@ class MemoryPointwiseRetriever:
         return None
 
     async def _get_inner_chunks(
-        self, mp: List[str], related_entities_dict: Dict[str, Dict], history_chunk_ids: Set[str]
-    ) -> Set[str]:
+        self, mp: list[str], related_entities_dict: dict[str, dict], history_chunk_ids: set[str]
+    ) -> set[str]:
         """獲取記憶點的 inner chunks (直接相關)"""
         chunk_ids = set()
 
@@ -371,11 +370,11 @@ class MemoryPointwiseRetriever:
 
     async def _get_outer_chunks(
         self,
-        mp: List[str],
-        related_entities_dict: Dict[str, Dict],
-        exclude_ids: Set[str],
-        history_chunk_ids: Set[str],
-    ) -> Set[str]:
+        mp: list[str],
+        related_entities_dict: dict[str, dict],
+        exclude_ids: set[str],
+        history_chunk_ids: set[str],
+    ) -> set[str]:
         """獲取記憶點的 outer chunks (鄰居相關)"""
         chunk_ids = set()
 
@@ -411,8 +410,8 @@ class MemoryPointwiseRetriever:
         return valid_chunks
 
     async def _select_chunks_by_similarity(
-        self, chunk_ids: Set[str], query: str, top_k: int
-    ) -> Set[str]:
+        self, chunk_ids: set[str], query: str, top_k: int
+    ) -> set[str]:
         """使用向量相似度選擇 top-k chunks"""
         if not chunk_ids or top_k <= 0:
             return set()
@@ -421,11 +420,12 @@ class MemoryPointwiseRetriever:
             return chunk_ids
 
         # 使用向量查詢排序
-        filter_lambda = lambda data: data.get("__id__") in chunk_ids or data.get("id") in chunk_ids
+        def filter_fn(data: dict) -> bool:
+            return data.get("__id__") in chunk_ids or data.get("id") in chunk_ids
 
         try:
             results = await self.text_chunks_adapter.query(
-                query, top_k=top_k, filter_lambda=filter_lambda
+                query, top_k=top_k, filter_lambda=filter_fn
             )
             return {r.get("id", r.get("__id__")) for r in results if r}
         except Exception:
@@ -433,22 +433,24 @@ class MemoryPointwiseRetriever:
             return set(list(chunk_ids)[:top_k])
 
     async def _rerank_and_truncate(
-        self, chunk_ids: Set[str], query: str, max_chunks: int
-    ) -> Set[str]:
+        self, chunk_ids: set[str], query: str, max_chunks: int
+    ) -> set[str]:
         """重新排序並截斷到 max_chunks"""
-        filter_lambda = lambda data: data.get("__id__") in chunk_ids or data.get("id") in chunk_ids
+
+        def filter_fn(data: dict) -> bool:
+            return data.get("__id__") in chunk_ids or data.get("id") in chunk_ids
 
         try:
             results = await self.text_chunks_adapter.query(
-                query, top_k=max_chunks, filter_lambda=filter_lambda
+                query, top_k=max_chunks, filter_lambda=filter_fn
             )
             return {r.get("id", r.get("__id__")) for r in results if r}
         except Exception:
             return set(list(chunk_ids)[:max_chunks])
 
     async def _fetch_and_format_chunks(
-        self, chunk_ids: Set[str], max_token_size: int
-    ) -> List[Dict]:
+        self, chunk_ids: set[str], max_token_size: int
+    ) -> list[dict]:
         """獲取並格式化 chunks"""
         if not chunk_ids:
             return []
@@ -458,15 +460,15 @@ class MemoryPointwiseRetriever:
         results = await asyncio.gather(*tasks, return_exceptions=True)
 
         valid_chunks = []
-        for cid, data in zip(chunk_ids, results):
+        for cid, data in zip(chunk_ids, results, strict=False):
             if isinstance(data, dict) and "content" in data:
                 valid_chunks.append({"id": cid, "data": data})
 
         # 按文檔和順序排序
         valid_chunks.sort(
             key=lambda x: (
-                cast(Dict[str, Any], x["data"]).get("full_doc_id", ""),
-                cast(Dict[str, Any], x["data"]).get("chunk_order_index", 0),
+                cast(dict[str, Any], x["data"]).get("full_doc_id", ""),
+                cast(dict[str, Any], x["data"]).get("chunk_order_index", 0),
             )
         )
 
@@ -479,12 +481,12 @@ class MemoryPointwiseRetriever:
 
     async def get_memory_pointwise_related_info_full(
         self,
-        memory_points: List[List[str]],
+        memory_points: list[list[str]],
         query: str,
         query_param: MemoryQueryParam | None = None,
         memory_hypergraph: Any = None,
         verbose: bool = True,
-    ) -> Tuple[str, List[Dict], List[str]] | str:
+    ) -> tuple[str, list[dict], list[str]] | str:
         """
         Full version without history filtering (from HGMem).
 
@@ -552,12 +554,12 @@ class MemoryPointwiseRetriever:
 
     async def _retrieve_chunks_per_memory_point_full(
         self,
-        memory_points: List[List[str]],
+        memory_points: list[list[str]],
         query: str,
         query_param: MemoryQueryParam,
-        related_entities_dict: Dict[str, Dict],
+        related_entities_dict: dict[str, dict],
         memory_hypergraph: Any,
-    ) -> Tuple[List[Dict], Set[str]]:
+    ) -> tuple[list[dict], set[str]]:
         """
         Full version: retrieve chunks without history filtering.
         """
@@ -596,8 +598,8 @@ class MemoryPointwiseRetriever:
         return pointwise_chunks, final_chunk_ids
 
     async def _get_inner_chunks_full(
-        self, mp: List[str], related_entities_dict: Dict[str, Dict]
-    ) -> Set[str]:
+        self, mp: list[str], related_entities_dict: dict[str, dict]
+    ) -> set[str]:
         """Get inner chunks WITHOUT history filtering."""
         chunk_ids = set()
 
@@ -620,8 +622,8 @@ class MemoryPointwiseRetriever:
         return valid_chunks
 
     async def _get_outer_chunks_full(
-        self, mp: List[str], related_entities_dict: Dict[str, Dict], exclude_ids: Set[str]
-    ) -> Set[str]:
+        self, mp: list[str], related_entities_dict: dict[str, dict], exclude_ids: set[str]
+    ) -> set[str]:
         """Get outer chunks WITHOUT history filtering."""
         chunk_ids = set()
 
@@ -657,16 +659,16 @@ class MemoryPointwiseRetriever:
 
 
 async def get_memory_pointwise_related_info(
-    memory_points: List[List[str]],
+    memory_points: list[list[str]],
     knowledge_graph_inst: Any,
     text_chunks_db: Any,
     text_chunks_vdb: Any,
     query: str,
     query_param: Any,
-    history_retrieved_objects: Optional[List[Dict]] = None,
+    history_retrieved_objects: list[dict] | None = None,
     memory_hypergraph: Any = None,
     verbose: bool = True,
-) -> Tuple[str, List[Dict], List[str]] | str:
+) -> tuple[str, list[dict], list[str]] | str:
     """
     獨立函數版本 (兼容 HGMem 原始介面)
     """

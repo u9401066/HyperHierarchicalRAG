@@ -16,7 +16,7 @@ import json
 import logging
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set
+from typing import Any
 
 from hyperhierarchical_rag.Domain.entities import HyperEdge, HyperNode, NodeLevel
 
@@ -80,8 +80,8 @@ class HypergraphVisualizer:
 
     def __init__(
         self,
-        options: Optional[VisualizationOptions] = None,
-        output_dir: Optional[Path] = None,
+        options: VisualizationOptions | None = None,
+        output_dir: Path | None = None,
     ) -> None:
         self.options = options or VisualizationOptions()
         self.output_dir = output_dir or Path("./data/visualizations")
@@ -89,11 +89,11 @@ class HypergraphVisualizer:
 
     def to_vis_network(
         self,
-        nodes: List[HyperNode],
-        edges: List[HyperEdge],
-        traversed_edge_ids: Optional[Set[str]] = None,
-        traversed_node_ids: Optional[Set[str]] = None,
-    ) -> Dict[str, Any]:
+        nodes: list[HyperNode],
+        edges: list[HyperEdge],
+        traversed_edge_ids: set[str] | None = None,
+        traversed_node_ids: set[str] | None = None,
+    ) -> dict[str, Any]:
         """
         Convert hypergraph to vis.js network format.
 
@@ -169,11 +169,11 @@ class HypergraphVisualizer:
 
     def to_html(
         self,
-        nodes: List[HyperNode],
-        edges: List[HyperEdge],
+        nodes: list[HyperNode],
+        edges: list[HyperEdge],
         title: str = "HyperHierarchicalRAG Graph",
-        traversed_edge_ids: Optional[Set[str]] = None,
-        traversed_node_ids: Optional[Set[str]] = None,
+        traversed_edge_ids: set[str] | None = None,
+        traversed_node_ids: set[str] | None = None,
         filename: str = "hypergraph.html",
     ) -> Path:
         """
@@ -256,16 +256,16 @@ class HypergraphVisualizer:
         </div>
     </div>
     <div class="stats">
-        Nodes: {len(nodes)} | Hyperedges: {len(edges)} | 
-        LOCAL: {sum(1 for n in nodes if n.level == NodeLevel.LOCAL)} | 
+        Nodes: {len(nodes)} | Hyperedges: {len(edges)} |
+        LOCAL: {sum(1 for n in nodes if n.level == NodeLevel.LOCAL)} |
         GLOBAL: {sum(1 for n in nodes if n.level == NodeLevel.GLOBAL)}
     </div>
     <div id="graph"></div>
-    
+
     <script>
         var nodes = new vis.DataSet({json.dumps(vis_data["nodes"])});
         var edges = new vis.DataSet({json.dumps(vis_data["edges"])});
-        
+
         var container = document.getElementById('graph');
         var data = {{ nodes: nodes, edges: edges }};
         var options = {{
@@ -286,7 +286,7 @@ class HypergraphVisualizer:
                 tooltipDelay: 200,
             }}
         }};
-        
+
         var network = new vis.Network(container, data, options);
     </script>
 </body>
@@ -301,8 +301,8 @@ class HypergraphVisualizer:
 
     def to_json(
         self,
-        nodes: List[HyperNode],
-        edges: List[HyperEdge],
+        nodes: list[HyperNode],
+        edges: list[HyperEdge],
         filename: str = "hypergraph.json",
     ) -> Path:
         """Export graph data to JSON."""

@@ -12,7 +12,7 @@ References:
 import json
 import logging
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set
+from typing import Any
 
 from hyperhierarchical_rag.Domain.entities import HyperEdge, HyperNode, NodeLevel
 from hyperhierarchical_rag.Domain.repositories import IHypergraphRepository
@@ -35,17 +35,17 @@ class InMemoryHypergraphRepository(IHypergraphRepository):
     - No vector similarity search (use VectorRepository for that)
     """
 
-    def __init__(self, persist_path: Optional[str] = None) -> None:
+    def __init__(self, persist_path: str | None = None) -> None:
         """
         Initialize the repository.
 
         Args:
             persist_path: Optional path to persist data as JSON
         """
-        self._nodes: Dict[str, HyperNode] = {}
-        self._edges: Dict[str, HyperEdge] = {}
-        self._keyword_index: Dict[str, Set[str]] = {}  # keyword -> node_ids
-        self._node_to_edges: Dict[str, Set[str]] = {}  # node_id -> edge_ids
+        self._nodes: dict[str, HyperNode] = {}
+        self._edges: dict[str, HyperEdge] = {}
+        self._keyword_index: dict[str, set[str]] = {}  # keyword -> node_ids
+        self._node_to_edges: dict[str, set[str]] = {}  # node_id -> edge_ids
         self._persist_path = Path(persist_path) if persist_path else None
 
         # Load from disk if exists
@@ -56,11 +56,11 @@ class InMemoryHypergraphRepository(IHypergraphRepository):
 
     # ==================== Node Operations ====================
 
-    async def get_node(self, node_id: str) -> Optional[HyperNode]:
+    async def get_node(self, node_id: str) -> HyperNode | None:
         """Get a node by ID."""
         return self._nodes.get(node_id)
 
-    async def get_nodes(self, node_ids: List[str]) -> List[HyperNode]:
+    async def get_nodes(self, node_ids: list[str]) -> list[HyperNode]:
         """Get multiple nodes by IDs."""
         return [self._nodes[nid] for nid in node_ids if nid in self._nodes]
 
@@ -119,11 +119,11 @@ class InMemoryHypergraphRepository(IHypergraphRepository):
 
     # ==================== Edge Operations ====================
 
-    async def get_edge(self, edge_id: str) -> Optional[HyperEdge]:
+    async def get_edge(self, edge_id: str) -> HyperEdge | None:
         """Get an edge by ID."""
         return self._edges.get(edge_id)
 
-    async def get_edges_for_node(self, node_id: str) -> List[HyperEdge]:
+    async def get_edges_for_node(self, node_id: str) -> list[HyperEdge]:
         """Get all edges connected to a node."""
         if node_id not in self._node_to_edges:
             return []
@@ -172,9 +172,9 @@ class InMemoryHypergraphRepository(IHypergraphRepository):
 
     async def find_by_keywords(
         self,
-        keywords: List[str],
-        level: Optional[NodeLevel] = None,
-    ) -> List[HyperNode]:
+        keywords: list[str],
+        level: NodeLevel | None = None,
+    ) -> list[HyperNode]:
         """
         Find nodes by keywords.
 
@@ -185,7 +185,7 @@ class InMemoryHypergraphRepository(IHypergraphRepository):
         Returns:
             Matching nodes
         """
-        matching_ids: Set[str] = set()
+        matching_ids: set[str] = set()
 
         for kw in keywords:
             kw_lower = kw.lower()
@@ -205,7 +205,7 @@ class InMemoryHypergraphRepository(IHypergraphRepository):
         self,
         node_id: str,
         max_hops: int = 2,
-    ) -> List[HyperNode]:
+    ) -> list[HyperNode]:
         """
         Find nodes connected via hyperedges (BFS traversal).
 
@@ -218,11 +218,11 @@ class InMemoryHypergraphRepository(IHypergraphRepository):
         Returns:
             Connected nodes
         """
-        visited: Set[str] = {node_id}
-        frontier: Set[str] = {node_id}
+        visited: set[str] = {node_id}
+        frontier: set[str] = {node_id}
 
         for _ in range(max_hops):
-            next_frontier: Set[str] = set()
+            next_frontier: set[str] = set()
 
             for current_id in frontier:
                 # Get edges connected to this node
@@ -243,7 +243,7 @@ class InMemoryHypergraphRepository(IHypergraphRepository):
         visited.discard(node_id)
         return await self.get_nodes(list(visited))
 
-    async def get_hyperedge(self, node_ids: List[str]) -> Optional[HyperEdge]:
+    async def get_hyperedge(self, node_ids: list[str]) -> HyperEdge | None:
         """Get a hyperedge by its member nodes (HGMem pattern)."""
         node_set = frozenset(node_ids)
 
@@ -255,7 +255,7 @@ class InMemoryHypergraphRepository(IHypergraphRepository):
 
     # ==================== Statistics ====================
 
-    async def get_stats(self) -> Dict[str, Any]:
+    async def get_stats(self) -> dict[str, Any]:
         """Get repository statistics."""
         local_count = sum(1 for n in self._nodes.values() if n.level == NodeLevel.LOCAL)
         global_count = sum(1 for n in self._nodes.values() if n.level == NodeLevel.GLOBAL)
@@ -304,7 +304,7 @@ class InMemoryHypergraphRepository(IHypergraphRepository):
             return
 
         try:
-            with open(self._persist_path, "r", encoding="utf-8") as f:
+            with open(self._persist_path, encoding="utf-8") as f:
                 data = json.load(f)
 
             # Load nodes

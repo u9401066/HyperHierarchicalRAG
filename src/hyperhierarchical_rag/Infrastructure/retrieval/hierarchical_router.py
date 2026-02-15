@@ -11,7 +11,7 @@ References:
 """
 
 import logging
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 from lightrag import LightRAG, QueryParam
 
@@ -50,7 +50,7 @@ class HierarchicalRouter:
         self.working_dir = working_dir
         self.llm_model = llm_model
         self.embedding_model = embedding_model
-        self._rag: Optional[LightRAG] = None
+        self._rag: LightRAG | None = None
         logger.info(f"HierarchicalRouter initialized (working_dir={working_dir})")
 
     async def initialize(self) -> None:
@@ -73,7 +73,7 @@ class HierarchicalRouter:
             logger.warning(f"Failed to initialize LightRAG: {e}")
             self._rag = None
 
-    async def extract_local_keywords(self, query: str) -> List[str]:
+    async def extract_local_keywords(self, query: str) -> list[str]:
         """
         Extract local (entity-level) keywords from query.
 
@@ -101,7 +101,7 @@ class HierarchicalRouter:
             logger.warning(f"LightRAG extraction failed: {e}, using fallback")
             return self._simple_keyword_extract(query, level="local")
 
-    async def extract_global_keywords(self, query: str) -> List[str]:
+    async def extract_global_keywords(self, query: str) -> list[str]:
         """
         Extract global (theme-level) keywords from query.
 
@@ -126,7 +126,7 @@ class HierarchicalRouter:
             logger.warning(f"LightRAG extraction failed: {e}, using fallback")
             return self._simple_keyword_extract(query, level="global")
 
-    async def extract_both_levels(self, query: str) -> Tuple[List[str], List[str]]:
+    async def extract_both_levels(self, query: str) -> tuple[list[str], list[str]]:
         """
         Extract both local and global keywords.
 
@@ -141,7 +141,7 @@ class HierarchicalRouter:
         self,
         query: str,
         mode: str = "hybrid",
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Route query based on keyword analysis.
 
@@ -187,7 +187,7 @@ class HierarchicalRouter:
             "has_themes": has_themes,
         }
 
-    async def insert_text(self, text: str) -> Dict[str, Any]:
+    async def insert_text(self, text: str) -> dict[str, Any]:
         """
         Insert text into LightRAG for indexing.
 
@@ -210,7 +210,7 @@ class HierarchicalRouter:
         query: str,
         mode: str = "hybrid",
         top_k: int = 10,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Execute a query using LightRAG.
 
@@ -241,13 +241,13 @@ class HierarchicalRouter:
         self,
         query: str,
         level: str,
-    ) -> List[str]:
+    ) -> list[str]:
         """Extract keywords using LightRAG's internal methods."""
         # This would use LightRAG's keyword extraction
         # For now, use simple extraction as placeholder
         return self._simple_keyword_extract(query, level)
 
-    def _simple_keyword_extract(self, query: str, level: str) -> List[str]:
+    def _simple_keyword_extract(self, query: str, level: str) -> list[str]:
         """
         Simple keyword extraction fallback.
 

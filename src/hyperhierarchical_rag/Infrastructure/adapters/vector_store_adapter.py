@@ -15,8 +15,9 @@ HGMem 使用三個向量庫：
 """
 
 import asyncio
+from collections.abc import Callable
 from dataclasses import dataclass, field
-from typing import Any, Callable, Dict, List, Optional, Protocol, cast, runtime_checkable
+from typing import Any, Protocol, cast, runtime_checkable
 
 
 @runtime_checkable
@@ -24,12 +25,12 @@ class IVectorStore(Protocol):
     """Vector Store 介面協議"""
 
     async def query(
-        self, query: str, top_k: int = 10, filter_lambda: Optional[Callable] = None
-    ) -> List[Dict[str, Any]]:
+        self, query: str, top_k: int = 10, filter_lambda: Callable | None = None
+    ) -> list[dict[str, Any]]:
         """向量相似度查詢"""
         ...
 
-    async def upsert(self, data: Dict[str, Dict[str, Any]]) -> None:
+    async def upsert(self, data: dict[str, dict[str, Any]]) -> None:
         """插入或更新向量"""
         ...
 
@@ -58,11 +59,11 @@ class VectorStoreAdapter:
 
     vector_storage: Any  # LightRAG 的 BaseVectorStorage 實例
     namespace: str = "default"
-    _embedding_func: Optional[Callable] = None
+    _embedding_func: Callable | None = None
 
     async def query(
-        self, query: str, top_k: int = 10, filter_lambda: Optional[Callable[[Dict], bool]] = None
-    ) -> List[Dict[str, Any]]:
+        self, query: str, top_k: int = 10, filter_lambda: Callable[[dict], bool] | None = None
+    ) -> list[dict[str, Any]]:
         """
         向量相似度查詢
 
@@ -89,11 +90,11 @@ class VectorStoreAdapter:
                 )
             else:
                 results = await self.vector_storage.query(query, top_k=top_k)
-            return cast(List[Dict[str, Any]], results)
+            return cast(list[dict[str, Any]], results)
 
         return []
 
-    async def upsert(self, data: Dict[str, Dict[str, Any]]) -> None:
+    async def upsert(self, data: dict[str, dict[str, Any]]) -> None:
         """
         插入或更新向量
 
@@ -106,7 +107,7 @@ class VectorStoreAdapter:
         if hasattr(self.vector_storage, "upsert"):
             await self.vector_storage.upsert(data)
 
-    async def delete(self, ids: List[str]) -> None:
+    async def delete(self, ids: list[str]) -> None:
         """刪除向量"""
         if self.vector_storage is None:
             return
@@ -114,14 +115,14 @@ class VectorStoreAdapter:
         if hasattr(self.vector_storage, "delete"):
             await self.vector_storage.delete(ids)
 
-    async def get_by_ids(self, ids: List[str]) -> Dict[str, Dict[str, Any]]:
+    async def get_by_ids(self, ids: list[str]) -> dict[str, dict[str, Any]]:
         """根據 ID 獲取向量數據"""
         if self.vector_storage is None:
             return {}
 
         if hasattr(self.vector_storage, "get_by_ids"):
             res = await self.vector_storage.get_by_ids(ids)
-            return cast(Dict[str, Dict[str, Any]], res)
+            return cast(dict[str, dict[str, Any]], res)
 
         return {}
 
@@ -141,7 +142,7 @@ class TextChunksAdapter:
     kv_storage: Any  # LightRAG 的 BaseKVStorage 實例 (text_chunks)
     vector_storage: Any  # LightRAG 的 BaseVectorStorage 實例 (text_chunks_vdb)
 
-    async def get_by_id(self, chunk_id: str) -> Optional[Dict[str, Any]]:
+    async def get_by_id(self, chunk_id: str) -> dict[str, Any] | None:
         """
         根據 ID 獲取文本塊
 
@@ -159,18 +160,18 @@ class TextChunksAdapter:
 
         if hasattr(self.kv_storage, "get_by_id"):
             res = await self.kv_storage.get_by_id(chunk_id)
-            return cast(Dict[str, Any] | None, res)
+            return cast(dict[str, Any] | None, res)
 
         # Fallback
         if hasattr(self.kv_storage, "get"):
             res = await self.kv_storage.get(chunk_id)
-            return cast(Dict[str, Any] | None, res)
+            return cast(dict[str, Any] | None, res)
 
         return None
 
     async def query(
-        self, query: str, top_k: int = 10, filter_lambda: Optional[Callable[[Dict], bool]] = None
-    ) -> List[Dict[str, Any]]:
+        self, query: str, top_k: int = 10, filter_lambda: Callable[[dict], bool] | None = None
+    ) -> list[dict[str, Any]]:
         """
         向量相似度查詢文本塊
 
@@ -190,13 +191,13 @@ class TextChunksAdapter:
                 res = await self.vector_storage.query(
                     query, top_k=top_k, filter_lambda=filter_lambda
                 )
-                return cast(List[Dict[str, Any]], res)
+                return cast(list[dict[str, Any]], res)
             res = await self.vector_storage.query(query, top_k=top_k)
-            return cast(List[Dict[str, Any]], res)
+            return cast(list[dict[str, Any]], res)
 
         return []
 
-    async def upsert(self, data: Dict[str, Dict[str, Any]]) -> None:
+    async def upsert(self, data: dict[str, dict[str, Any]]) -> None:
         """插入或更新文本塊到兩個存儲"""
         tasks = []
 
@@ -209,13 +210,13 @@ class TextChunksAdapter:
         if tasks:
             await asyncio.gather(*tasks)
 
-    async def batch_get(self, chunk_ids: List[str]) -> Dict[str, Dict[str, Any]]:
+    async def batch_get(self, chunk_ids: list[str]) -> dict[str, dict[str, Any]]:
         """批量獲取文本塊"""
         results = {}
         tasks = [self.get_by_id(cid) for cid in chunk_ids]
         chunks = await asyncio.gather(*tasks, return_exceptions=True)
 
-        for cid, chunk in zip(chunk_ids, chunks):
+        for cid, chunk in zip(chunk_ids, chunks, strict=False):
             if isinstance(chunk, dict):
                 results[cid] = chunk
 
@@ -230,9 +231,9 @@ class VectorStoreCollection:
     管理 HGMem 需要的三個向量庫
     """
 
-    entities: Optional[VectorStoreAdapter] = None
-    relationships: Optional[VectorStoreAdapter] = None
-    text_chunks: Optional[TextChunksAdapter] = None
+    entities: VectorStoreAdapter | None = None
+    relationships: VectorStoreAdapter | None = None
+    text_chunks: TextChunksAdapter | None = None
 
     @classmethod
     def from_lightrag(cls, rag_instance: Any) -> "VectorStoreCollection":
@@ -279,7 +280,7 @@ class VectorStoreCollection:
             ]
         )
 
-    def get_status(self) -> Dict[str, bool]:
+    def get_status(self) -> dict[str, bool]:
         """獲取各向量庫狀態"""
         return {
             "entities_vdb": self.entities is not None,
@@ -300,11 +301,11 @@ class InMemoryVectorStore:
     注意：不做真正的向量相似度計算，只做字符串匹配
     """
 
-    _data: Dict[str, Dict[str, Any]] = field(default_factory=dict)
+    _data: dict[str, dict[str, Any]] = field(default_factory=dict)
 
     async def query(
-        self, query: str, top_k: int = 10, filter_lambda: Optional[Callable] = None
-    ) -> List[Dict[str, Any]]:
+        self, query: str, top_k: int = 10, filter_lambda: Callable | None = None
+    ) -> list[dict[str, Any]]:
         """簡單的字符串匹配查詢"""
         results = []
         query_lower = query.lower()
@@ -327,19 +328,19 @@ class InMemoryVectorStore:
         results.sort(key=lambda x: x["distance"])
         return results[:top_k]
 
-    async def upsert(self, data: Dict[str, Dict[str, Any]]) -> None:
+    async def upsert(self, data: dict[str, dict[str, Any]]) -> None:
         """插入或更新"""
         self._data.update(data)
 
-    async def delete(self, ids: List[str]) -> None:
+    async def delete(self, ids: list[str]) -> None:
         """刪除"""
         for id_ in ids:
             self._data.pop(id_, None)
 
-    async def get_by_id(self, id_: str) -> Optional[Dict[str, Any]]:
+    async def get_by_id(self, id_: str) -> dict[str, Any] | None:
         """根據 ID 獲取"""
         return self._data.get(id_)
 
-    async def get_by_ids(self, ids: List[str]) -> Dict[str, Dict[str, Any]]:
+    async def get_by_ids(self, ids: list[str]) -> dict[str, dict[str, Any]]:
         """批量獲取"""
         return {id_: self._data[id_] for id_ in ids if id_ in self._data}

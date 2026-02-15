@@ -1,13 +1,13 @@
 # HyperHierarchicalRAG
 
 > **結合超圖記憶 (Hypergraph Memory) 與階層式檢索 (Hierarchical Retrieval) 的新型 RAG 系統**
-> 
+>
 > 透過 MCP (Model Context Protocol) 將知識檢索能力暴露給 AI Agent
 
 [![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![MCP Compatible](https://img.shields.io/badge/MCP-Compatible-green.svg)](https://modelcontextprotocol.io/)
-[![Version](https://img.shields.io/badge/version-0.7.0-brightgreen.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.7.1-brightgreen.svg)](CHANGELOG.md)
 
 🌐 [繁體中文](README.zh-TW.md)
 
@@ -116,19 +116,30 @@ OLLAMA_HOST=http://localhost:11434
 
 ### 作為 MCP Server 使用
 
-`.vscode/mcp.json`:
+專案已內建 `.vscode/mcp.json`，開啟 VS Code 後自動載入。啟動時會彈出參數選擇：
 
-```json
+| 參數 | 說明 | 預設值 |
+|------|------|--------|
+| LLM Provider | ollama / openai / azure | `ollama` |
+| LLM Model | 模型名稱 | `qwen2.5` |
+| Ollama Host | Ollama Server URL | `http://localhost:11434` |
+| Embedding Model | Embedding 模型 | `nomic-embed-text` |
+| OpenAI API Key | 使用 Ollama 可留空 | 空 |
+
+若需自定義配置，編輯 `.vscode/mcp.json`：
+
+```jsonc
 {
   "servers": {
     "hyperhierarchical-rag": {
+      "type": "stdio",
       "command": "uv",
-      "args": ["--directory", "c:/workspace260106", "run", "hyperhierarchical-rag"],
+      "args": ["run", "--directory", "${workspaceFolder}", "hyperhierarchical-rag"],
       "env": {
         "LLM_PROVIDER": "ollama",
-        "LLM_MODEL": "llama3.1:8b",
-        "EMBEDDING_MODEL": "nomic-embed-text",
-        "EMBEDDING_DIM": "768"
+        "LLM_MODEL": "qwen2.5",
+        "OLLAMA_HOST": "http://localhost:11434",
+        "EMBEDDING_MODEL": "nomic-embed-text"
       }
     }
   }
@@ -145,20 +156,20 @@ async def main():
     # 初始化
     engine = RAGEngine.from_env()
     await engine.initialize()
-    
+
     # 插入文檔
     await engine.insert_document("RAG combines retrieval with generation...")
-    
+
     # 查詢 (帶記憶演化)
     result = await engine.query(
         query="What is RAG?",
         mode="hybrid",
         evolve_memory=True
     )
-    
+
     print(result["lightrag_response"])
     print(f"Memory Points: {len(engine._memory_evolver.memory_points)}")
-    
+
     # Hypergraph Chain Expansion 會自動發現相關實體
     if "hypergraph_expanded" in result:
         print(f"Discovered: {result['hypergraph_expanded']['discovered_entities']}")
@@ -191,10 +202,33 @@ HGMem 的核心價值 - **長 RAG 鏈多跳推理**：
 # 執行所有測試
 uv run pytest tests/ -v
 
-# 測試結果: 27 tests passed
+# 測試結果: 26 tests passed, 1 skipped (network)
 # - 13 E2E tests
 # - 14 Integration tests
 ```
+
+## 🛠️ 開發工具鏈
+
+### Pre-commit Hooks (18 個)
+
+```bash
+# 安裝 hooks
+uv run pre-commit install
+uv run pre-commit install --hook-type pre-push
+
+# 手動執行所有檢查
+uv run pre-commit run --all-files
+```
+
+| 類別 | Hook | 說明 |
+|------|------|------|
+| 格式 | trailing-whitespace, end-of-file-fixer, BOM | 自動修正 |
+| 驗證 | check-yaml/toml/json, check-ast | 語法檢查 |
+| 安全 | detect-private-key, check-merge-conflict, bandit | 安全掃描 |
+| Lint | ruff (lint + format) | 自動修復 |
+| 型別 | mypy (漸進式嚴格) | 型別檢查 |
+| 自定義 | DDD 依賴檢查, Skills 完整性 | 架構守護 |
+| 測試 | pytest (pre-push only) | 推送前測試 |
 
 ## 📚 引用 (Citations)
 

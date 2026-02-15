@@ -71,16 +71,16 @@
         </div>
     </div>
     <div class="stats">
-        Nodes: 5 | Hyperedges: 3 | 
-        LOCAL: 3 | 
+        Nodes: 5 | Hyperedges: 3 |
+        LOCAL: 3 |
         GLOBAL: 2
     </div>
     <div id="graph"></div>
-    
+
     <script>
         var nodes = new vis.DataSet([{"id": "00abd612-bbe7-4cdf-899a-95c49122c5cd", "label": "Propofol", "title": "Propofol\nShort-acting anesthetic for sedation", "color": "#4A90D9", "shape": "dot", "size": 20, "font": {"size": 12}, "group": "local"}, {"id": "1364c247-3f1e-486f-9690-c03d92403989", "label": "Remimazolam", "title": "Remimazolam\nNovel benzodiazepine with reversal agent", "color": "#4A90D9", "shape": "dot", "size": 20, "font": {"size": 12}, "group": "local"}, {"id": "2dfc908f-aaed-49b9-bccd-19667824810d", "label": "Delirium", "title": "Delirium\nAcute confusion in ICU patients", "color": "#4A90D9", "shape": "dot", "size": 20, "font": {"size": 12}, "group": "local"}, {"id": "b06f0e12-e7cd-43f8-b764-3f3517cc86bd", "label": "Sedation", "title": "Sedation\nDrug-induced reduction of consciousness", "color": "#F5A623", "shape": "dot", "size": 20, "font": {"size": 12}, "group": "global"}, {"id": "daeb1025-e899-4fb0-b130-241dc264af3a", "label": "ICU Care", "title": "ICU Care\nCritical care medicine practices", "color": "#F5A623", "shape": "dot", "size": 20, "font": {"size": 12}, "group": "global"}, {"id": "he_9406cf0a-a8b3-4ca8-9e36-39c53b856bca", "label": "sedation_drugs", "title": "Hyperedge: sedation_drugs\nWeight: 0.90\nEvolved: 0x", "color": "#7ED321", "shape": "diamond", "size": 15, "font": {"size": 10}, "group": "hyperedge"}, {"id": "he_7496c4e3-eddd-4718-be13-a9505eccfc48", "label": "delirium_reduction", "title": "Hyperedge: delirium_reduction\nWeight: 0.70\nEvolved: 0x", "color": "#7ED321", "shape": "diamond", "size": 15, "font": {"size": 10}, "group": "hyperedge"}, {"id": "he_7699eab6-88cb-43e3-a091-fe5c804a823d", "label": "sedation_complica...", "title": "Hyperedge: sedation_complications\nWeight: 0.60\nEvolved: 0x", "color": "#7ED321", "shape": "diamond", "size": 15, "font": {"size": 10}, "group": "hyperedge"}]);
         var edges = new vis.DataSet([{"from": "b06f0e12-e7cd-43f8-b764-3f3517cc86bd", "to": "he_9406cf0a-a8b3-4ca8-9e36-39c53b856bca", "color": {"color": "#7ED321", "opacity": 0.7}, "width": 1, "dashes": true}, {"from": "1364c247-3f1e-486f-9690-c03d92403989", "to": "he_9406cf0a-a8b3-4ca8-9e36-39c53b856bca", "color": {"color": "#7ED321", "opacity": 0.7}, "width": 1, "dashes": true}, {"from": "00abd612-bbe7-4cdf-899a-95c49122c5cd", "to": "he_9406cf0a-a8b3-4ca8-9e36-39c53b856bca", "color": {"color": "#7ED321", "opacity": 0.7}, "width": 1, "dashes": true}, {"from": "1364c247-3f1e-486f-9690-c03d92403989", "to": "he_7496c4e3-eddd-4718-be13-a9505eccfc48", "color": {"color": "#7ED321", "opacity": 0.7}, "width": 1, "dashes": true}, {"from": "2dfc908f-aaed-49b9-bccd-19667824810d", "to": "he_7496c4e3-eddd-4718-be13-a9505eccfc48", "color": {"color": "#7ED321", "opacity": 0.7}, "width": 1, "dashes": true}, {"from": "daeb1025-e899-4fb0-b130-241dc264af3a", "to": "he_7496c4e3-eddd-4718-be13-a9505eccfc48", "color": {"color": "#7ED321", "opacity": 0.7}, "width": 1, "dashes": true}, {"from": "b06f0e12-e7cd-43f8-b764-3f3517cc86bd", "to": "he_7699eab6-88cb-43e3-a091-fe5c804a823d", "color": {"color": "#7ED321", "opacity": 0.7}, "width": 1, "dashes": true}, {"from": "00abd612-bbe7-4cdf-899a-95c49122c5cd", "to": "he_7699eab6-88cb-43e3-a091-fe5c804a823d", "color": {"color": "#7ED321", "opacity": 0.7}, "width": 1, "dashes": true}, {"from": "2dfc908f-aaed-49b9-bccd-19667824810d", "to": "he_7699eab6-88cb-43e3-a091-fe5c804a823d", "color": {"color": "#7ED321", "opacity": 0.7}, "width": 1, "dashes": true}, {"from": "daeb1025-e899-4fb0-b130-241dc264af3a", "to": "he_7699eab6-88cb-43e3-a091-fe5c804a823d", "color": {"color": "#7ED321", "opacity": 0.7}, "width": 1, "dashes": true}]);
-        
+
         var container = document.getElementById('graph');
         var data = { nodes: nodes, edges: edges };
         var options = {
@@ -101,7 +101,7 @@
                 tooltipDelay: 200,
             }
         };
-        
+
         var network = new vis.Network(container, data, options);
     </script>
 </body>

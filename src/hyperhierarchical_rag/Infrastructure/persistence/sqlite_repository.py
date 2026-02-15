@@ -16,9 +16,10 @@ Features:
 import json
 import logging
 import sqlite3
+from collections.abc import Generator
 from contextlib import contextmanager
 from pathlib import Path
-from typing import Any, Dict, Generator, List, Optional, Set
+from typing import Any
 
 from hyperhierarchical_rag.Domain.entities import HyperEdge, HyperNode, NodeLevel
 from hyperhierarchical_rag.Domain.repositories import IHypergraphRepository
@@ -170,8 +171,8 @@ class SQLiteUnifiedRepository(IHypergraphRepository):
         self,
         chunk_id: str,
         content: str,
-        metadata: Optional[Dict[str, Any]] = None,
-        source_id: Optional[str] = None,
+        metadata: dict[str, Any] | None = None,
+        source_id: str | None = None,
     ) -> None:
         """保存文本切片與元數據"""
         with self._get_conn() as conn:
@@ -184,7 +185,7 @@ class SQLiteUnifiedRepository(IHypergraphRepository):
                 (chunk_id, content, json.dumps(metadata or {}), source_id),
             )
 
-    async def get_chunk(self, chunk_id: str) -> Optional[Dict[str, Any]]:
+    async def get_chunk(self, chunk_id: str) -> dict[str, Any] | None:
         """獲取指定切片"""
         with self._get_conn() as conn:
             cursor = conn.cursor()
@@ -201,7 +202,7 @@ class SQLiteUnifiedRepository(IHypergraphRepository):
 
     # ==================== Node Operations ====================
 
-    async def get_node(self, node_id: str) -> Optional[HyperNode]:
+    async def get_node(self, node_id: str) -> HyperNode | None:
         """獲取節點"""
         with self._get_conn() as conn:
             cursor = conn.cursor()
@@ -227,14 +228,14 @@ class SQLiteUnifiedRepository(IHypergraphRepository):
             cursor.execute("SELECT 1 FROM nodes WHERE id = ?", (node_id,))
             return cursor.fetchone() is not None
 
-    async def get_nodes(self, node_ids: List[str]) -> List[HyperNode]:
+    async def get_nodes(self, node_ids: list[str]) -> list[HyperNode]:
         """批量獲取節點"""
         if not node_ids:
             return []
         with self._get_conn() as conn:
             cursor = conn.cursor()
             placeholders = ",".join("?" * len(node_ids))
-            cursor.execute(f"SELECT * FROM nodes WHERE id IN ({placeholders})", node_ids)
+            cursor.execute(f"SELECT * FROM nodes WHERE id IN ({placeholders})", node_ids)  # nosec B608
             return [self._row_to_node(row) for row in cursor.fetchall()]
 
     async def upsert_node(self, node: HyperNode) -> HyperNode:
@@ -246,7 +247,7 @@ class SQLiteUnifiedRepository(IHypergraphRepository):
             keywords = list(node.keywords) if node.keywords else []
             cursor.execute(
                 """
-                INSERT OR REPLACE INTO nodes 
+                INSERT OR REPLACE INTO nodes
                 (id, name, level, description, source_id, keywords, metadata, updated_at)
                 VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
             """,
@@ -269,8 +270,8 @@ class SQLiteUnifiedRepository(IHypergraphRepository):
         return node
 
     async def find_by_keywords(
-        self, keywords: List[str], level: Optional[NodeLevel] = None
-    ) -> List[HyperNode]:
+        self, keywords: list[str], level: NodeLevel | None = None
+    ) -> list[HyperNode]:
         if not keywords:
             return []
         with self._get_conn() as conn:
@@ -279,19 +280,19 @@ class SQLiteUnifiedRepository(IHypergraphRepository):
             params = [kw.lower() for kw in keywords]
             if level:
                 cursor.execute(
-                    f"SELECT DISTINCT n.* FROM nodes n JOIN keyword_index ki ON n.id = ki.node_id WHERE ki.keyword IN ({placeholders}) AND n.level = ?",
+                    f"SELECT DISTINCT n.* FROM nodes n JOIN keyword_index ki ON n.id = ki.node_id WHERE ki.keyword IN ({placeholders}) AND n.level = ?",  # nosec B608
                     params + [level.value],
                 )
             else:
                 cursor.execute(
-                    f"SELECT DISTINCT n.* FROM nodes n JOIN keyword_index ki ON n.id = ki.node_id WHERE ki.keyword IN ({placeholders})",
+                    f"SELECT DISTINCT n.* FROM nodes n JOIN keyword_index ki ON n.id = ki.node_id WHERE ki.keyword IN ({placeholders})",  # nosec B608
                     params,
                 )
             return [self._row_to_node(row) for row in cursor.fetchall()]
 
     # ==================== Edge Operations ====================
 
-    async def get_edge(self, edge_id: str) -> Optional[HyperEdge]:
+    async def get_edge(self, edge_id: str) -> HyperEdge | None:
         """獲取邊"""
         with self._get_conn() as conn:
             cursor = conn.cursor()
@@ -309,13 +310,12 @@ class SQLiteUnifiedRepository(IHypergraphRepository):
             cursor.execute("DELETE FROM edges WHERE id = ?", (edge_id,))
             return bool(cursor.rowcount > 0)
 
-    async def get_hyperedge(self, node_ids: List[str]) -> Optional[HyperEdge]:
+    async def get_hyperedge(self, node_ids: list[str]) -> HyperEdge | None:
         """按節點組合獲取超邊"""
         if not node_ids:
             return None
         # 這裡需要匹配所有節點都被包含的邊，且節點列表一致（不考慮順序）
-        # 為簡單起見，我們利用 JSON 排序後的字符串或在內存中過濾
-        sorted_nodes = json.dumps(sorted(node_ids))
+        # 為簡單起見，在內存中過濾
         with self._get_conn() as conn:
             cursor = conn.cursor()
             # 我們需要檢查 node_ids 包含所有指定的 node_id
@@ -345,7 +345,7 @@ class SQLiteUnifiedRepository(IHypergraphRepository):
             node_ids = list(edge.node_ids) if edge.node_ids else []
             cursor.execute(
                 """
-                INSERT OR REPLACE INTO edges 
+                INSERT OR REPLACE INTO edges
                 (id, node_ids, weight, edge_type, description, metadata, updated_at)
                 VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
             """,
@@ -359,7 +359,7 @@ class SQLiteUnifiedRepository(IHypergraphRepository):
                 )
         return edge
 
-    async def get_edges_for_node(self, node_id: str) -> List[HyperEdge]:
+    async def get_edges_for_node(self, node_id: str) -> list[HyperEdge]:
         """獲取與節點相關的所有邊"""
         with self._get_conn() as conn:
             cursor = conn.cursor()
@@ -375,15 +375,15 @@ class SQLiteUnifiedRepository(IHypergraphRepository):
 
     # ==================== HGMem Multi-hop Expansion ====================
 
-    async def find_connected_nodes(self, node_id: str, max_hops: int = 2) -> List[HyperNode]:
+    async def find_connected_nodes(self, node_id: str, max_hops: int = 2) -> list[HyperNode]:
         """BFS 走訪發現超圖連接節點"""
-        visited: Set[str] = {node_id}
-        frontier: Set[str] = {node_id}
+        visited: set[str] = {node_id}
+        frontier: set[str] = {node_id}
 
         for _ in range(max_hops):
             if not frontier:
                 break
-            next_frontier: Set[str] = set()
+            next_frontier: set[str] = set()
             with self._get_conn() as conn:
                 cursor = conn.cursor()
                 for current_id in frontier:
@@ -431,7 +431,7 @@ class SQLiteUnifiedRepository(IHypergraphRepository):
     # ==================== HGMem Memory Point Methods ====================
 
     async def save_memory_point(
-        self, involved_objects: List[str], description: str, source_query: Optional[str] = None
+        self, involved_objects: list[str], description: str, source_query: str | None = None
     ) -> int:
         with self._get_conn() as conn:
             cursor = conn.cursor()
@@ -447,7 +447,7 @@ class SQLiteUnifiedRepository(IHypergraphRepository):
             cursor.execute("DELETE FROM memory_points WHERE id = ?", (memory_id,))
             return bool(cursor.rowcount > 0)
 
-    async def load_all_memory_points(self) -> List[Dict[str, Any]]:
+    async def load_all_memory_points(self) -> list[dict[str, Any]]:
         with self._get_conn() as conn:
             cursor = conn.cursor()
             cursor.execute("SELECT * FROM memory_points ORDER BY created_at ASC")
@@ -468,7 +468,7 @@ class SQLiteUnifiedRepository(IHypergraphRepository):
 
     # ==================== Subquery History Methods ====================
 
-    async def save_subquery_history(self, session_id: str, subqueries: List[str]) -> None:
+    async def save_subquery_history(self, session_id: str, subqueries: list[str]) -> None:
         with self._get_conn() as conn:
             cursor = conn.cursor()
             cursor.execute(
@@ -479,7 +479,7 @@ class SQLiteUnifiedRepository(IHypergraphRepository):
                 (session_id, json.dumps(subqueries)),
             )
 
-    async def load_subquery_history(self, session_id: str) -> List[str]:
+    async def load_subquery_history(self, session_id: str) -> list[str]:
         with self._get_conn() as conn:
             cursor = conn.cursor()
             cursor.execute(
@@ -504,7 +504,7 @@ class SQLiteUnifiedRepository(IHypergraphRepository):
             conn.execute("DELETE FROM memory_points")
             conn.execute("DELETE FROM subquery_history")
 
-    async def get_stats(self) -> Dict[str, Any]:
+    async def get_stats(self) -> dict[str, Any]:
         with self._get_conn() as conn:
             cursor = conn.cursor()
             res = {}

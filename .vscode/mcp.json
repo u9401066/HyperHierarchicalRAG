@@ -1,0 +1,82 @@
+{
+  // HyperHierarchicalRAG MCP Server 配置
+  // 使用 uv 自動管理 Python 環境，無需手動安裝
+  // 參考: https://code.visualstudio.com/docs/copilot/chat/mcp-servers
+  "inputs": [
+    {
+      "id": "llm-provider",
+      "type": "pickString",
+      "description": "LLM Provider (Ollama 為本地免費方案)",
+      "options": ["ollama", "openai", "azure"],
+      "default": "ollama"
+    },
+    {
+      "id": "llm-model",
+      "type": "promptString",
+      "description": "LLM Model 名稱 (Ollama: qwen2.5, llama3.1 | OpenAI: gpt-4o-mini)",
+      "default": "qwen2.5"
+    },
+    {
+      "id": "ollama-host",
+      "type": "promptString",
+      "description": "Ollama Server URL (本地預設 http://localhost:11434)",
+      "default": "http://localhost:11434"
+    },
+    {
+      "id": "embedding-model",
+      "type": "promptString",
+      "description": "Embedding Model (Ollama: nomic-embed-text, bge-m3:latest)",
+      "default": "nomic-embed-text"
+    },
+    {
+      "id": "openai-api-key",
+      "type": "promptString",
+      "description": "OpenAI API Key (使用 Ollama 可留空)",
+      "default": "",
+      "password": true
+    }
+  ],
+  "servers": {
+    // ===== 主要配置：使用 uv run 自動管理環境 =====
+    "hyperhierarchical-rag": {
+      "type": "stdio",
+      "command": "uv",
+      "args": [
+        "run",
+        "--directory",
+        "${workspaceFolder}",
+        "hyperhierarchical-rag"
+      ],
+      "env": {
+        // LLM 設定
+        "LLM_PROVIDER": "${input:llm-provider}",
+        "LLM_MODEL": "${input:llm-model}",
+        "OLLAMA_HOST": "${input:ollama-host}",
+
+        // Embedding 設定
+        "EMBEDDING_PROVIDER": "${input:llm-provider}",
+        "EMBEDDING_MODEL": "${input:embedding-model}",
+        "EMBEDDING_DIM": "768",
+
+        // OpenAI (若使用 Ollama 可忽略)
+        "OPENAI_API_KEY": "${input:openai-api-key}",
+
+        // 儲存設定 (自動使用 workspaceFolder 下的 data/)
+        "LIGHTRAG_DIR": "${workspaceFolder}/data/lightrag",
+        "HYPERGRAPH_DIR": "${workspaceFolder}/data/hypergraph",
+        "VIZ_DIR": "${workspaceFolder}/data/visualizations",
+
+        // MCP 內部 LLM (用於自動實體提取、記憶演化)
+        "MCP_INTERNAL_LLM_ENABLED": "true",
+        "MCP_INTERNAL_LLM_PROVIDER": "${input:llm-provider}",
+        "MCP_INTERNAL_LLM_MODEL": "${input:llm-model}",
+        "MCP_INTERNAL_LLM_HOST": "${input:ollama-host}",
+
+        // 功能開關
+        "ENABLE_HYPERGRAPH": "true",
+        "ENABLE_MEMORY_EVOLUTION": "true",
+        "ENABLE_VISUALIZATION": "true"
+      }
+    }
+  }
+}

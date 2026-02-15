@@ -14,7 +14,7 @@ import json
 import logging
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set
+from typing import Any
 
 from hyperhierarchical_rag.Domain.entities import HyperEdge, HyperNode
 
@@ -30,17 +30,17 @@ class QueryStep:
     description: str
 
     # Nodes involved
-    input_node_ids: List[str] = field(default_factory=list)
-    output_node_ids: List[str] = field(default_factory=list)
+    input_node_ids: list[str] = field(default_factory=list)
+    output_node_ids: list[str] = field(default_factory=list)
 
     # Edges traversed
-    edge_ids: List[str] = field(default_factory=list)
+    edge_ids: list[str] = field(default_factory=list)
 
     # Additional info
-    keywords: List[str] = field(default_factory=list)
-    level: Optional[str] = None  # "local", "global", "hybrid"
+    keywords: list[str] = field(default_factory=list)
+    level: str | None = None  # "local", "global", "hybrid"
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "step": self.step_number,
             "type": self.step_type,
@@ -59,22 +59,22 @@ class QueryTrace:
 
     query: str
     mode: str  # "local", "global", "hybrid"
-    steps: List[QueryStep] = field(default_factory=list)
+    steps: list[QueryStep] = field(default_factory=list)
 
     # Summary
     total_nodes_visited: int = 0
     total_edges_traversed: int = 0
-    local_keywords: List[str] = field(default_factory=list)
-    global_keywords: List[str] = field(default_factory=list)
+    local_keywords: list[str] = field(default_factory=list)
+    global_keywords: list[str] = field(default_factory=list)
 
     # Timing (optional)
-    duration_ms: Optional[float] = None
+    duration_ms: float | None = None
 
     def add_step(self, step: QueryStep) -> None:
         """Add a step to the trace."""
         self.steps.append(step)
 
-    def get_all_traversed_node_ids(self) -> Set[str]:
+    def get_all_traversed_node_ids(self) -> set[str]:
         """Get all node IDs that were visited."""
         nodes = set()
         for step in self.steps:
@@ -82,14 +82,14 @@ class QueryTrace:
             nodes.update(step.output_node_ids)
         return nodes
 
-    def get_all_traversed_edge_ids(self) -> Set[str]:
+    def get_all_traversed_edge_ids(self) -> set[str]:
         """Get all edge IDs that were traversed."""
         edges = set()
         for step in self.steps:
             edges.update(step.edge_ids)
         return edges
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "query": self.query,
             "mode": self.mode,
@@ -115,7 +115,7 @@ class QueryPathVisualizer:
     3. Text summary of traversal
     """
 
-    def __init__(self, output_dir: Optional[Path] = None) -> None:
+    def __init__(self, output_dir: Path | None = None) -> None:
         self.output_dir = output_dir or Path("./data/visualizations")
         self.output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -242,8 +242,8 @@ class QueryPathVisualizer:
     def trace_to_html(
         self,
         trace: QueryTrace,
-        nodes: List[HyperNode],
-        edges: List[HyperEdge],
+        nodes: list[HyperNode],
+        edges: list[HyperEdge],
         filename: str = "query_path.html",
     ) -> Path:
         """

@@ -17,8 +17,9 @@ References:
 
 import logging
 import re
+from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Any, Callable, Dict, List, Optional, Set, Tuple
+from typing import Any
 
 from hyperhierarchical_rag.Domain.entities import HyperEdge, HyperNode
 
@@ -70,7 +71,7 @@ Remember: Each memory point should connect 2-4 objects with a meaningful descrip
 class MemoryPoint:
     """A memory point connecting multiple entities."""
 
-    involved_objects: List[str]
+    involved_objects: list[str]
     description: str
 
 
@@ -78,8 +79,8 @@ class MemoryPoint:
 class EvolveResult:
     """Result of memory evolution."""
 
-    inserted_points: List[MemoryPoint]
-    updated_points: List[Tuple[int, MemoryPoint]]  # (index, updated_point)
+    inserted_points: list[MemoryPoint]
+    updated_points: list[tuple[int, MemoryPoint]]  # (index, updated_point)
 
 
 class MemoryEvolver:
@@ -100,7 +101,7 @@ class MemoryEvolver:
 
     def __init__(
         self,
-        llm_func: Optional[Callable] = None,
+        llm_func: Callable | None = None,
         object_delimiter: str = ", ",
         tuple_delimiter: str = " | ",
         record_delimiter: str = "\n",
@@ -133,8 +134,8 @@ class MemoryEvolver:
         self,
         retrieved_info: str,
         main_query: str,
-        subqueries: List[str],
-        existing_memory_points: List[MemoryPoint],
+        subqueries: list[str],
+        existing_memory_points: list[MemoryPoint],
     ) -> EvolveResult:
         """
         Evolve memory based on retrieved information.
@@ -175,7 +176,7 @@ class MemoryEvolver:
             logger.error(f"LLM call failed: {e}")
             return EvolveResult(inserted_points=[], updated_points=[])
 
-    def _format_memory_points(self, points: List[MemoryPoint]) -> str:
+    def _format_memory_points(self, points: list[MemoryPoint]) -> str:
         """Format existing memory points for prompt."""
         if not points:
             return ""
@@ -194,13 +195,13 @@ class MemoryEvolver:
 
         Adapted from HGMem's postprocess_evolve_memory().
         """
-        inserted_points: List[MemoryPoint] = []
-        updated_points: List[Tuple[int, MemoryPoint]] = []
+        inserted_points: list[MemoryPoint] = []
+        updated_points: list[tuple[int, MemoryPoint]] = []
 
         object_delimiter = self.format_dict["object_delimiter"]
         tuple_delimiter = self.format_dict["tuple_delimiter"]
         record_delimiter = self.format_dict["record_delimiter"]
-        completion_delimiter = self.format_dict["completion_delimiter"]
+        _completion_delimiter = self.format_dict["completion_delimiter"]  # noqa: F841
 
         response = response.strip()
 
@@ -230,7 +231,7 @@ class MemoryEvolver:
         object_delimiter: str,
         tuple_delimiter: str,
         record_delimiter: str,
-    ) -> List[MemoryPoint]:
+    ) -> list[MemoryPoint]:
         """Parse a section containing memory points."""
         points = []
 
@@ -262,7 +263,7 @@ class MemoryEvolver:
         object_delimiter: str,
         tuple_delimiter: str,
         record_delimiter: str,
-    ) -> List[Tuple[int, MemoryPoint]]:
+    ) -> list[tuple[int, MemoryPoint]]:
         """Parse a section containing updated memory points."""
         updated = []
 
@@ -316,8 +317,8 @@ class MemoryEvolver:
     def memory_point_to_hyperedge(
         self,
         point: MemoryPoint,
-        node_id_map: Dict[str, str],
-        source_id: Optional[str] = None,
+        node_id_map: dict[str, str],
+        source_id: str | None = None,
     ) -> HyperEdge:
         """
         Convert a MemoryPoint to a HyperEdge.
@@ -350,7 +351,7 @@ class MemoryEvolver:
 # ==================== NEW: Prompts from HGMem ====================
 
 REORGANIZE_MEMORY_PROMPT = """For resolving the [Main Query], you have consolidated some memory points in your [Memory] recording the relevant information you have known.
-Based on current [Memory], your task is to conduct memory reorganization that merges multiple memory points into new ones when they are more suitable to constitute a semantically/logically cohesive unit as a whole. 
+Based on current [Memory], your task is to conduct memory reorganization that merges multiple memory points into new ones when they are more suitable to constitute a semantically/logically cohesive unit as a whole.
 
 Specifically, you need to specify the indices of original memory points to merge.
 Then, for each newly merged point, provide updated descriptions that could build essentially higher-order associations while preserving their original information necessary for dealing with the [Main Query].
@@ -384,7 +385,7 @@ SELECT_ENTITIES_PROMPT = """You will be provided with a [Query], [Entity Candida
 
 Your task is to select entities relevant and potentially useful to deal with the [Query].
 
-Output comma-separated indices of your selected entities in ascending order in [Selected]. 
+Output comma-separated indices of your selected entities in ascending order in [Selected].
 If no candidate is useful, just output <None>
 
 ######################-Example Output-######################
@@ -408,14 +409,14 @@ Output:
 class ReorganizeResult:
     """Result of memory reorganization."""
 
-    merged_groups: List[Tuple[List[int], str]]  # [(indices_to_merge, new_description), ...]
+    merged_groups: list[tuple[list[int], str]]  # [(indices_to_merge, new_description), ...]
 
 
 @dataclass
 class ExtendedInfoResult:
     """Result of extended info retrieval."""
 
-    extended_entities: List[Dict[str, Any]]
+    extended_entities: list[dict[str, Any]]
     extension_context: str
 
 
@@ -449,8 +450,8 @@ class EnhancedMemoryEvolver(MemoryEvolver):
         super().__init__(llm_func=llm_func, **kwargs)
         self.kg_adapter = knowledge_graph_adapter
         self._persistence_repo = persistence_repo
-        self._history_subqueries: List[List[str]] = []
-        self._memory_points: List[MemoryPoint] = []
+        self._history_subqueries: list[list[str]] = []
+        self._memory_points: list[MemoryPoint] = []
         logger.info("EnhancedMemoryEvolver initialized with full HGMem capabilities")
 
     def set_persistence_repo(self, repo: Any) -> None:
@@ -489,7 +490,7 @@ class EnhancedMemoryEvolver(MemoryEvolver):
             return 0
 
     async def save_to_persistence(
-        self, point: MemoryPoint, source_query: Optional[str] = None
+        self, point: MemoryPoint, source_query: str | None = None
     ) -> bool:
         """Save a single memory point to persistent storage."""
         if not self._persistence_repo:
@@ -511,7 +512,7 @@ class EnhancedMemoryEvolver(MemoryEvolver):
         self.kg_adapter = adapter
 
     @property
-    def memory_points(self) -> List[MemoryPoint]:
+    def memory_points(self) -> list[MemoryPoint]:
         """Get current memory points."""
         return self._memory_points
 
@@ -529,7 +530,7 @@ class EnhancedMemoryEvolver(MemoryEvolver):
         self,
         retrieved_info: str,
         main_query: str,
-        subqueries: List[str],
+        subqueries: list[str],
         persist: bool = True,  # Auto-persist by default
     ) -> EvolveResult:
         """
@@ -646,12 +647,12 @@ class EnhancedMemoryEvolver(MemoryEvolver):
         if not reorg_result.merged_groups:
             return
 
-        indices_to_remove: Set[int] = set()
-        new_points: List[MemoryPoint] = []
+        indices_to_remove: set[int] = set()
+        new_points: list[MemoryPoint] = []
 
         for indices, new_description in reorg_result.merged_groups:
             # Collect all objects from merged points
-            merged_objects: Set[str] = set()
+            merged_objects: set[str] = set()
             for idx in indices:
                 if 0 <= idx < len(self._memory_points):
                     merged_objects.update(self._memory_points[idx].involved_objects)
@@ -699,12 +700,12 @@ class EnhancedMemoryEvolver(MemoryEvolver):
             return ExtendedInfoResult(extended_entities=[], extension_context="")
 
         # Collect all entities from memory points
-        memory_entities: Set[str] = set()
+        memory_entities: set[str] = set()
         for point in self._memory_points:
             memory_entities.update(point.involved_objects)
 
         # If we have a KG adapter, use it to find neighbors
-        candidate_entities: List[Dict[str, Any]] = []
+        candidate_entities: list[dict[str, Any]] = []
 
         if self.kg_adapter is not None:
             try:
@@ -741,7 +742,7 @@ class EnhancedMemoryEvolver(MemoryEvolver):
             extension_context="\n".join(extension_lines),
         )
 
-    async def _get_neighbors_from_kg(self, entity_name: str) -> List[Dict[str, Any]]:
+    async def _get_neighbors_from_kg(self, entity_name: str) -> list[dict[str, Any]]:
         """Get neighbor entities from knowledge graph."""
         # This would call LightRAG's KG if available
         if self.kg_adapter is None:
@@ -759,9 +760,9 @@ class EnhancedMemoryEvolver(MemoryEvolver):
     async def _select_entities(
         self,
         query: str,
-        candidates: List[Dict[str, Any]],
+        candidates: list[dict[str, Any]],
         top_k: int,
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Use LLM to select most relevant entities."""
         if self.llm_func is None:
             return candidates[:top_k]
@@ -810,13 +811,13 @@ class EnhancedMemoryEvolver(MemoryEvolver):
 
         return "\n".join([f"- {sq}" for sq in all_subqueries])
 
-    def get_history_retrieved_chunks_ids(self) -> List[Set[str]]:
+    def get_history_retrieved_chunks_ids(self) -> list[set[str]]:
         """Get list of retrieved chunk IDs per turn (from HGMem)."""
         # 這會在後續整合時使用
         # 目前返回空列表
         return []
 
-    async def get_memory_point_info(self, mp_identifier: Tuple[str, ...] | List[str]) -> str:
+    async def get_memory_point_info(self, mp_identifier: tuple[str, ...] | list[str]) -> str:
         """
         Get description of a single memory point (from HGMem).
 

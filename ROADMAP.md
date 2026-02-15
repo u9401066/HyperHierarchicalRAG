@@ -91,7 +91,7 @@
   - [x] 單人模式預設配置 (JSON + NanoVectorDB + NetworkX)
   - [x] 環境變數覆蓋
 
-### v0.6.0 - MCP Server 完整版 (2026-01-07) ✅ CURRENT
+### v0.6.0 - MCP Server 完整版 (2026-01-07) ✅
 
 - [x] **MCP Server 22 Tools**
   - [x] Document Tools: `insert_document`, `insert_text`, `insert_batch`
@@ -109,11 +109,41 @@
   - [x] 啟動時自動載入
   - [x] 查詢後自動保存
 
+### v0.7.0 - Python 3.12 升級 (2026-01-08) ✅
+
+- [x] **Python 3.12 升級**
+  - [x] 使用 `uv` 管理 Python 版本，釘選為 3.12.12
+  - [x] 恢復 PEP 604 `|` Union 標註
+  - [x] 修復全專案 Lint 錯誤 (engine.py, mcp_server.py, persistence 等)
+  - [x] 優化 LLM 函數簽名與型別系統
+
+### v0.7.1 - 開發工具鏈 (2026-02-15) ✅ CURRENT
+
+- [x] **Pre-commit Hooks 系統** (18 個 hooks)
+  - [x] 基礎檢查: trailing-whitespace, YAML/TOML/JSON, AST, BOM
+  - [x] 安全: detect-private-key, merge-conflict, bandit
+  - [x] Lint/Format: ruff (lint + format + auto-fix)
+  - [x] 型別: mypy (漸進式嚴格)
+  - [x] 自定義: DDD 依賴方向檢查, Skills 完整性
+  - [x] Pre-push: pytest 測試
+- [x] **VS Code MCP 配置**
+  - [x] `.vscode/mcp.json` 支援 uv + inputs 自動參數
+  - [x] 5 個可配置輸入 (預設 Ollama)
+  - [x] `${workspaceFolder}` 路徑可移植
+- [x] **測試修復**
+  - [x] SQLiteUnifiedRepository 重命名對齊
+  - [x] get_stats() 回傳格式修正
+  - [x] 26/27 測試通過
+- [x] **Lint 全面修復**
+  - [x] ruff: E731, F841, C401, SIM103, B008
+  - [x] mypy: 漸進式嚴格配置
+  - [x] bandit: 安全掃描通過
+
 ---
 
 ## 🚧 Phase 2: 功能完善 (進行中)
 
-### v0.7.0 - 進階功能 (目標: 2026-01)
+### v0.8.0 - 進階功能 (目標: 2026-Q1)
 
 - [ ] **雙路儲存整合 (Dual-Path Storage)** 🎉
   - [ ] **SQLiteUnifiedRepository** - 實作一站式 SQLite 儲存 (KG + Chunks + Memory)
@@ -163,7 +193,7 @@
 短期效益：提高擴展實體的精準度與回應可解釋性；中長期則能通過權重演化提升系統召回/精準率。
 
 
-### v0.8.0 - 多人模式支援 (目標: 2026-Q1)
+### v0.9.0 - 多人模式支援 (目標: 2026-Q2)
 
 > 參考文檔: `docs/MCP_MULTIUSER_ARCHITECTURE.md`
 
@@ -221,11 +251,13 @@
 | SQLiteHypergraphRepository | ✅ 完成 | 100% |
 | **Hypergraph Chain Expansion** | ✅ 完成 | 100% |
 | **Memory Points Persistence** | ✅ 完成 | 100% |
+| **Pre-commit Hooks (18 hooks)** | ✅ 完成 | 100% |
+| **VS Code MCP 配置** | ✅ 完成 | 100% |
 | QueryProcessor | ✅ 完成 | 100% |
 | RAGEngine | ✅ 完成 | 100% |
 | **MCP Server (22 Tools)** | ✅ 完成 | 100% |
 | 視覺化 | ✅ 完成 | 100% |
-| **總體整合度** | **🟢** | **~95%** |
+| **總體整合度** | **🟢** | **~97%** |
 
 ---
 

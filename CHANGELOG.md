@@ -5,6 +5,42 @@
 格式基於 [Keep a Changelog](https://keepachangelog.com/zh-TW/1.0.0/)，
 專案遵循 [語義化版本](https://semver.org/lang/zh-TW/)。
 
+## [0.7.1] - 2026-02-15
+
+### Added
+
+- **Pre-commit Hooks 系統** (18 個 hooks)
+  - 基礎檔案檢查: trailing-whitespace, end-of-file-fixer, BOM, YAML/TOML/JSON 驗證
+  - 安全檢查: detect-private-key, check-merge-conflict, bandit 安全掃描
+  - Lint/Format: ruff linter + formatter (自動修復)
+  - 型別檢查: mypy (漸進式嚴格模式)
+  - 自定義 hooks: DDD 架構依賴方向檢查、Skills 完整性驗證
+  - Pre-push 測試: pytest 在推送前自動執行
+- **`.vscode/mcp.json` MCP 配置**
+  - 支援 `uv run --directory ${workspaceFolder}` 自動路徑
+  - 5 個 VS Code `inputs` 參數（LLM provider, model, host, embedding, API key）
+  - 預設 Ollama 零成本本地方案
+- **`scripts/check_ddd_deps.py`** - DDD 架構依賴方向檢查腳本
+  - 檢查 Domain 不 import Infrastructure/Application/Presentation
+  - 只檢查模組級 import（忽略函數內 lazy import）
+- **`scripts/check_skills.py`** - Skills 完整性檢查腳本
+  - 驗證每個 skill 目錄有 SKILL.md
+  - 支援 YAML frontmatter 和 # 標題格式
+
+### Fixed
+
+- 修復測試中 `SQLiteHypergraphRepository` → `SQLiteUnifiedRepository` 類名重命名
+- 修復 `get_stats()` 回傳格式以匹配測試期望（nodes/edges 直接返回整數）
+- 修復 ruff lint 問題: E731 (lambda), F841 (unused var), C401 (set comprehension), SIM103, B008
+- 修復 `check_skills.py` Windows cp950 編碼 emoji 問題
+
+### Changed
+
+- **MyPy 配置**: 從 `strict=true` 改為漸進式嚴格（忽略 type-arg, unused-ignore）
+- **`.gitignore`**: 允許 `.vscode/mcp.json`, `settings.json`, `extensions.json` 提交
+- **`.env.example`**: 補充 MCP 內部 LLM 和多用戶儲存模式配置
+- **`pyproject.toml`**: 完善 ruff per-file-ignores、bandit skips、pytest markers
+
 ## [0.7.0] - 2026-01-08
 
 ### Added

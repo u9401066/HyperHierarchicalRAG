@@ -92,7 +92,7 @@ evolver = EnhancedMemoryEvolver(llm_func=my_llm)
 
 # HGMem 核心功能
 await evolver.evolve_and_track(...)        # 演化 + 追蹤歷史
-await evolver.reorganize_memory(...)       # 記憶重組/合併  
+await evolver.reorganize_memory(...)       # 記憶重組/合併
 await evolver.get_extended_info(...)       # 通過鄰居擴展上下文
 evolver.clear_memory()                     # 清除記憶
 await evolver.get_memory_context()         # 獲取記憶上下文

@@ -16,17 +16,17 @@ class RAGEngine:
     _relationships_vdb: VectorStoreAdapter  # 關係向量庫
     _chunks_vdb: VectorStoreAdapter         # 文本塊向量庫
     _text_chunks_adapter: TextChunksAdapter # 文本塊 KV
-    
+
     # ===== HGMem 服務 =====
     _memory_evolver: EnhancedMemoryEvolver  # 記憶演化
     _sync_service: KGMemorySyncService      # 實體同步
     _memory_retriever: MemoryPointwiseRetriever  # 記憶點檢索
-    
+
     # ===== 查詢流程 =====
     async def query():           # 完整查詢 (LightRAG + HGMem)
     async def query_simple():    # 簡單查詢 (只用 LightRAG)
     async def query_data():      # 查詢原始數據 (不經過 LLM)
-    
+
     # ===== LightRAG 直接整合 (v0.5.1 新增) =====
     async def insert_custom_kg()   # 插入自定義 KG
     async def create_entity()      # 創建實體

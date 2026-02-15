@@ -27,8 +27,9 @@ Usage:
 
 import logging
 import os
+from collections.abc import Callable
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Literal, Optional, cast
+from typing import Any, Literal, cast
 
 # Type alias for LightRAG query modes
 QueryMode = Literal["local", "global", "hybrid", "naive", "mix", "bypass"]
@@ -100,7 +101,7 @@ class RAGEngine:
     ╚═══════════════════════════════════════════════════════════════════════╝
     """
 
-    def __init__(self, config: Optional[HyperHierarchicalConfig] = None) -> None:
+    def __init__(self, config: HyperHierarchicalConfig | None = None) -> None:
         """
         Initialize RAGEngine.
 
@@ -112,31 +113,31 @@ class RAGEngine:
 
         # Core components (initialized lazily)
         self._lightrag: Any = None  # LightRAG instance
-        self._llm_func: Optional[Callable] = None
+        self._llm_func: Callable | None = None
 
         # LightRAG Adapters (wrap LightRAG components for HGMem)
-        self._kg_adapter: Optional[LightRAGKGAdapter] = None
-        self._entities_vdb: Optional[VectorStoreAdapter] = None
-        self._relationships_vdb: Optional[VectorStoreAdapter] = None
-        self._chunks_vdb: Optional[VectorStoreAdapter] = None
-        self._text_chunks_adapter: Optional[TextChunksAdapter] = None
+        self._kg_adapter: LightRAGKGAdapter | None = None
+        self._entities_vdb: VectorStoreAdapter | None = None
+        self._relationships_vdb: VectorStoreAdapter | None = None
+        self._chunks_vdb: VectorStoreAdapter | None = None
+        self._text_chunks_adapter: TextChunksAdapter | None = None
 
         # HGMem components
-        self._memory_evolver: Optional[EnhancedMemoryEvolver] = None
-        self._sync_service: Optional[KGMemorySyncService] = None
-        self._memory_retriever: Optional[MemoryPointwiseRetriever] = None
+        self._memory_evolver: EnhancedMemoryEvolver | None = None
+        self._sync_service: KGMemorySyncService | None = None
+        self._memory_retriever: MemoryPointwiseRetriever | None = None
         self._hypergraph_repo: Any = None  # SQLiteHypergraphRepository for persistence
 
         # Application layer (backward compatibility)
-        self._query_processor: Optional[QueryProcessor] = None
-        self._memory_manager: Optional[MemoryManager] = None
+        self._query_processor: QueryProcessor | None = None
+        self._memory_manager: MemoryManager | None = None
 
         # Visualization
-        self._graph_viz: Optional[HypergraphVisualizer] = None
-        self._path_viz: Optional[QueryPathVisualizer] = None
+        self._graph_viz: HypergraphVisualizer | None = None
+        self._path_viz: QueryPathVisualizer | None = None
 
         # Query tracing
-        self._current_trace: Optional[QueryTrace] = None
+        self._current_trace: QueryTrace | None = None
 
         logger.info("RAGEngine created (not yet initialized)")
 
@@ -146,7 +147,7 @@ class RAGEngine:
         config = HyperHierarchicalConfig.from_env()
         return cls(config)
 
-    async def initialize(self) -> Dict[str, Any]:
+    async def initialize(self) -> dict[str, Any]:
         """
         Initialize all components.
 
@@ -158,7 +159,7 @@ class RAGEngine:
         if self._initialized:
             return {"status": "already_initialized"}
 
-        status: Dict[str, Any] = {"status": "initializing", "components": {}}
+        status: dict[str, Any] = {"status": "initializing", "components": {}}
 
         # 1. Initialize LLM
         try:
@@ -379,7 +380,7 @@ class RAGEngine:
 
     # ==================== Document Operations ====================
 
-    async def insert(self, text: str, doc_id: Optional[str] = None) -> Dict[str, Any]:
+    async def insert(self, text: str, doc_id: str | None = None) -> dict[str, Any]:
         """
         Insert a document into the RAG system.
 
@@ -388,7 +389,7 @@ class RAGEngine:
         """
         self._ensure_initialized()
 
-        result: Dict[str, Any] = {"doc_id": doc_id, "lightrag": None}
+        result: dict[str, Any] = {"doc_id": doc_id, "lightrag": None}
 
         # Insert into LightRAG (handles everything!)
         if self._lightrag:
@@ -413,7 +414,7 @@ class RAGEngine:
         top_k: int = 10,
         evolve_memory: bool = True,
         visualize: bool = False,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Execute a query with optional memory evolution.
 
@@ -435,7 +436,7 @@ class RAGEngine:
         """
         self._ensure_initialized()
 
-        result: Dict[str, Any] = {
+        result: dict[str, Any] = {
             "query": query,
             "mode": mode,
             "lightrag_response": None,
@@ -475,7 +476,7 @@ class RAGEngine:
 
         # ========== Step 2: Memory Evolution (HGMem) ==========
         memory_context = None
-        absent_entities: Dict[str, List] = {}
+        absent_entities: dict[str, list] = {}
 
         if evolve_memory and self._memory_evolver and retrieved_context:
             try:
@@ -623,9 +624,9 @@ class RAGEngine:
         except Exception as e:
             return f"Query failed: {e}"
 
-    async def _generate_visualization(self, trace: QueryTrace) -> Dict[str, str]:
+    async def _generate_visualization(self, trace: QueryTrace) -> dict[str, str]:
         """Generate visualization files for query path."""
-        paths: Dict[str, str] = {}
+        paths: dict[str, str] = {}
 
         # Safety checks
         if not self._graph_viz or not self._path_viz:
@@ -664,14 +665,14 @@ class RAGEngine:
 
         return paths
 
-    async def _get_visualization_data(self) -> tuple[List[HyperNode], List[HyperEdge]]:
+    async def _get_visualization_data(self) -> tuple[list[HyperNode], list[HyperEdge]]:
         """
         Get nodes and edges for visualization.
 
         優先從 LightRAG KG 提取數據，轉換為 HyperNode/HyperEdge 格式。
         """
-        nodes: List[HyperNode] = []
-        edges: List[HyperEdge] = []
+        nodes: list[HyperNode] = []
+        edges: list[HyperEdge] = []
 
         # 嘗試從 LightRAG KG 提取
         if self._lightrag:
@@ -720,7 +721,7 @@ class RAGEngine:
         query: str,
         retrieved_context: str,
         max_hops: int = 2,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Expand context via hypergraph traversal (LONG RAG CHAIN - Core HGMem Feature!).
 
@@ -773,8 +774,8 @@ class RAGEngine:
         # Step 2: Find memory points containing these seed entities
         related_memory_points = []
         for mp in self._memory_evolver.memory_points:
-            mp_entities = set(obj.upper() for obj in mp.involved_objects)
-            seed_set = set(e.upper() for e in seed_entities)
+            mp_entities = {obj.upper() for obj in mp.involved_objects}
+            seed_set = {e.upper() for e in seed_entities}
 
             # If memory point shares any entity with seeds
             if mp_entities & seed_set:
@@ -788,7 +789,7 @@ class RAGEngine:
 
         # Step 3: Multi-hop expansion via hyperedges (BFS)
         discovered = set()
-        seed_set = set(e.upper() for e in seed_entities)
+        seed_set = {e.upper() for e in seed_entities}
         frontier = seed_set.copy()
         visited = seed_set.copy()
 
@@ -801,7 +802,7 @@ class RAGEngine:
             for current_entity in frontier:
                 # Check all memory points for connections
                 for mp in related_memory_points:
-                    mp_entities = set(obj.upper() for obj in mp.involved_objects)
+                    mp_entities = {obj.upper() for obj in mp.involved_objects}
 
                     if current_entity in mp_entities:
                         # Discover all OTHER entities in this hyperedge
@@ -832,7 +833,7 @@ class RAGEngine:
             context_lines.append("")
 
             for mp in related_memory_points:
-                mp_entities = set(obj.upper() for obj in mp.involved_objects)
+                mp_entities = {obj.upper() for obj in mp.involved_objects}
                 if mp_entities & discovered:
                     context_lines.append(f"• Memory Point: {{{', '.join(mp.involved_objects)}}}")
                     context_lines.append(f"  Description: {mp.description[:200]}")
@@ -846,7 +847,7 @@ class RAGEngine:
         self,
         query: str,
         context: str,
-    ) -> List[str]:
+    ) -> list[str]:
         """Extract entity names from query and context for hypergraph expansion."""
         entities = set()
 
@@ -885,7 +886,7 @@ class RAGEngine:
 
     # ==================== Graph Operations ====================
 
-    def get_graph_stats(self) -> Dict[str, Any]:
+    def get_graph_stats(self) -> dict[str, Any]:
         """Get current graph statistics from LightRAG KG."""
         self._ensure_initialized()
 
@@ -924,7 +925,7 @@ class RAGEngine:
         self,
         filename: str = "knowledge_graph.html",
         title: str = "HyperHierarchical Knowledge Graph",
-    ) -> Dict[str, str]:
+    ) -> dict[str, str]:
         """
         Generate visualization of the current knowledge graph.
 
@@ -984,9 +985,9 @@ class RAGEngine:
 
     async def insert_custom_kg(
         self,
-        entities: List[Dict[str, Any]],
-        relations: List[Dict[str, Any]],
-    ) -> Dict[str, Any]:
+        entities: list[dict[str, Any]],
+        relations: list[dict[str, Any]],
+    ) -> dict[str, Any]:
         """
         Insert custom knowledge graph data (直接用 LightRAG).
 
@@ -1023,7 +1024,7 @@ class RAGEngine:
         entity_type: str = "",
         description: str = "",
         source_id: str = "",
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Create a single entity in the KG (直接用 LightRAG).
 
@@ -1056,7 +1057,7 @@ class RAGEngine:
         description: str = "",
         keywords: str = "",
         source_id: str = "",
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Create a relation between entities (直接用 LightRAG).
 
@@ -1084,7 +1085,7 @@ class RAGEngine:
         except Exception as e:
             return {"error": str(e)}
 
-    async def get_entity_info(self, entity_name: str) -> Optional[Dict[str, Any]]:
+    async def get_entity_info(self, entity_name: str) -> dict[str, Any] | None:
         """
         Get information about an entity (直接用 LightRAG).
         """
@@ -1095,11 +1096,11 @@ class RAGEngine:
 
         try:
             res = await self._lightrag.get_entity_info(entity_name)
-            return cast(Dict[str, Any] | None, res)
+            return cast(dict[str, Any] | None, res)
         except Exception:
             return None
 
-    async def get_relation_info(self, src_entity: str, tgt_entity: str) -> Optional[Dict[str, Any]]:
+    async def get_relation_info(self, src_entity: str, tgt_entity: str) -> dict[str, Any] | None:
         """
         Get information about a relation (直接用 LightRAG).
         """
@@ -1110,15 +1111,15 @@ class RAGEngine:
 
         try:
             res = await self._lightrag.get_relation_info(src_entity, tgt_entity)
-            return cast(Dict[str, Any] | None, res)
+            return cast(dict[str, Any] | None, res)
         except Exception:
             return None
 
     async def get_knowledge_graph(
         self,
-        node_label: Optional[str] = None,
+        node_label: str | None = None,
         max_depth: int = 3,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Get the knowledge graph structure (直接用 LightRAG).
 
@@ -1139,11 +1140,11 @@ class RAGEngine:
                 node_label=node_label,
                 max_depth=max_depth,
             )
-            return cast(Dict[str, Any], res)
+            return cast(dict[str, Any], res)
         except Exception as e:
             return {"error": str(e)}
 
-    async def delete_by_doc_id(self, doc_id: str) -> Dict[str, Any]:
+    async def delete_by_doc_id(self, doc_id: str) -> dict[str, Any]:
         """
         Delete all data associated with a document (直接用 LightRAG).
         """
@@ -1158,7 +1159,7 @@ class RAGEngine:
         except Exception as e:
             return {"error": str(e)}
 
-    async def delete_entity(self, entity_name: str) -> Dict[str, Any]:
+    async def delete_entity(self, entity_name: str) -> dict[str, Any]:
         """
         Delete an entity and its relations (直接用 LightRAG).
         """
@@ -1177,7 +1178,7 @@ class RAGEngine:
         self,
         source_entity: str,
         target_entity: str,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Merge two entities (直接用 LightRAG).
 
@@ -1196,7 +1197,7 @@ class RAGEngine:
         except Exception as e:
             return {"error": str(e)}
 
-    async def export_data(self) -> Dict[str, Any]:
+    async def export_data(self) -> dict[str, Any]:
         """
         Export all data from LightRAG (直接用 LightRAG).
 
@@ -1210,7 +1211,7 @@ class RAGEngine:
 
         try:
             res = await self._lightrag.aexport_data()
-            return cast(Dict[str, Any], res)
+            return cast(dict[str, Any], res)
         except Exception as e:
             return {"error": str(e)}
 
@@ -1219,7 +1220,7 @@ class RAGEngine:
         query: str,
         mode: QueryMode = "hybrid",
         top_k: int = 10,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Query and return raw data instead of LLM response (直接用 LightRAG).
 
@@ -1235,11 +1236,11 @@ class RAGEngine:
 
             param = QueryParam(mode=mode, top_k=top_k)
             res = await self._lightrag.aquery_data(query, param=param)
-            return cast(Dict[str, Any], res)
+            return cast(dict[str, Any], res)
         except Exception as e:
             return {"error": str(e)}
 
-    async def clear_cache(self) -> Dict[str, Any]:
+    async def clear_cache(self) -> dict[str, Any]:
         """
         Clear LightRAG's LLM cache (直接用 LightRAG).
         """
@@ -1283,7 +1284,7 @@ class RAGEngine:
         if not self._initialized:
             raise RuntimeError("RAGEngine not initialized. Call initialize() first.")
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get current engine status."""
         return {
             "initialized": self._initialized,

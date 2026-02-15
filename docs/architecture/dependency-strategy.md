@@ -4,7 +4,7 @@
 
 ### 決策：如何整合 LightRAG 與 HGMem
 
-**日期**：2026-01-06  
+**日期**：2026-01-06
 **狀態**：已採納
 
 ---
@@ -45,11 +45,11 @@ from lightrag.kg.keyword_extractor import extract_keywords  # 假設的 API
 
 class HierarchicalRouter:
     """包裝 LightRAG 的階層式檢索邏輯"""
-    
+
     def extract_local_keywords(self, text: str) -> List[str]:
         # 使用 LightRAG 的實體抽取
         return extract_keywords(text, level="local")
-    
+
     def extract_global_keywords(self, text: str) -> List[str]:
         # 使用 LightRAG 的主題抽取
         return extract_keywords(text, level="global")
@@ -147,8 +147,8 @@ git submodule add https://github.com/original/hgmem.git external/hgmem
 
 ## 合規性檢查 (Compliance)
 
-✅ 符合憲法第 4 條：使用 `uv` 管理依賴  
-✅ 符合子法 DDD 架構：Domain 不依賴外部實作  
+✅ 符合憲法第 4 條：使用 `uv` 管理依賴
+✅ 符合子法 DDD 架構：Domain 不依賴外部實作
 ✅ 符合憲法第 7.3 條：必要時重構外部邏輯以符合架構
 
 ---

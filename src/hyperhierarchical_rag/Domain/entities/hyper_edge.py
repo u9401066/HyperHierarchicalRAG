@@ -10,7 +10,6 @@ References:
 """
 
 from dataclasses import dataclass, field
-from typing import Optional, Set
 from uuid import uuid4
 
 
@@ -33,12 +32,12 @@ class HyperEdge:
         source_id: Source document ID
     """
 
-    node_ids: Set[str]
+    node_ids: set[str]
     relation: str = ""
     weight: float = 1.0
     context: str = ""
     evolve_count: int = 0
-    source_id: Optional[str] = None
+    source_id: str | None = None
     id: str = field(default_factory=lambda: str(uuid4()))
 
     def __post_init__(self) -> None:

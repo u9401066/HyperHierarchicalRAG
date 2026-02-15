@@ -78,7 +78,7 @@ class MCPConfig:
     internal_llm_provider: str = "ollama"  # ollama, openai, none
     internal_llm_model: str = "qwen2:7b"   # 小模型即可
     internal_llm_host: str = "http://localhost:11434"
-    
+
     # 是否啟用自動實體補全
     auto_collect_absent_entities: bool = True
 ```
@@ -88,10 +88,10 @@ class MCPConfig:
 @mcp.tool()
 async def query_with_memory(query: str) -> str:
     """查詢並自動演化記憶"""
-    
+
     # 1. 執行查詢
     result = await engine.query(query)
-    
+
     # 2. 檢測缺失實體 (在查詢過程中已收集)
     if result.absent_entities and engine.config.mcp.auto_collect_absent_entities:
         # 使用內部 LLM 自動補全
@@ -100,7 +100,7 @@ async def query_with_memory(query: str) -> str:
             context_info=result.retrieved_context,
             # 使用內部 LLM，不需要外部 Client
         )
-    
+
     return result.answer
 ```
 
@@ -115,10 +115,10 @@ async def collect_missing_entities(
 ) -> Dict[str, Any]:
     """
     補全 Knowledge Graph 中缺失的實體。
-    
+
     當你在對話中發現提到了 KG 中不存在的重要實體時，
     使用此工具將其添加到知識庫。
-    
+
     Args:
         entities: 缺失的實體名稱列表
         context: 提及這些實體的上下文
@@ -127,7 +127,7 @@ async def collect_missing_entities(
     # 外部 LLM 已經完成抽取，直接寫入
     for entity, description in descriptions.items():
         await engine.kg_adapter.upsert_node(
-            entity, 
+            entity,
             {"description": description, "source": "mcp_user"}
         )
     return {"added": list(descriptions.keys())}
@@ -138,7 +138,7 @@ async def collect_missing_entities(
 ```python
 class HybridEntityCollector:
     """混合模式：優先內部 LLM，失敗時請求外部"""
-    
+
     async def collect(self, absent_entities, context) -> CollectResult:
         if self.internal_llm:
             try:
@@ -148,7 +148,7 @@ class HybridEntityCollector:
                 )
             except Exception as e:
                 logger.warning(f"Internal LLM failed: {e}")
-        
+
         # Fallback: 返回需要外部處理的標記
         return CollectResult(
             status="needs_external_llm",
@@ -260,7 +260,7 @@ NEO4J_PASSWORD=your_password
 # config.py 新增
 class StorageConfig:
     """根據環境自動選擇存儲後端"""
-    
+
     @classmethod
     def auto_detect(cls) -> "StorageConfig":
         # 優先檢查 PostgreSQL
@@ -271,7 +271,7 @@ class StorageConfig:
                 graph_storage="PGGraphStorage",
                 mode="postgres"
             )
-        
+
         # 檢查 MongoDB
         if os.getenv("MONGO_URI"):
             return cls(
@@ -280,7 +280,7 @@ class StorageConfig:
                 graph_storage="MongoGraphStorage",
                 mode="mongodb"
             )
-        
+
         # 檢查 Redis + 其他組合
         if os.getenv("REDIS_URI"):
             return cls(
@@ -289,7 +289,7 @@ class StorageConfig:
                 graph_storage=os.getenv("LIGHTRAG_GRAPH_STORAGE", "NetworkXStorage"),
                 mode="hybrid"
             )
-        
+
         # 預設: 本地模式
         return cls(
             kv_storage="JsonKVStorage",
@@ -306,24 +306,24 @@ class StorageConfig:
 @dataclass
 class MCPServerConfig:
     """MCP Server 專用配置"""
-    
+
     # 內部 LLM 配置 (用於自動化任務)
     internal_llm: LLMConfig = field(default_factory=lambda: LLMConfig(
         provider="ollama",
         model="qwen2:7b",
         ollama_host="http://localhost:11434"
     ))
-    
+
     # 是否啟用自動實體補全
     auto_collect_entities: bool = True
-    
+
     # 多人模式自動偵測
     storage: StorageConfig = field(default_factory=StorageConfig.auto_detect)
-    
+
     # 連線池配置
     max_connections: int = 20
     connection_timeout: float = 30.0
-    
+
     # Session 管理
     enable_sessions: bool = True
     session_timeout: int = 3600  # 1 hour
@@ -348,7 +348,7 @@ class SQLiteHypergraphRepository:
         self._wal_mode = wal_mode
         self._busy_timeout = busy_timeout
         self._max_connections = max_connections
-    
+
     async def initialize(self):
         if self._wal_mode:
             async with self._get_connection() as conn:

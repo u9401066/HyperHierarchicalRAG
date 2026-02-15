@@ -240,7 +240,7 @@ class TestUserRepository:
         """儲存並取回使用者"""
         user = User(name="Test", email="test@test.com")
         saved_user = await repository.save(user)
-        
+
         retrieved = await repository.get_by_id(saved_user.id)
         assert retrieved is not None
         assert retrieved.name == "Test"
@@ -249,7 +249,7 @@ class TestUserRepository:
         """透過 email 查詢"""
         user = User(name="Test", email="unique@test.com")
         await repository.save(user)
-        
+
         found = await repository.find_by_email("unique@test.com")
         assert found is not None
         assert found.email == "unique@test.com"
@@ -414,7 +414,7 @@ class TestUserJourney:
         await page.fill("input[name='email']", "test@example.com")
         await page.fill("input[name='password']", "SecureP@ss123")
         await page.click("button[type='submit']")
-        
+
         await expect(page.locator(".user-menu")).to_be_visible()
 
         # 登出
@@ -424,11 +424,11 @@ class TestUserJourney:
     async def test_create_item_flow(self, page: Page, base_url: str, authenticated_page):
         """測試建立項目流程 (需登入)"""
         await authenticated_page.goto(f"{base_url}/items/new")
-        
+
         await authenticated_page.fill("input[name='title']", "Test Item")
         await authenticated_page.fill("textarea[name='description']", "Description")
         await authenticated_page.click("button[type='submit']")
-        
+
         await expect(authenticated_page.locator(".success-toast")).to_be_visible()
 ```
 
@@ -572,17 +572,17 @@ dev = [
     "httpx>=0.24.0",            # Async HTTP client for API tests
     "factory-boy>=3.3.0",       # Test data factories
     "faker>=19.0.0",            # Fake data generation
-    
+
     # E2E Testing
     "playwright>=1.40.0",       # Browser automation
     "pytest-playwright>=0.4.0", # Playwright pytest plugin
     "locust>=2.20.0",           # Load testing (optional)
-    
+
     # Static Analysis
     "mypy>=1.5.0",
     "ruff>=0.0.290",
     "bandit[toml]>=1.7.5",
-    
+
     # Type stubs
     "types-requests",
     "types-python-dateutil",
