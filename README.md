@@ -11,6 +11,14 @@
 
 🌐 [繁體中文](README.zh-TW.md)
 
+<p align="center">
+  <img src="docs/hyperhierarchicalrag-overview.jpg" alt="HyperHierarchicalRAG architecture overview" width="960">
+</p>
+
+<p align="center">
+  An overview of the MCP layer, unified RAG engine, hierarchical retrieval, hypergraph memory, and storage backends.
+</p>
+
 ## 🎯 專案目標
 
 整合兩個強大的 RAG 系統，創建一個功能完整的知識檢索平台：
